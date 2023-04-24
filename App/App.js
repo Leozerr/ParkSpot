@@ -10,6 +10,8 @@ import { Button, StyleSheet, Image, TextInput } from "react-native";
 import MapView, { Callout, Circle, Marker } from "react-native-maps";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { RegisterScreen } from "./Register.js";
+import { LoginScreen } from "./Login.js";
+
 
 function ShowMap() {
   // const [pin, setPin] = React.useState({
@@ -23,8 +25,8 @@ function ShowMap() {
   return (
     <View style={{ flex: 1, paddingTop: 50 }}>
       <MapView
-        style={{ flex: 1 }}
-        initialRegion={{
+          style={{ flex: 1 }}
+          initialRegion={{
           latitude: 13.727156,
           longitude: 100.77485,
         }}
@@ -89,18 +91,12 @@ function LoginButton() {
 
   return <Button title="Login" onPress={() => navigation.navigate("Login")} />;
 }
+
 function RegisterButton() {
   const navigation = useNavigation();
 
   return (
     <Button title="Register" onPress={() => navigation.navigate("Register")} />
-  );
-}
-function LoginScreen() {
-  return (
-    <View>
-      <Text>Login Screen</Text>
-    </View>
   );
 }
 
