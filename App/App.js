@@ -27,8 +27,8 @@ function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="ShowMap" component={ShowMap} />
       </Stack.Navigator>
-      {/* <ShowMap /> */}
     </NavigationContainer>
   );
 }

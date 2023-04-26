@@ -1,6 +1,7 @@
 import React, { FC, ReactElement, useState } from "react";
 import { View, Text, Pressable } from "react-native";
-import { Button, StyleSheet, Image, TextInput } from "react-native";
+import { Button, StyleSheet, Image, TextInput, Dimensions } from "react-native";
+
 
 
 export const RegisterScreen = (props) => {
@@ -8,16 +9,21 @@ export const RegisterScreen = (props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
+    const ScreenWidth = Dimensions.get('screen').width;
+    const ScreenHeight = Dimensions.get('screen').height;
+    
     return (
       <View
         style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          justifyContent: "center",
-          alignItems: "center",
+          height: ScreenHeight,
+          width: ScreenWidth,
+          // position: "absolute",
+          // top: 200,
+          // left: 20,
+          // right: 0,
+          // bottom: 0,
+          // justifyContent: "center",
+          // alignItems: "center",
           backgroundColor: "#FFF",
         }}
       >
@@ -55,8 +61,12 @@ export const RegisterScreen = (props) => {
 
 
     //Style
-  const styles = StyleSheet.create({
+  export const styles = StyleSheet.create({
     input: {
+      top: 200,
+      left: 20,
+      //alignItems: "center",
+      //justifyContent: "center",
       height: 40,
       width: 340,
       borderRadius: 14,
@@ -65,6 +75,8 @@ export const RegisterScreen = (props) => {
     },
   
     button: {
+      top: 200,
+      left: 20,
       alignItems: "center",
       justifyContent: "center",
       marginTop: 30,
@@ -84,7 +96,9 @@ export const RegisterScreen = (props) => {
     },
   
     HeaderText: {
-      top: 20,
+      top: 200,
+      left: 20,
+      paddingLeft: 50,
       fontSize: 20,
       lineHeight: 21,
       fontWeight: "bold",
@@ -105,6 +119,8 @@ export const RegisterScreen = (props) => {
     },
   
     fieldText: {
+      top: 200,
+      left: 20,
       fontSize: 16,
       lineHeight: 21,
       fontWeight: "bold",
