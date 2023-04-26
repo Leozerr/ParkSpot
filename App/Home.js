@@ -11,26 +11,32 @@ import MapView, { Callout, Circle, Marker } from "react-native-maps";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { RegisterScreen } from "./Register.js";
 import { LoginScreen } from "./Login.js";
-import { HomeScreen } from "./Home.js";
 import { ShowMap } from "./ShowMap.js";
 
 
-
-
-const Stack = createNativeStackNavigator();
-
-function App() {
+export function HomeScreen() {
   return (
-    <NavigationContainer>
+    <View>
+      <LoginButton />
+      <RegisterButton />
+      
+    </View>
+  );
+}
+function LoginButton() {
+  const navigation = useNavigation();
 
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Register" component={RegisterScreen} />
-      </Stack.Navigator>
-      {/* <ShowMap /> */}
-    </NavigationContainer>
+  return <Button title="Login" onPress={() => navigation.navigate("Login")} />;
+}
+
+function RegisterButton() {
+  const navigation = useNavigation();
+
+  return (
+    <Button title="Register" onPress={() => navigation.navigate("Register")} />
   );
 }
 
-export default App;
+
+
+export default HomeScreen;

@@ -57,9 +57,9 @@ export const RegisterScreen = (props) => {
     //Style
   const styles = StyleSheet.create({
     input: {
-      height: 35,
-      width: 300,
-      borderRadius: 16,
+      height: 40,
+      width: 340,
+      borderRadius: 14,
       paddingLeft: 10,
       backgroundColor: "#EFF3F8",
     },
@@ -70,8 +70,8 @@ export const RegisterScreen = (props) => {
       marginTop: 30,
       paddingVertical: 10,
       paddingHorizontal: 32,
-      borderRadius: 16,
-      width: 300,
+      borderRadius: 14,
+      width: 340,
       elevation: 3,
       backgroundColor: "#E35205",
     },
