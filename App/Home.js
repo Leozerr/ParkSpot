@@ -25,7 +25,7 @@ export function HomeScreen() {
 }
 function LoginButton() {
   const navigation = useNavigation();
-
+ 
   return <Button title="Login" onPress={() => navigation.navigate("Login")} />;
 }
 
