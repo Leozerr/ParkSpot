@@ -1,12 +1,12 @@
 const sql = require("../../../sql");
 
 module.exports = {
-  async userCreate(req, res) {
-    const { uname, email, password } = req.body;
+  async pinCreate(req, res) {
+    const { sym, pname, lati, longti } = req.body;
     try {
       sql.Connection.query(
-        "INSERT INTO users(username, email, password) VALUES(?, ?, ?)",
-        [uname, email, password],
+        "INSERT INTO pins(symbol, name, latitude, longtitude) VALUES(?, ?, ?, ?)",
+        [sym, pname, lati, longti],
         (err, results, fields) => {
           if (err) {
             console.log("Error while inserting a user into database", err);
@@ -14,7 +14,7 @@ module.exports = {
           }
           return res
             .status(201)
-            .json({ message: "New user successfully created!" });
+            .json({ message: "New pin successfully created!" });
         }
       );
     } catch (err) {

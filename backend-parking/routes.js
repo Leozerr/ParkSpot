@@ -7,10 +7,11 @@ module.exports = (app) => {
   app.post("/create/users", setting.userCreate);
   app.patch("/update/users/password/:email", setting.userUpdatePass);
   app.patch("/update/users/username/:email", setting.userUpdateUName);
-  app.patch("/update/users/firstname/:email", setting.userUpdateFName);
-  app.patch("/update/users/surname/:email", setting.userUpdateSName);
   app.delete("/delete/users/:email", setting.userDelete);
 
   //Pins
   app.get("/pins", setting.pins);
+  app.get("/pins/:symbol", setting.pinSingle);
+  app.post("/create/pins", setting.pinCreate);
+  app.delete("/delete/pins/:symbol", setting.pinDelete);
 };
