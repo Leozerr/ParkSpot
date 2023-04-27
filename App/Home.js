@@ -13,29 +13,14 @@ import { RegisterScreen } from "./Register.js";
 import { LoginScreen } from "./Login.js";
 import { ShowMap } from "./ShowMap.js";
 
-
 export function HomeScreen() {
   return (
     <View>
-      <LoginButton />
-      <RegisterButton />
-      
     </View>
   );
 }
-function LoginButton() {
-  const navigation = useNavigation();
- 
-  return <Button title="Login" onPress={() => navigation.navigate("Login")} />;
-}
 
-function RegisterButton() {
-  const navigation = useNavigation();
 
-  return (
-    <Button title="Register" onPress={() => navigation.navigate("Register")} />
-  );
-}
 
 
 

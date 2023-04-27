@@ -14,7 +14,7 @@ export function LoginScreen(props) {
   const ScreenHeight = Dimensions.get("screen").height;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { onPress, title = "Sign Up" } = props;
+  const { onPress, title = "Sign In" } = props;
   const navigation = useNavigation();
   return (
     <View
@@ -22,9 +22,9 @@ export function LoginScreen(props) {
         height: ScreenHeight,
         width: ScreenWidth,
         backgroundColor: "#FFF",
+        paddingTop: 40,
       }}
     >
-      <Text style={styles.headerText}>Sign In to KMITL Parking</Text>
       <Text style={styles.fieldText}>Username</Text>
       <TextInput
         style={styles.input}
@@ -46,7 +46,6 @@ export function LoginScreen(props) {
           fontWeight: "bold",
           color: "#343434",
           textDecorationLine: "underline",
-          top: 210,
           textAlign: "right",
           right: 25,
         }}
@@ -75,7 +74,6 @@ export function LoginScreen(props) {
 //Style
 export const styles = StyleSheet.create({
   input: {
-    top: 200,
     left: 20,
     //alignItems: "center",
     //justifyContent: "center",
@@ -84,10 +82,10 @@ export const styles = StyleSheet.create({
     borderRadius: 14,
     paddingLeft: 10,
     backgroundColor: "#EFF3F8",
+    marginBottom: 20,
   },
 
   button: {
-    top: 200,
     left: 20,
     alignItems: "center",
     justifyContent: "center",
@@ -108,7 +106,6 @@ export const styles = StyleSheet.create({
   },
 
   fieldText: {
-    top: 200,
     left: 20,
     fontSize: 16,
     lineHeight: 21,
@@ -133,7 +130,7 @@ export const styles = StyleSheet.create({
   dontHaveText: {
     color: "#999",
     fontWeight: "bold",
-    marginTop: 230,
+    marginTop: 20,
     textAlign: "center",
   },
 });

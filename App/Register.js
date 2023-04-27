@@ -23,9 +23,9 @@ export const RegisterScreen = (props) => {
         // justifyContent: "center",
         // alignItems: "center",
         backgroundColor: "#FFF",
+        paddingTop: 40,
       }}
     >
-      <Text style={styles.headerText}>Sign Up to KMITL Parking</Text>
       <Text style={styles.fieldText}>Username</Text>
       <TextInput
         style={styles.input}
@@ -60,7 +60,6 @@ export const RegisterScreen = (props) => {
 //Style
 export const styles = StyleSheet.create({
   input: {
-    top: 200,
     left: 20,
     //alignItems: "center",
     //justifyContent: "center",
@@ -69,10 +68,10 @@ export const styles = StyleSheet.create({
     borderRadius: 14,
     paddingLeft: 10,
     backgroundColor: "#EFF3F8",
+    marginBottom: 10,
   },
 
   button: {
-    top: 200,
     left: 20,
     alignItems: "center",
     justifyContent: "center",
@@ -93,7 +92,6 @@ export const styles = StyleSheet.create({
   },
 
   fieldText: {
-    top: 200,
     left: 20,
     fontSize: 16,
     lineHeight: 21,
@@ -102,18 +100,6 @@ export const styles = StyleSheet.create({
     color: "#343434",
     marginTop: 5,
     marginBottom: 10,
-  },
-
-  headerText: {
-    left: 20,
-    marginTop: 30,
-    marginBottom: -150,
-    fontSize: 19,
-    lineHeight: 21,
-    fontWeight: "bold",
-    letterSpacing: 0.25,
-    color: "#343434",
-
   },
 });
 
