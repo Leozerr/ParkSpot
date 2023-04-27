@@ -9,12 +9,13 @@ import {
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+const ScreenWidth = Dimensions.get("screen").width;
+const ScreenHeight = Dimensions.get("screen").height;
+
 export function LoginScreen(props) {
-  const ScreenWidth = Dimensions.get("screen").width;
-  const ScreenHeight = Dimensions.get("screen").height;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { onPress, title = "Sign Up" } = props;
+  const { onPress, title = "Sign in" } = props;
   const navigation = useNavigation();
   return (
     <View
@@ -76,7 +77,7 @@ export function LoginScreen(props) {
 export const styles = StyleSheet.create({
   input: {
     top: 200,
-    left: 20,
+    left: (ScreenWidth-340)/2,
     //alignItems: "center",
     //justifyContent: "center",
     height: 40,
@@ -88,7 +89,7 @@ export const styles = StyleSheet.create({
 
   button: {
     top: 200,
-    left: 20,
+    left: (ScreenWidth-340)/2,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 30,
@@ -109,18 +110,18 @@ export const styles = StyleSheet.create({
 
   fieldText: {
     top: 200,
-    left: 20,
+    left: (ScreenWidth-340)/2,
     fontSize: 16,
     lineHeight: 21,
     fontWeight: "bold",
     letterSpacing: 0.25,
     color: "#343434",
-    marginTop: 5,
-    marginBottom: 10,
+    marginTop: 10,
+    marginBottom: 5,
   },
 
   headerText: {
-    left: 20,
+    left: (ScreenWidth-340)/2,
     marginTop: 30,
     marginBottom: -150,
     fontSize: 19,
