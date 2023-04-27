@@ -21,7 +21,7 @@ import { LoginScreen } from "./Login.js";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { markers, mapDarkStyle, mapStandardStyle } from "../model/mapData";
+import { markers, mapDarkStyle, mapStandardStyle } from "../model/mapData.js";
 import { useTheme } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
@@ -188,11 +188,35 @@ export function ShowMap() {
               <Text numberOfLines={1} style={styles.cardtitle}>
                 {marker.title}
               </Text>
-
               <Text numberOfLines={1} style={styles.cardDescription}>
                 {marker.description}
               </Text>
-              <View style={styles.button}></View>
+              <Text numberOfLines={1} style={styles.cardSubDescription}>
+                {marker.sub_description}
+              </Text>
+              {/* <View style={styles.button}>
+                <TouchableOpacity
+                  onPress={() => {}}
+                  style={[
+                    styles.signIn,
+                    {
+                      borderColor: "#FF6347",
+                      borderWidth: 1,
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.textSign,
+                      {
+                        color: "#FF6347",
+                      },
+                    ]}
+                  >
+                    View
+                  </Text>
+                </TouchableOpacity>
+              </View> */}
             </View>
           </View>
         ))}
@@ -261,13 +285,20 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   cardtitle: {
-    fontSize: 12,
+    fontSize: 30,
     // marginTop: 5,
     fontWeight: "bold",
+    color: "#E35205",
   },
   cardDescription: {
-    fontSize: 12,
-    color: "#444",
+    alignSelf: "flex-end",
+    fontSize: 30,
+    color: "#E35205",
+  },
+  cardSubDescription: {
+    alignSelf: "flex-end",
+    fontSize: 15,
+    color: "#676666",
   },
   markerWrap: {
     alignItems: "center",
@@ -276,7 +307,22 @@ const styles = StyleSheet.create({
     height: 50,
   },
   marker: {
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
+  },
+  button: {
+    alignItems: "center",
+    marginTop: 10,
+  },
+  signIn: {
+    width: "40%",
+    padding: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 3,
+  },
+  textSign: {
+    fontSize: 14,
+    fontWeight: "bold",
   },
 });

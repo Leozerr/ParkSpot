@@ -12,7 +12,8 @@ export const markers = [
       longitude: 100.775076,
     },
     title: "HM Parking",
-    description: "X Available",
+    description: "X",
+    sub_description: "Available",
     image: Images[0].image,
   },
   {
@@ -21,7 +22,9 @@ export const markers = [
       longitude: 100.776149,
     },
     title: "A Parking",
-    description: "Available",
+    description: "X",
+    sub_description: "Available",
+
     image: Images[1].image,
   },
   {
@@ -30,7 +33,9 @@ export const markers = [
       longitude: 100.776006,
     },
     title: "ECC Parking",
-    description: "X Available",
+    description: "X",
+    sub_description: "Available",
+
     image: Images[2].image,
   },
   {
@@ -39,7 +44,9 @@ export const markers = [
       longitude: 100.77685,
     },
     title: "Bank Parking",
-    description: "X Available",
+    description: "X",
+    sub_description: "Available",
+
     image: Images[3].image,
   },
 ];
