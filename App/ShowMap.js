@@ -95,7 +95,7 @@ export function ShowMap() {
             >
               <Animated.View style={[styles.markerWrap]}>
                 <Animated.Image
-                  source={require("../Image/marker1.png")}
+                  source={require("../Image/parkpin.png")}
                   style={[styles.marker, scaleStyle]}
                   resizeMode="cover"
                 />
@@ -107,44 +107,13 @@ export function ShowMap() {
       <View style={styles.searchBox}>
         <TextInput
           placeholder="search here"
-          placeholderTextColor="#000"
+          placeholderTextColor="#ccc"
           autoCapitalize="none"
-          style={{ flex: 1, padding: 0 }}
+          style={{ flex: 1, paddingLeft: 10 }}
         />
         <Ionicons name="ios-search" size={29} />
       </View>
 
-      {/* <GooglePlacesAutocomplete
-        placeholder="Search"
-        fetchDetails={true}
-        GooglePlacesSearchQuery={{
-          rankby: "distance",
-        }}
-        onPress={(data, details = null) => {
-          console.log(data, details);
-          setRegion({
-            latitude: details.geometry.location.lat,
-            longitude: details.geometry.location.lng,
-          });
-        }}
-        query={{
-          key: "AIzaSyCC2ONx9Tr4pzoiW4mDGBa8yJYXjTZ8Tx0",
-          language: "th",
-          components: "country:th",
-          types: "establishment",
-          radius: 30000,
-          // location: `${region.latitude}, ${region.longitude}`,
-        }}
-        style={{
-          container: {
-            flex: 0,
-            position: "absolute",
-            width: "100%",
-            zIndex: 1,
-          },
-          listView: { BackgroundColor: "white" },
-        }}
-      /> */}
       <Animated.ScrollView
         ref={_scrollView}
         horizontal
@@ -209,12 +178,12 @@ const styles = StyleSheet.create({
   },
   searchBox: {
     position: "absolute",
-    marginTop: Platform.OS === "ios" ? 40 : 20,
+    marginTop: Platform.OS === "ios" ? 10 : 20,
     flexDirection: "row",
     backgroundColor: "#fff",
     width: "90%",
     alignSelf: "center",
-    borderRadius: 5,
+    borderRadius: 25,
     padding: 10,
     shadowColor: "#ccc",
     shadowOffset: { width: 0, height: 3 },
@@ -236,11 +205,10 @@ const styles = StyleSheet.create({
     paddingRight: width - CARD_WIDTH,
   },
   card: {
-    // padding: 10,
+    //Bottom: 100,
     elevation: 2,
     backgroundColor: "#FFF",
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
+    borderRadius: 10,
     marginHorizontal: 10,
     shadowColor: "#000",
     shadowRadius: 5,

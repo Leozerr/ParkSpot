@@ -13,6 +13,9 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { RegisterScreen } from "./Register.js";
 import { LoginScreen } from "./Login.js";
 import { ShowMap } from "./ShowMap.js";
+import { BottomSheet } from "./BottomSheet.js";
+import { StatusBar } from "expo-status-bar";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 
 export function HomeScreen() {
@@ -25,6 +28,12 @@ export function HomeScreen() {
     }, []);
 
     return (
+        // <GestureHandlerRootView style={{ flex: 1 }}>
+        //     <View style={{ flex: 1 }}>
+        //         <ShowMap/>
+        //     </View>
+        //     {/* <BottomSheet /> */}
+        // </GestureHandlerRootView>
         <View style={{ flex: 1 }}>
             <ShowMap/>
             <Button
@@ -63,6 +72,7 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
+      height: 1000,
     },
 });
 

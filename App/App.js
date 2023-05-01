@@ -24,7 +24,12 @@ function App() {
       <Stack.Navigator initialRouteName="Home">
         
         <Stack.Screen name="Home" component={HomeScreen}options={{
-            headerTitle: "Home",
+            headerTitle: () => (
+              <Image
+                source={require("../Image/logo.png")}
+                style={{ width: 100, height: 25 }}
+              />
+            ),
             headerRight: () => <LoginButton />,
           }}/>
         <Stack.Screen name="Login" component={LoginScreen} />
@@ -38,7 +43,7 @@ function App() {
 function LoginButton() {
   const navigation = useNavigation();
 
-  return <Button title="Login" onPress={() => navigation.navigate("Login")} />;
+  return <Button title="Sign in" onPress={() => navigation.navigate("Login")} />;
 }
 
 export default App;
