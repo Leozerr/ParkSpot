@@ -57,13 +57,14 @@ import React, { FC, ReactElement, useState, useRef, useEffect } from "react";
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 
-const { screenHeight } = Dimensions.get("window");
+const ScreenHeight = Dimensions.get("screen").height;
 
 export const BottomSheet = () => {
   const translateY = useSharedValue(0);
 
   const gesture = Gesture.Pan().onUpdate((event) => {
     translateY.value = event.translationX
+    console.log(ScreenHeight);
   });
 
   const rBottomSheetStyle = useAnimatedStyle(() => {
@@ -75,7 +76,7 @@ export const BottomSheet = () => {
 
   return (
     <GestureDetector gesture={gesture}>
-      <Animated.View style={[ styles.bottomSheetContainer, { top: screenHeight * 0.66 }, rBottomSheetStyle ]}>
+      <Animated.View style={[ styles.bottomSheetContainer, rBottomSheetStyle ]}>
         <View style={styles.line} />
         <Text>Bottom Sheet</Text>
       </Animated.View>
@@ -85,10 +86,11 @@ export const BottomSheet = () => {
 
 const styles = StyleSheet.create({
   bottomSheetContainer: {
-    height: screenHeight,
+    height: ScreenHeight,
     width: '100%',
     backgroundColor: 'white',
     position: 'absolute',
+    top: ScreenHeight / 1.5,
     borderRadius: 25,
   },
   line: {
