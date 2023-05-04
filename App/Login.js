@@ -44,14 +44,7 @@ export function LoginScreen(props) {
         onChangeText={(text) => setPassword(text)}
       />
       <Text
-        style={{
-          fontWeight: "bold",
-          color: "#343434",
-          textDecorationLine: "underline",
-          top: 210,
-          textAlign: "right",
-          right: 25,
-        }}
+        style={styles.forgotText }
         // NAGIVATE TO FORGOT PASSWORD onPress={() => {}}
       >
         Forgot Password
@@ -138,6 +131,15 @@ export const styles = StyleSheet.create({
     marginTop: 230,
     textAlign: "center",
   },
+
+  forgotText: {
+    fontWeight: "bold",
+    color: "#343434",
+    textDecorationLine: "underline",
+    top: 210,
+    textAlign: 'right',
+    right: (ScreenWidth-340)/2
+  }
 });
 
 export default LoginScreen;

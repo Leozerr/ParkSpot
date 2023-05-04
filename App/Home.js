@@ -60,7 +60,17 @@ export function HomeScreen() {
 export function LoginButton() {
   const navigation = useNavigation();
 
-  return <Button title="Login" onPress={() => navigation.navigate("Login")} />;
+  return <Pressable onPress={() => navigation.navigate("Login")}>
+      <Image
+        style={{ 
+          width: 30,
+          height: 30,
+        }}
+        source={
+          require('../Image/profilepic.png')
+        }
+      />
+</Pressable>
 }
 
 function RegisterButton() {
