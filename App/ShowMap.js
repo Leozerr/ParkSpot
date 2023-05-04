@@ -27,7 +27,7 @@ import { useTheme } from "@react-navigation/native";
 import * as Location from "expo-location";
 
 const { width, height } = Dimensions.get("window");
-const CARD_HEIGHT = 220;
+const CARD_HEIGHT = 210;
 const CARD_WIDTH = width * 0.8;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
@@ -98,7 +98,7 @@ export function ShowMap() {
   const _map = React.useRef(null);
   const _scrollView = React.useRef(null);
   return (
-    <View style={{ flex: 1, paddingTop: 50 }}>
+    <View style={{ flex: 1 }}>
       <MapView
         style={{ flex: 1 }}
         showsUserLocation={true}
@@ -149,9 +149,9 @@ export function ShowMap() {
       <View style={styles.searchBox}>
         <TextInput
           placeholder="search here"
-          placeholderTextColor="#000"
+          placeholderTextColor="#ccc"
           autoCapitalize="none"
-          style={{ flex: 1, padding: 0 }}
+          style={{ flex: 1, paddingLeft: 10 }}
         />
         <Ionicons name="ios-search" size={29} />
       </View>
@@ -243,12 +243,12 @@ const styles = StyleSheet.create({
   },
   searchBox: {
     position: "absolute",
-    marginTop: Platform.OS === "ios" ? 40 : 20,
+    marginTop: Platform.OS === "ios" ? 10 : 20,
     flexDirection: "row",
     backgroundColor: "#fff",
     width: "90%",
     alignSelf: "center",
-    borderRadius: 5,
+    borderRadius: 25,
     padding: 10,
     shadowColor: "#ccc",
     shadowOffset: { width: 0, height: 3 },
@@ -270,11 +270,10 @@ const styles = StyleSheet.create({
     paddingRight: width - CARD_WIDTH,
   },
   card: {
-    // padding: 10,
+    marginBottom: 20,
     elevation: 2,
     backgroundColor: "#FFF",
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
+    borderRadius: 10,
     marginHorizontal: 10,
     shadowColor: "#000",
     shadowRadius: 5,
