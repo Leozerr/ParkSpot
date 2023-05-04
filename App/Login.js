@@ -17,7 +17,6 @@ export function LoginScreen(props) {
   const [password, setPassword] = useState("");
   const { onPress, title = "Sign in" } = props;
   const navigation = useNavigation();
-  console.log(ScreenHeight);
   return (
     <View
       style={{

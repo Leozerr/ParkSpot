@@ -55,17 +55,26 @@
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import React, { FC, ReactElement, useState, useRef, useEffect } from "react";
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
 
 const ScreenHeight = Dimensions.get("screen").height;
 
 export const BottomSheet = () => {
   const translateY = useSharedValue(0);
 
-  const gesture = Gesture.Pan().onUpdate((event) => {
-    translateY.value = event.translationX
-    console.log(ScreenHeight);
-  });
+  const context = useSharedValue({ y: 0 });
+  const gesture = Gesture.Pan()
+    .onStart(() => {
+      context.value = { y: translateY.value };
+    })
+    .onUpdate((event) => {
+    translateY.value = event.translationY + context.value.y;
+    translateY.value = Math.max(translateY.value, -ScreenHeight);
+    });
+
+    useEffect(() => {
+      translateY.value = withTiming(-ScreenHeight / 3);
+    }, []);
 
   const rBottomSheetStyle = useAnimatedStyle(() => {
     //'worklet';
@@ -90,7 +99,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'white',
     position: 'absolute',
-    top: ScreenHeight / 1.5,
+    top: ScreenHeight,
     borderRadius: 25,
   },
   line: {
