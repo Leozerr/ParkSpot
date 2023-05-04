@@ -18,6 +18,7 @@ import MapView, { Callout, Circle, Marker } from "react-native-maps";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { RegisterScreen } from "./Register.js";
 import { LoginScreen } from "./Login.js";
+import { BottomSheet } from "./BottomSheet.js";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -106,7 +107,7 @@ export function ShowMap() {
           );
         })}
       </MapView>
-      <View style={styles.searchBox}>
+      {/* <View style={styles.searchBox}>
         <TextInput
           placeholder="search here"
           placeholderTextColor="#ccc"
@@ -114,7 +115,7 @@ export function ShowMap() {
           style={{ flex: 1, paddingLeft: 10 }}
         />
         <Ionicons name="ios-search" size={29} />
-      </View>
+      </View> */}
 
       <Animated.ScrollView
         ref={_scrollView}
