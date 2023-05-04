@@ -27,12 +27,11 @@ export const BottomSheet = () => {
       // }
       else if (translateY.value < -ScreenHeight / 3) {
         translateY.value = withTiming(-ScreenHeight+(ScreenHeight/3))
-        //console.log(ScreenHeight-990);
       }
     });
 
     useEffect(() => {
-      translateY.value = withTiming(-ScreenHeight / 1.5);
+      translateY.value = withTiming(-ScreenHeight / 4.4);
     }, []);
 
   const rBottomSheetStyle = useAnimatedStyle(() => {
@@ -59,16 +58,6 @@ export const BottomSheet = () => {
             </View>
           </View>
           
-          
-          {/* <View style={styles.headerContent}>
-            <View style={styles.leftHeaderContent}>
-              <Text style={styles.headerText}>J Canteen</Text>
-              <Text style={styles.slotText}>Available 9 slots</Text>
-            </View >
-            <Image source={require('../Image/unsaveIcon.png')} style={styles.bookmarkIcon} />
-          </View> */}
-          {/* <Text style={styles.headerText}>J Canteen</Text>
-          <Text style={styles.slotText}>Available 9 slots</Text> */}
         </View>
 
       </Animated.View>

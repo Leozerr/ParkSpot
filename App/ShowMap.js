@@ -26,15 +26,13 @@ import { markers, mapDarkStyle, mapStandardStyle } from "../model/mapData";
 import { useTheme } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
+const LATITUDE_DELTA = 0.015;
+const LONGITUDE_DELTA = LATITUDE_DELTA * (width / height);
 const CARD_HEIGHT = 210;
 const CARD_WIDTH = width * 0.8;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
 export function ShowMap() {
-  const [pin, setPin] = React.useState({
-    latitude: 37.78825,
-    longitude: -122.4324,
-  });
 
   const initialMapState = {
     markers,
@@ -80,6 +78,8 @@ export function ShowMap() {
         initialRegion={{
           latitude: 13.727156,
           longitude: 100.77485,
+          latitudeDelta: LATITUDE_DELTA,
+		      longitudeDelta: LONGITUDE_DELTA
         }}
       >
         {state.markers.map((marker, index) => {
