@@ -25,7 +25,7 @@ import { markers, mapDarkStyle, mapStandardStyle } from "../model/mapData";
 import { useTheme } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
-const CARD_HEIGHT = 220;
+const CARD_HEIGHT = 210;
 const CARD_WIDTH = width * 0.8;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
@@ -74,6 +74,8 @@ export function ShowMap() {
     <View style={{ flex: 1 }}>
       <MapView
         style={{ flex: 1 }}
+        showsUserLocation={true}
+        showsMyLocationButton={true}
         initialRegion={{
           latitude: 13.727156,
           longitude: 100.77485,
@@ -205,7 +207,7 @@ const styles = StyleSheet.create({
     paddingRight: width - CARD_WIDTH,
   },
   card: {
-    //Bottom: 100,
+    marginBottom: 20,
     elevation: 2,
     backgroundColor: "#FFF",
     borderRadius: 10,

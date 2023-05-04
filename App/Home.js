@@ -19,41 +19,45 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 
 export function HomeScreen() {
-    const sheetRef = useRef(null);
+    // const sheetRef = useRef(null);
 
-    useEffect(() => {
-    if (sheetRef.current) {
-        sheetRef.current.open();
-    }
-    }, []);
+    // useEffect(() => {
+    // if (sheetRef.current) {
+    //     sheetRef.current.open();
+    // }
+    // }, []);
 
     return (
-        // <GestureHandlerRootView style={{ flex: 1 }}>
-        //     <View style={{ flex: 1 }}>
-        //         <ShowMap/>
-        //     </View>
-        //     {/* <BottomSheet /> */}
-        // </GestureHandlerRootView>
-        <View style={{ flex: 1 }}>
-            <ShowMap/>
-            <Button
-                title="Open Bottom Sheet"
-                onPress={() => {
-                    if (sheetRef.current) {
-                    sheetRef.current.open();
-                }
-            }}
-                />
-            <RBSheet
-                ref={sheetRef}
-            >
-                <Text>Bottom Sheet Content</Text>
-            </RBSheet>
-        </View>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <View style={{ flex: 1 }}>
+                <ShowMap/>
+                <BottomSheet />
+            </View>
+            
+        </GestureHandlerRootView>
+
+        // <View style={{ flex: 1 }}>
+        //     <ShowMap/>
+        //     <Button
+        //         title="Open Bottom Sheet"
+        //         onPress={() => {
+        //             if (sheetRef.current) {
+        //             sheetRef.current.open();
+        //             }
+        //         }}
+        //     />
+        //     <RBSheet
+        //         ref={sheetRef}
+        //     >
+        //         <BottomSheet/>
+        //         {/* <Text>Bottom Sheet Content</Text> */}
+        //     </RBSheet>
+        // </View>
+        
   );
 }
 
-function LoginButton() {
+export function LoginButton() {
   const navigation = useNavigation();
 
   return <Button title="Login" onPress={() => navigation.navigate("Login")} />;
@@ -68,11 +72,13 @@ function RegisterButton() {
 }
 
 const styles = StyleSheet.create({
-    bottomSheetContainer: {
+    container: {
       flex: 1,
+      backgroundColor: '#111',
       alignItems: "center",
       justifyContent: "center",
-      height: 1000,
+      //height: 1000,
+      //borderRadius: 25,
     },
 });
 

@@ -10,7 +10,7 @@ import MapView, { Callout, Circle, Marker } from "react-native-maps";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { RegisterScreen } from "./Register.js";
 import { LoginScreen } from "./Login.js";
-import { HomeScreen } from "./Home.js";
+import { HomeScreen, LoginButton } from "./Home.js";
 import { ShowMap } from "./ShowMap.js";
 
 
@@ -31,7 +31,7 @@ function App() {
               />
             ),
             headerRight: () => <LoginButton />,
-          }}/>
+        }}/>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
       </Stack.Navigator>
@@ -40,11 +40,6 @@ function App() {
   );
 }
 
-function LoginButton() {
-  const navigation = useNavigation();
-
-  return <Button title="Sign in" onPress={() => navigation.navigate("Login")} />;
-}
 
 export default App;
 
