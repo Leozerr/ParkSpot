@@ -5,6 +5,8 @@ const { userSingle } = require("./users/userSingle");
 const { userUpdatePass } = require("./users/userUpdatePass");
 const { userDelete } = require("./users/userDelete");
 const { userUpdateUName } = require("./users/userUpdateUName");
+const { userAddFavorite } = require("./users/userAddFavorite");
+const { userRemoveFavorite } = require("./users/userRemoveFavorite");
 
 //Pins
 const { pins } = require("./pins/pins");
@@ -19,6 +21,8 @@ module.exports = {
   userUpdatePass,
   userUpdateUName,
   userDelete,
+  userAddFavorite,
+  userRemoveFavorite,
   pins,
   pinSingle,
   pinCreate,

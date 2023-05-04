@@ -8,6 +8,8 @@ module.exports = (app) => {
   app.patch("/update/users/password/:email", setting.userUpdatePass);
   app.patch("/update/users/username/:email", setting.userUpdateUName);
   app.delete("/delete/users/:email", setting.userDelete);
+  app.patch("/favorite/add/:email", setting.userAddFavorite);
+  app.patch("/favorite/remove/:email", setting.userRemoveFavorite);
 
   //Pins
   app.get("/pins", setting.pins);
