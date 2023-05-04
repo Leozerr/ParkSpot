@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Image, Dimensions, StyleSheet, Text, View } from 'react-native';
 import React, { FC, ReactElement, useState, useRef, useEffect } from "react";
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
@@ -47,8 +47,28 @@ export const BottomSheet = () => {
       <Animated.View style={[ styles.bottomSheetContainer, rBottomSheetStyle ]}>
         <View style={styles.header}>
           <View style={styles.line} />
-          <Text style={styles.headerText}>J Canteen</Text>
-          <Text style={styles.slotText}>Available 9 slots</Text>
+          <View style = {styles.groupHeader}>
+          <View style={styles.headerContent}>
+            <Text style={styles.headerText}>J Canteen</Text>
+            <Text style={styles.slotText}>Available 9 slots</Text>
+            
+          </View>
+          <View style={styles.headerRightContent}>
+              
+              <Image source={require('../Image/unsaveIcon.png')} style={styles.bookmarkIcon} />
+            </View>
+          </View>
+          
+          
+          {/* <View style={styles.headerContent}>
+            <View style={styles.leftHeaderContent}>
+              <Text style={styles.headerText}>J Canteen</Text>
+              <Text style={styles.slotText}>Available 9 slots</Text>
+            </View >
+            <Image source={require('../Image/unsaveIcon.png')} style={styles.bookmarkIcon} />
+          </View> */}
+          {/* <Text style={styles.headerText}>J Canteen</Text>
+          <Text style={styles.slotText}>Available 9 slots</Text> */}
         </View>
 
       </Animated.View>
@@ -86,7 +106,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     letterSpacing: 0.25,
     color: 'white',
-    paddingLeft: 20,
+    //paddingLeft: 20,
     
   },
   slotText: {
@@ -94,8 +114,31 @@ const styles = StyleSheet.create({
     lineHeight: 25,
     letterSpacing: 0.25,
     color: '#DADADA',
+    //paddingLeft: 20,
+  },
+  headerContent: {
+    flexDirection: 'col',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+ 
+  },
+  groupHeader:{
+    flexDirection:'row',
+    justifyContent:'space-between',
     paddingLeft: 20,
-  }
+    paddingRight: 20
+
+
+  },
+  headerRightContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  bookmarkIcon: {
+    width: 35,
+    height: 35,
+    marginLeft: 8,
+  },
 });
 
 export default BottomSheet;
