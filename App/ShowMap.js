@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState } from "react";
+import React, { FC, ReactElement, useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   Dimensions,
   Animated,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import {
   NavigationContainer,
@@ -18,21 +19,47 @@ import MapView, { Callout, Circle, Marker } from "react-native-maps";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { RegisterScreen } from "./Register.js";
 import { LoginScreen } from "./Login.js";
-import { BottomSheet } from "./BottomSheet.js";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { markers, mapDarkStyle, mapStandardStyle } from "../model/mapData";
 import { useTheme } from "@react-navigation/native";
+import * as Location from "expo-location";
 
 const { width, height } = Dimensions.get("window");
-const LATITUDE_DELTA = 0.015;
-const LONGITUDE_DELTA = LATITUDE_DELTA * (width / height);
 const CARD_HEIGHT = 210;
 const CARD_WIDTH = width * 0.8;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
+// api key = "AIzaSyCC2ONx9Tr4pzoiW4mDGBa8yJYXjTZ8Tx0"
+
 export function ShowMap() {
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, [location]);
+
+  // console.log({ location });
+  let text = "Waiting..";
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+  }
+  // console.log(location);
+  // console.log(location.coords.latitude + "", location.coords.longitude + "");
+  const mapRef = useRef(null);
 
   const initialMapState = {
     markers,
@@ -67,6 +94,7 @@ export function ShowMap() {
 
     _scrollView.current.scrollTo({ x: x, y: 0, animated: true });
   };
+
   const _map = React.useRef(null);
   const _scrollView = React.useRef(null);
   return (
@@ -75,13 +103,22 @@ export function ShowMap() {
         style={{ flex: 1 }}
         showsUserLocation={true}
         showsMyLocationButton={true}
+        ref={mapRef}
         initialRegion={{
           latitude: 13.727156,
           longitude: 100.77485,
-          latitudeDelta: LATITUDE_DELTA,
-		      longitudeDelta: LONGITUDE_DELTA
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
         }}
       >
+        {/* {location && (
+          <Marker
+            coordinate={{
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+            }}
+          ></Marker>
+        )} */}
         {state.markers.map((marker, index) => {
           const scaleStyle = {
             transform: [
@@ -91,23 +128,25 @@ export function ShowMap() {
             ],
           };
           return (
-            <Marker
-              key={index}
-              coordinate={marker.coordinate}
-              onPress={(e) => onMarkerPress(e)}
-            >
-              <Animated.View style={[styles.markerWrap]}>
-                <Animated.Image
-                  source={require("../Image/parkpin.png")}
-                  style={[styles.marker, scaleStyle]}
-                  resizeMode="cover"
-                />
-              </Animated.View>
-            </Marker>
+            <View>
+              <Marker
+                key={index}
+                coordinate={marker.coordinate}
+                onPress={(e) => onMarkerPress(e)}
+              >
+                <Animated.View style={[styles.markerWrap]}>
+                  <Animated.Image
+                    source={require("../Image/parkpin.png")}
+                    style={[styles.marker, scaleStyle]}
+                    resizeMode="cover"
+                  />
+                </Animated.View>
+              </Marker>
+            </View>
           );
         })}
       </MapView>
-      {/* <View style={styles.searchBox}>
+      <View style={styles.searchBox}>
         <TextInput
           placeholder="search here"
           placeholderTextColor="#ccc"
@@ -115,8 +154,7 @@ export function ShowMap() {
           style={{ flex: 1, paddingLeft: 10 }}
         />
         <Ionicons name="ios-search" size={29} />
-      </View> */}
-
+      </View>
       <Animated.ScrollView
         ref={_scrollView}
         horizontal
