@@ -27,6 +27,8 @@ import { useTheme } from "@react-navigation/native";
 import * as Location from "expo-location";
 
 const { width, height } = Dimensions.get("window");
+const LATITUDE_DELTA = 0.015;
+const LONGITUDE_DELTA = LATITUDE_DELTA * (width / height);
 const CARD_HEIGHT = 210;
 const CARD_WIDTH = width * 0.8;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
@@ -105,10 +107,10 @@ export function ShowMap() {
         showsMyLocationButton={true}
         ref={mapRef}
         initialRegion={{
-          latitude: 13.727156,
-          longitude: 100.77485,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          latitude: 13.726518,
+          longitude: 100.775701,
+          latitudeDelta: LATITUDE_DELTA,
+		      longitudeDelta: LONGITUDE_DELTA
         }}
       >
         {/* {location && (
