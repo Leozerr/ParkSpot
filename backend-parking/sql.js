@@ -6,6 +6,7 @@ const Connection = mysql.createConnection({
   user: config.SQLUSER,
   password: config.SQLPASS,
   database: config.SQLDB,
+  port: config.SQLPORT,
 });
 
 Connection.connect((err) => {

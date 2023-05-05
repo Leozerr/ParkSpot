@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const Images = [
   { image: require("../Image/HM_Parking.png") },
   { image: require("../Image/CE_Parking.png") },
@@ -5,8 +7,19 @@ const Images = [
   { image: require("../Image/Bank_Parking.png") },
 ];
 
+axios.get('https://localhost:5001/pins/')
+  .then(response => {
+    // handle success
+    console.log(response.data);
+  })
+  .catch(error => {
+    // handle error
+    console.log(error);
+  });
+
 export const markers = [
   {
+    id: 1,
     coordinate: {
       latitude: 13.727285,
       longitude: 100.775076,
@@ -16,6 +29,7 @@ export const markers = [
     image: Images[0].image,
   },
   {
+    id: 2,
     coordinate: {
       latitude: 13.727268,
       longitude: 100.776149,
@@ -25,6 +39,7 @@ export const markers = [
     image: Images[1].image,
   },
   {
+    id: 3,
     coordinate: {
       latitude: 13.72916,
       longitude: 100.776006,
@@ -34,6 +49,7 @@ export const markers = [
     image: Images[2].image,
   },
   {
+    id: 4,
     coordinate: {
       latitude: 13.72864,
       longitude: 100.77685,
