@@ -31,7 +31,7 @@ export function ForgotPasswordScreen(props) {
 
 const styles = StyleSheet.create({
     input: {
-        top: 200,
+        top: 240,
         left: (ScreenWidth - 340) / 2,
         height: 45,
         width: 340,
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     },
 
     fieldText: {
-        top: 200,
+        top: 240,
         left: (ScreenWidth - 340) / 2,
         fontSize: 16,
         lineHeight: 21,
@@ -66,13 +66,13 @@ const styles = StyleSheet.create({
     noteText: {
         fontWeight: "bold",
         color: "#999",
-        // marginTop: 20,
+        marginTop: 20,
         marginLeft: 30,
         marginRight: 30,
         textAlign: "center",
     },
     button: {
-        top: 200,
+        top: 240,
         left: (ScreenWidth-340)/2,
         alignItems: "center",
         justifyContent: "center",
