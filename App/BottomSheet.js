@@ -47,13 +47,12 @@ export const BottomSheet = () => {
         <View style={styles.header}>
           <View style={styles.line} />
           <View style = {styles.groupHeader}>
-          <View style={styles.headerContent}>
-            <Text style={styles.headerText}>J Canteen</Text>
-            <Text style={styles.slotText}>Available 9 slots</Text>
-            
-          </View>
-          <View style={styles.headerRightContent}>
+            <View style={styles.headerContent}>
+              <Text style={styles.headerText}>J Canteen</Text>
+              <Text style={styles.slotText}>Available 9 slots</Text>
               
+            </View>
+            <View style={styles.headerRightContent}>
               <Image source={require('../Image/unsaveIcon.png')} style={styles.bookmarkIcon} />
             </View>
           </View>

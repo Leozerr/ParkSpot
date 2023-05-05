@@ -7,15 +7,15 @@ const Images = [
   { image: require("../Image/Bank_Parking.png") },
 ];
 
-axios.get('https://localhost:5001/pins/')
-  .then(response => {
-    // handle success
-    console.log(response.data);
-  })
-  .catch(error => {
-    // handle error
-    console.log(error);
-  });
+// axios.get('https://localhost:5001/pins/')
+//   .then(response => {
+//     // handle success
+//     console.log(response.data);
+//   })
+//   .catch(error => {
+//     // handle error
+//     console.log(error);
+//   });
 
 export const markers = [
   {

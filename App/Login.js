@@ -44,6 +44,7 @@ export function LoginScreen(props) {
       />
       <Text
         style={styles.forgotText }
+        onPress={() => navigation.navigate("ForgotPassword")}
         // NAGIVATE TO FORGOT PASSWORD onPress={() => {}}
       >
         Forgot Password
@@ -73,7 +74,7 @@ export const styles = StyleSheet.create({
     left: (ScreenWidth-340)/2,
     //alignItems: "center",
     //justifyContent: "center",
-    height: 40,
+    height: 45,
     width: 340,
     borderRadius: 14,
     paddingLeft: 10,
@@ -89,6 +90,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 32,
     borderRadius: 14,
+    height: 45,
     width: 340,
     elevation: 3,
     backgroundColor: "#E35205",

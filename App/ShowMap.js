@@ -130,7 +130,6 @@ export function ShowMap() {
             ],
           };
           return (
-            <View>
               <Marker
                 key={index}
                 coordinate={marker.coordinate}
@@ -144,7 +143,6 @@ export function ShowMap() {
                   />
                 </Animated.View>
               </Marker>
-            </View>
           );
         })}
       </MapView>

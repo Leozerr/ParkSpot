@@ -1,5 +1,6 @@
 import React, { FC, ReactElement, useState, useRef, useEffect } from "react";
 import {
+  Dimensions,
   View,
   Text,
   Pressable,
@@ -24,6 +25,9 @@ import { ShowMap } from "./ShowMap.js";
 import { BottomSheet } from "./BottomSheet.js";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+const ScreenHeight = Dimensions.get("screen").height;
+const ScreenWidth = Dimensions.get("screen").width;
 
 export function DrawerContent() {
   const navigation = useNavigation();
@@ -81,6 +85,7 @@ export function CustomHeaderLoggedOut() {
         height: 60,
         alignItems: "center",
         justifyContent: "space-between",
+        marginTop: 35,
       }}
     >
       <DrawerButton />

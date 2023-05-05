@@ -27,6 +27,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { RegisterScreen } from "./Register.js";
 import { LoginScreen } from "./Login.js";
 import { HomeScreen, LoginButton } from "./Home.js";
+import { ForgotPasswordScreen } from "./ForgotPassword.js";
 import { ShowMap } from "./ShowMap.js";
 import { DrawerContent } from "./LoggedOutComponents.js";
 
@@ -43,6 +44,7 @@ function StackItems() {
       />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
     </Stack.Navigator>
   );
 }
