@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Image,
   TextInput,
+  Dimensions,
 } from "react-native";
 import {
   NavigationContainer,
@@ -25,9 +26,9 @@ import { ShowMap } from "./ShowMap.js";
 import { BottomSheet } from "./BottomSheet.js";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-
-const ScreenHeight = Dimensions.get("screen").height;
 const ScreenWidth = Dimensions.get("screen").width;
+const ScreenHeight = Dimensions.get("screen").height;
+
 
 export function DrawerContent() {
   const navigation = useNavigation();
@@ -55,7 +56,9 @@ export function LoginButton() {
 
   return (
     <Pressable onPress={() => navigation.navigate("Login")}>
-    <Text style={{right: 15, fontSize: 18 , fontWeight: "bold"}}>Sign In</Text>
+      <Text style={{ right: 20, fontSize: 18, fontWeight: "bold", width: 60 }}>
+        Sign In
+      </Text>
     </Pressable>
   );
 }
@@ -64,12 +67,17 @@ export function DrawerButton() {
   const navigation = useNavigation();
 
   return (
-    <Pressable onPress={() => navigation.toggleDrawer()}>
+    <Pressable
+      onPress={() => navigation.toggleDrawer()}
+      style={{
+        width: 60,
+      }}
+    >
       <Image
         style={{
           width: 25,
           height: 25,
-          left: 15,
+          left: 20,
         }}
         source={require("../Image/drawerIcon.png")}
       />
@@ -82,11 +90,16 @@ export function CustomHeaderLoggedOut() {
   return (
     <View
       style={{
+        marginTop: 20,
+        width: ScreenWidth,
         flexDirection: "row",
-        height: 60,
+        height: 50,
         alignItems: "center",
         justifyContent: "space-between",
         marginTop: 35,
+        color: "#fff",
+        borderBottomWidth: 1,
+        borderBottomColor: "#ccc",
       }}
     >
       <DrawerButton />
