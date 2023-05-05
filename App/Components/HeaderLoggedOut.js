@@ -14,22 +14,9 @@ import {
   useNavigationContainerRef,
   useNavigation,
 } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import MapView, { Callout, Circle, Marker } from "react-native-maps";
-//import { PanGestureHandler } from "react-native-gesture-handler";
-//import { useGestureHandlerRef } from "react-native-gesture-handler";
-import RBSheet from "react-native-raw-bottom-sheet";
-import { RegisterScreen } from "./Register.js";
-import { LoginScreen } from "./Login.js";
-import { ShowMap } from "./ShowMap.js";
-import { BottomSheet } from "./BottomSheet.js";
-import { StatusBar } from "expo-status-bar";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-const ScreenWidth = Dimensions.get("screen").width;
-const ScreenHeight = Dimensions.get("screen").height;
 
 
-export function DrawerContent() {
+export function SignInDrawer() {
   const navigation = useNavigation();
   return (
     <Pressable
@@ -62,7 +49,7 @@ export function LoginButton() {
   );
 }
 
-export function DrawerButton() {
+export function DrawerButtonLoggedOut() {
   const navigation = useNavigation();
 
   return (
@@ -78,7 +65,7 @@ export function DrawerButton() {
           height: 25,
           left: 20,
         }}
-        source={require("../Image/drawerIcon.png")}
+        source={require("../../Image/drawerIcon.png")}
       />
     </Pressable>
   );
@@ -100,9 +87,9 @@ export function CustomHeaderLoggedOut() {
         borderBottomColor: "#ccc",
       }}
     >
-      <DrawerButton />
+      <DrawerButtonLoggedOut />
       <Image
-        source={require("../Image/logo.png")}
+        source={require("../../Image/logo.png")}
         style={{ width: 100, height: 25 }}
       />
       <LoginButton />

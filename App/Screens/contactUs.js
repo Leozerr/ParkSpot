@@ -1,7 +1,7 @@
 import React, { FC, ReactElement, useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import { Button, StyleSheet, Image, TextInput, Dimensions } from "react-native";
-import { styles } from "./Login.js";
+import { styles } from "./LoggedOut/Login.js";
 
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
@@ -27,13 +27,13 @@ export function ContactUsScreen(props) {
         Contact Us
       </Text>
       <Text
-      style={{
-        left: (ScreenWidth - 340) / 2,
-        marginTop: 30,
-        fontSize: 15,
-        fontWeight: "bold",
-        color: "#A5A5A5",
-      }}
+        style={{
+          left: (ScreenWidth - 340) / 2,
+          marginTop: 30,
+          fontSize: 15,
+          fontWeight: "bold",
+          color: "#A5A5A5",
+        }}
       >
         Email
       </Text>
@@ -50,13 +50,13 @@ export function ContactUsScreen(props) {
         smartparking@kmitl.ac.th
       </Text>
       <Text
-      style={{
-        left: (ScreenWidth - 340) / 2,
-        marginTop: 30,
-        fontSize: 15,
-        fontWeight: "bold",
-        color: "#A5A5A5",
-      }}
+        style={{
+          left: (ScreenWidth - 340) / 2,
+          marginTop: 30,
+          fontSize: 15,
+          fontWeight: "bold",
+          color: "#A5A5A5",
+        }}
       >
         Address
       </Text>
