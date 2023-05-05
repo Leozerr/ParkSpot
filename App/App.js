@@ -41,8 +41,32 @@ function StackItems() {
         component={HomeScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{
+          headerTintColor: "black",
+          headerBackTitle: "",
+          headerTitle:  () => <Image
+          source={require("../Image/logo.png")}
+          style={{ width: 100, height: 25 }}
+        />
+        }}
+      />
+
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{
+          headerTintColor: "black",
+          headerBackTitle: "",
+          headerTitle:  () => <Image
+          source={require("../Image/logo.png")}
+          style={{ width: 100, height: 25 }}
+        />
+
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -56,7 +80,6 @@ function App({ navigation }) {
           drawerActiveTintColor: "white",
           drawerInactiveTintColor: "white",
           drawerStyle: {
-            headerShown: false,
             backgroundColor: "#E35205",
             width: "60%",
           },
