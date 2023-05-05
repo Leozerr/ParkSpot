@@ -145,7 +145,7 @@ function App({ navigation }) {
         }}
       >
         <Drawer.Screen
-          name="Main"
+          name="Map"
           component={StackItems}
           options={{ headerShown: false }}
         />
