@@ -16,9 +16,12 @@ import { ShowMap } from "./ShowMap.js";
 import { BottomSheet } from "./BottomSheet.js";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { CustomHeaderLoggedOut } from "./LoggedOutComponents.js";
+import { CustomHeaderLoggedIn } from "./LoggedInComponents.js";
 
 
 export function HomeScreen() {
+  const navigation = useNavigation();
     // const sheetRef = useRef(null);
 
     // useEffect(() => {
@@ -30,6 +33,7 @@ export function HomeScreen() {
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <View style={{ flex: 1 }}>
+                <CustomHeaderLoggedOut/>
                 <ShowMap/>
                 <BottomSheet />
             </View>
@@ -57,29 +61,8 @@ export function HomeScreen() {
   );
 }
 
-export function LoginButton() {
-  const navigation = useNavigation();
 
-  return <Pressable onPress={() => navigation.navigate("Login")}>
-      <Image
-        style={{ 
-          width: 30,
-          height: 30,
-        }}
-        source={
-          require('../Image/profilepic.png')
-        }
-      />
-</Pressable>
-}
 
-function RegisterButton() {
-  const navigation = useNavigation();
-
-  return (
-    <Button title="Register" onPress={() => navigation.navigate("Register")} />
-  );
-}
 
 const styles = StyleSheet.create({
     container: {
