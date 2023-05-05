@@ -90,7 +90,6 @@ export function CustomHeaderLoggedOut() {
     <View
       style={{
         paddingTop: 45,
-        width: ScreenWidth,
         flexDirection: "row",
         height: 90,
         alignItems: "center",

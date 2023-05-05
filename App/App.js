@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Image,
   TextInput,
-  Icon,
+  TouchableOpacity,
 } from "react-native";
 import "react-native-gesture-handler";
 import {
@@ -24,10 +24,12 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MapView, { Callout, Circle, Marker } from "react-native-maps";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import Icon from "react-native-vector-icons/Ionicons.js";
 import { RegisterScreen } from "./Register.js";
 import { LoginScreen } from "./Login.js";
 import { HomeScreen, LoginButton } from "./Home.js";
 import { ForgotPasswordScreen } from "./ForgotPassword.js";
+import { ContactUsScreen } from "./contactUs.js";
 import { ShowMap } from "./ShowMap.js";
 import { DrawerContent } from "./LoggedOutComponents.js";
 
@@ -48,10 +50,12 @@ function StackItems() {
         options={{
           headerTintColor: "black",
           headerBackTitle: "",
-          headerTitle:  () => <Image
-          source={require("../Image/logo.png")}
-          style={{ width: 100, height: 25 }}
-        />
+          headerTitle: () => (
+            <Image
+              source={require("../Image/logo.png")}
+              style={{ width: 100, height: 25 }}
+            />
+          ),
         }}
       />
 
@@ -61,22 +65,57 @@ function StackItems() {
         options={{
           headerTintColor: "black",
           headerBackTitle: "",
-          headerTitle:  () => <Image
-          source={require("../Image/logo.png")}
-          style={{ width: 100, height: 25 }}
-        />
+          headerTitle: () => (
+            <Image
+              source={require("../Image/logo.png")}
+              style={{ width: 100, height: 25 }}
+            />
+          ),
         }}
       />
-      <Stack.Screen 
-        name="ForgotPassword" 
-        component={ForgotPasswordScreen} 
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPasswordScreen}
         options={{
-            headerTintColor: "black",
-            headerBackTitle: "",
-            headerTitle:  () => <Image
-            source={require("../Image/logo.png")}
-            style={{ width: 100, height: 25 }}
-          />
+          headerTintColor: "black",
+          headerBackTitle: "",
+          headerTitle: () => (
+            <Image
+              source={require("../Image/logo.png")}
+              style={{ width: 100, height: 25 }}
+            />
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function ContactUsNav() {
+  const navigation = useNavigation();
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="ContactUs"
+        component={ContactUsScreen}
+        options={{
+          headerTintColor: "black",
+          headerBackTitle: "",
+          headerTitle: () => (
+            <Image
+              source={require("../Image/logo.png")}
+              style={{ width: 100, height: 25 }}
+            />
+          ),
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}
+            style={{
+              right: 15,
+            }}
+            >
+              <Icon name="chevron-back" size={31}/>
+            </TouchableOpacity>
+          ),
         }}
       />
     </Stack.Navigator>
@@ -111,8 +150,8 @@ function App({ navigation }) {
           options={{ headerShown: false }}
         />
         <Drawer.Screen
-          name="Setting"
-          component={StackItems}
+          name="Contact Us"
+          component={ContactUsNav}
           options={{ headerShown: false }}
         />
       </Drawer.Navigator>
