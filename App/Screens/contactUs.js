@@ -1,7 +1,6 @@
 import React, { FC, ReactElement, useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import { Button, StyleSheet, Image, TextInput, Dimensions } from "react-native";
-import { styles } from "./LoggedOut/Login.js";
 
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
@@ -17,7 +16,7 @@ export function ContactUsScreen(props) {
     >
       <Text
         style={{
-          left: (ScreenWidth - 340) / 2 - 20,
+          left: (ScreenWidth - 340) / 2 - 10,
           marginTop: 30,
           fontSize: 19,
           fontWeight: "bold",
@@ -41,7 +40,7 @@ export function ContactUsScreen(props) {
         style={{
           left: (ScreenWidth - 340) / 2,
           width: 290,
-          marginTop: 30,
+          marginTop: 15,
           fontSize: 19,
           fontWeight: "bold",
           color: "#343434",
@@ -52,7 +51,7 @@ export function ContactUsScreen(props) {
       <Text
         style={{
           left: (ScreenWidth - 340) / 2,
-          marginTop: 30,
+          marginTop: 40,
           fontSize: 15,
           fontWeight: "bold",
           color: "#A5A5A5",
@@ -63,7 +62,7 @@ export function ContactUsScreen(props) {
       <Text
         style={{
           left: (ScreenWidth - 340) / 2,
-          marginTop: 30,
+          marginTop: 15,
           fontSize: 19,
           fontWeight: "bold",
           color: "#343434",
