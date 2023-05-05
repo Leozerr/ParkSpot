@@ -8,7 +8,6 @@ import {
   StyleSheet,
   Image,
   TextInput,
-  Dimensions,
 } from "react-native";
 import {
   NavigationContainer,
@@ -90,13 +89,13 @@ export function CustomHeaderLoggedOut() {
   return (
     <View
       style={{
-        marginTop: 20,
+        paddingTop: 45,
         width: ScreenWidth,
         flexDirection: "row",
-        height: 50,
+        height: 90,
         alignItems: "center",
         justifyContent: "space-between",
-        marginTop: 35,
+        backgroundColor: "#fff",
         color: "#fff",
         borderBottomWidth: 1,
         borderBottomColor: "#ccc",

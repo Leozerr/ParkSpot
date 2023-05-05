@@ -65,10 +65,20 @@ function StackItems() {
           source={require("../Image/logo.png")}
           style={{ width: 100, height: 25 }}
         />
-
         }}
       />
-      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+      <Stack.Screen 
+        name="ForgotPassword" 
+        component={ForgotPasswordScreen} 
+        options={{
+            headerTintColor: "black",
+            headerBackTitle: "",
+            headerTitle:  () => <Image
+            source={require("../Image/logo.png")}
+            style={{ width: 100, height: 25 }}
+          />
+        }}
+      />
     </Stack.Navigator>
   );
 }
