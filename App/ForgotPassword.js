@@ -5,7 +5,7 @@ const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
 
 export function ForgotPasswordScreen(props) {
-    const { onPress, title = "Summit" } = props;
+    const { onPress, title = "Submit" } = props;
     return (
         <View
             style={{

@@ -77,6 +77,11 @@ function App({ navigation }) {
           component={StackItems}
           options={{ headerShown: false }}
         />
+        <Drawer.Screen
+          name="Setting"
+          component={StackItems}
+          options={{ headerShown: false }}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );

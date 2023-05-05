@@ -36,11 +36,12 @@ export function DrawerContent() {
       style={{
         alignSelf: "center",
         alignItems: "center",
-        paddingVertical: 10,
-        paddingHorizontal: 32,
+        justifyContent: "center",
         borderRadius: 16,
-        width: "40%",
+        width: "60%",
+        height: 45,
         backgroundColor: "#DB7038",
+        marginBottom: 40,
       }}
       onPress={() => navigation.navigate("Login")}
     >
