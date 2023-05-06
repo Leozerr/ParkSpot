@@ -96,7 +96,7 @@ export function SavedNav() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Saved"
+        name="SavedScreen"
         component={SavedScreen}
         options={{
           headerTintColor: "black",
@@ -126,8 +126,8 @@ export function SavedNav() {
 export function LoggedInContents(props) {
   return (
     <DrawerContentScrollView {...props}>
-      <ProfileDrawer {...props}/>
-      <DrawerItemList {...props}/>
+      <ProfileDrawer {...props} />
+      <DrawerItemList {...props} />
       <LogOutDrawer {...props} />
     </DrawerContentScrollView>
   );
@@ -152,7 +152,7 @@ export function LoggedInState() {
         options={{ headerShown: false }}
       />
       <Drawer.Screen
-        name="Saved"
+        name="SavedStack"
         component={SavedNav}
         options={{ headerShown: false }}
       />

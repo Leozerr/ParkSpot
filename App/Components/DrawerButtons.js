@@ -41,6 +41,7 @@ export function LogOutDrawer() {
   return (
     <Pressable
       style={{
+        marginTop: 200,
         alignSelf: "center",
         alignItems: "center",
         justifyContent: "center",
@@ -48,6 +49,7 @@ export function LogOutDrawer() {
         width: "60%",
         height: 45,
         backgroundColor: "#DB7038",
+        
       }}
       onPress={() => {}}
     >
@@ -64,25 +66,28 @@ export function ProfileDrawer() {
         alignItems: "center",
         justifyContent: "center",
         height: 45,
-        marginBottom: 80,
-        marginTop: 20,
+        marginBottom: 100,
+        marginTop: 40,
       }}
     >
       <Image
         style={{
-          width: 55,
-          height: 55,
-          marginRight: 15,
+          width: 70,
+          height: 70,
+          marginRight: 20,
         }}
         source={require("../../Image/profilepic.png")}
       />
       <View>
-        <Text style={{ fontSize: 16, fontWeight: "bold", color: "#fff" }}>
-          Joshua Daniel Sevilla
+        <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
+          Hello,&nbsp;
+          <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
+          Joshua
+        </Text>
         </Text>
         <Text
           style={{
-            fontSize: 14,
+            fontSize: 18,
             color: "#DADADA",
             textDecorationLine: "underline",
           }}
