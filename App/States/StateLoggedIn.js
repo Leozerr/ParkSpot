@@ -23,9 +23,12 @@ import {
 } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Icon from "react-native-vector-icons/Ionicons.js";
-import { HomeScreenLoggedIn } from "./Home2.js";
+import { HomeScreenLoggedIn } from "../Screens/LoggedIn/Home2";
 import { ContactUsScreen } from "../Screens/contactUs.js";
-import { ProfileScreen } from "./ProfilePage.js";
+import { SavedScreen } from "../Screens/LoggedIn/SavedPage";
+import { ProfileScreen } from "../Screens/LoggedIn/ProfilePage";
+import { LogOutDrawer } from "../Components/DrawerButtons";
+import { ProfileDrawer } from "../Components/DrawerButtons";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -42,7 +45,7 @@ export function ContactUsNav() {
           headerBackTitle: "",
           headerTitle: () => (
             <Image
-              source={require("../Image/logo.png")}
+              source={require("../../Image/logo.png")}
               style={{ width: 100, height: 25 }}
             />
           ),
@@ -78,7 +81,7 @@ export function HomePageLoggedIn() {
           headerBackTitle: "",
           headerTitle: () => (
             <Image
-              source={require("../Image/logo.png")}
+              source={require("../../Image/logo.png")}
               style={{ width: 100, height: 25 }}
             />
           ),
@@ -94,13 +97,13 @@ export function SavedNav() {
     <Stack.Navigator>
       <Stack.Screen
         name="Saved"
-        component={ContactUsScreen}
+        component={SavedScreen}
         options={{
           headerTintColor: "black",
           headerBackTitle: "",
           headerTitle: () => (
             <Image
-              source={require("../Image/logo.png")}
+              source={require("../../Image/logo.png")}
               style={{ width: 100, height: 25 }}
             />
           ),
@@ -123,7 +126,9 @@ export function SavedNav() {
 export function LoggedInContents(props) {
   return (
     <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props} />
+      <ProfileDrawer {...props}/>
+      <DrawerItemList {...props}/>
+      <LogOutDrawer {...props} />
     </DrawerContentScrollView>
   );
 }
@@ -149,6 +154,11 @@ export function LoggedInState() {
       <Drawer.Screen
         name="Saved"
         component={SavedNav}
+        options={{ headerShown: false }}
+      />
+      <Drawer.Screen
+        name="Contact Us"
+        component={ContactUsNav}
         options={{ headerShown: false }}
       />
     </Drawer.Navigator>

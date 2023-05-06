@@ -15,26 +15,6 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 
-export function DrawerContent() {
-  const navigation = useNavigation();
-  return (
-    <Pressable
-      style={{
-        alignSelf: "center",
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 16,
-        width: "60%",
-        height: 45,
-        backgroundColor: "#DB7038",
-        marginBottom: 40,
-      }}
-      onPress={() => navigation.navigate("Login")}
-    >
-      <Text style={{ fontWeight: "bold", color: "#fff" }}>Sign In</Text>
-    </Pressable>
-  );
-}
 
 export function ProfilePage() {
   const navigation = useNavigation();
@@ -49,7 +29,7 @@ export function ProfilePage() {
           width: 35,
           height: 35,
         }}
-        source={require("../Image/profilepic.png")}
+        source={require("../../Image/profilepic.png")}
       />
     </Pressable>
   );
@@ -71,7 +51,7 @@ export function DrawerButtonLoggedIn() {
           height: 25,
           left: 20,
         }}
-        source={require("../Image/drawerIcon.png")}
+        source={require("../../Image/drawerIcon.png")}
       />
     </Pressable>
   );
@@ -95,7 +75,7 @@ export function CustomHeaderLoggedIn() {
     >
       <DrawerButtonLoggedIn />
       <Image
-        source={require("../Image/logo.png")}
+        source={require("../../Image/logo.png")}
         style={{ width: 100, height: 25 }}
       />
       <ProfilePage />

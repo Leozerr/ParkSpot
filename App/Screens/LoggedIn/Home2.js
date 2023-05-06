@@ -13,11 +13,10 @@ import {
   useNavigationContainerRef,
   useNavigation,
 } from "@react-navigation/native";
-import { ShowMap } from "./ShowMap.js";
-import { BottomSheet } from "./BottomSheet.js";
+import { ShowMap } from "../../Components/ShowMap.js";
+import { BottomSheet } from "../../Components/BottomSheet.js";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { CustomHeaderLoggedIn } from "./HeaderLoggedIn.js";
-
+import { CustomHeaderLoggedIn } from "../../Components/HeaderLoggedIn.js";
 export function HomeScreenLoggedIn() {
   const navigation = useNavigation();
   // const sheetRef = useRef(null);
