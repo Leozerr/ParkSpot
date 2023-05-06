@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 const Images = [
   { image: require("../Image/HM_Parking.png") },
@@ -16,6 +17,20 @@ const Images = [
 //     // handle error
 //     console.log(error);
 //   });
+
+const [data, setData] = useState([]);
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const { data: response } = await axios.get("http://localhost:5001/pins");
+      setData(response);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+  fetchData();
+  console.log(data);
+}, []);
 
 export const markers = [
   {
