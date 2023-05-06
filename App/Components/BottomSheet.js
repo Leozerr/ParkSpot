@@ -53,7 +53,7 @@ export const BottomSheet = () => {
               
             </View>
             <View style={styles.headerRightContent}>
-              <Image source={require('../Image/unsaveIcon.png')} style={styles.bookmarkIcon} />
+              <Image source={require('../../Image/unsaveIcon.png')} style={styles.bookmarkIcon} />
             </View>
           </View>
           

@@ -17,12 +17,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Button, StyleSheet, Image, TextInput } from "react-native";
 import MapView, { Callout, Circle, Marker } from "react-native-maps";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { RegisterScreen } from "./Register.js";
-import { LoginScreen } from "./Login.js";
+import { RegisterScreen } from "../Screens/LoggedOut/Register";
+import { LoginScreen } from "../Screens/LoggedOut/Login.js";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { markers, mapDarkStyle, mapStandardStyle } from "../model/mapData";
+import { markers, mapDarkStyle, mapStandardStyle } from "../../model/mapData";
 import { useTheme } from "@react-navigation/native";
 import * as Location from "expo-location";
 
@@ -110,7 +110,7 @@ export function ShowMap() {
           latitude: 13.726518,
           longitude: 100.775701,
           latitudeDelta: LATITUDE_DELTA,
-		      longitudeDelta: LONGITUDE_DELTA
+          longitudeDelta: LONGITUDE_DELTA,
         }}
       >
         {/* {location && (
@@ -130,19 +130,19 @@ export function ShowMap() {
             ],
           };
           return (
-              <Marker
-                key={index}
-                coordinate={marker.coordinate}
-                onPress={(e) => onMarkerPress(e)}
-              >
-                <Animated.View style={[styles.markerWrap]}>
-                  <Animated.Image
-                    source={require("../Image/parkpin.png")}
-                    style={[styles.marker, scaleStyle]}
-                    resizeMode="cover"
-                  />
-                </Animated.View>
-              </Marker>
+            <Marker
+              key={index}
+              coordinate={marker.coordinate}
+              onPress={(e) => onMarkerPress(e)}
+            >
+              <Animated.View style={[styles.markerWrap]}>
+                <Animated.Image
+                  source={require("../../Image/parkpin.png")}
+                  style={[styles.marker, scaleStyle]}
+                  resizeMode="cover"
+                />
+              </Animated.View>
+            </Marker>
           );
         })}
       </MapView>
