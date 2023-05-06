@@ -152,7 +152,7 @@ export function LoggedInState() {
         options={{ headerShown: false }}
       />
       <Drawer.Screen
-        name="SavedStack"
+        name="Saved"
         component={SavedNav}
         options={{ headerShown: false }}
       />

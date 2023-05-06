@@ -68,26 +68,27 @@ export function ProfileDrawer() {
         height: 45,
         marginBottom: 100,
         marginTop: 40,
+        paddingRight: 20,
       }}
     >
       <Image
         style={{
-          width: 70,
-          height: 70,
-          marginRight: 20,
+          width: 50,
+          height: 50,
+          marginRight: 10,
         }}
         source={require("../../Image/profilepic.png")}
       />
       <View>
-        <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
+        <Text style={{ fontSize: 16, fontWeight: "bold", color: "#fff" }}>
           Hello,&nbsp;
-          <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
-          Joshua
+          <Text style={{ fontSize: 16, fontWeight: "bold", color: "#fff" }}>
+          JoshuaDaniel
         </Text>
         </Text>
         <Text
           style={{
-            fontSize: 18,
+            fontSize: 14,
             color: "#DADADA",
             textDecorationLine: "underline",
           }}
