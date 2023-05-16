@@ -1,5 +1,22 @@
-import React, { FC, ReactElement, useState, useRef, useEffect } from "react";
-import { View, Text, Pressable, Button, StyleSheet, Image, TextInput } from "react-native";
+import React, {
+  FC,
+  ReactElement,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+} from "react";
+import {
+  View,
+  Text,
+  Pressable,
+  Button,
+  StyleSheet,
+  Image,
+  TextInput,
+  useWindowDimensions,
+  SafeAreaView,
+} from "react-native";
 import {
   NavigationContainer,
   useNavigationContainerRef,
@@ -17,43 +34,35 @@ import { BottomSheet } from "./BottomSheet.js";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-
 export function HomeScreen() {
-    // const sheetRef = useRef(null);
+  const { height } = useWindowDimensions();
+  const bottomSheetRef = useRef(null);
+  const openHandler = useCallback(() => {
+    bottomSheetRef.current.expand();
+  }, []);
+  const closeHandler = useCallback(() => {
+    bottomSheetRef.current.close();
+  }, []);
 
-    // useEffect(() => {
-    // if (sheetRef.current) {
-    //     sheetRef.current.open();
-    // }
-    // }, []);
-
-    return (
-        <GestureHandlerRootView style={{ flex: 1 }}>
-            <View style={{ flex: 1 }}>
-                <ShowMap/>
-                <BottomSheet />
-            </View>
-            
-        </GestureHandlerRootView>
-
-        // <View style={{ flex: 1 }}>
-        //     <ShowMap/>
-        //     <Button
-        //         title="Open Bottom Sheet"
-        //         onPress={() => {
-        //             if (sheetRef.current) {
-        //             sheetRef.current.open();
-        //             }
-        //         }}
-        //     />
-        //     <RBSheet
-        //         ref={sheetRef}
-        //     >
-        //         <BottomSheet/>
-        //         {/* <Text>Bottom Sheet Content</Text> */}
-        //     </RBSheet>
-        // </View>
-        
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <Button
+          title="open"
+          onPress={() => {
+            openHandler();
+          }}
+        />
+        <Button
+          title="close"
+          onPress={() => {
+            closeHandler();
+          }}
+        />
+        <ShowMap />
+        <BottomSheet activeHeight={height * 0.5}  ref={bottomSheetRef} />
+      </SafeAreaView>
+    </GestureHandlerRootView>
   );
 }
 
@@ -72,15 +81,14 @@ function RegisterButton() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#111',
-      alignItems: "center",
-      justifyContent: "center",
-      //height: 1000,
-      //borderRadius: 25,
-    },
+  container: {
+    flex: 1,
+    backgroundColor: "#111",
+    alignItems: "center",
+    justifyContent: "center",
+    //height: 1000,
+    //borderRadius: 25,
+  },
 });
 
 export default HomeScreen;
-

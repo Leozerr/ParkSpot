@@ -1,30 +1,21 @@
-import React, { FC, ReactElement, useState, useEffect, useRef } from "react";
+import React, { FC, useCallback, useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
-  Pressable,
   Dimensions,
   Animated,
   TouchableOpacity,
   Platform,
+  useWindowDimensions,
+  SafeAreaView,
 } from "react-native";
-import {
-  NavigationContainer,
-  useNavigationContainerRef,
-  useNavigation,
-} from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Button, StyleSheet, Image, TextInput } from "react-native";
-import MapView, { Callout, Circle, Marker } from "react-native-maps";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { RegisterScreen } from "./Register.js";
-import { LoginScreen } from "./Login.js";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Fontisto from "react-native-vector-icons/Fontisto";
+import MapView, { Marker } from "react-native-maps";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { markers, mapDarkStyle, mapStandardStyle } from "../model/mapData.js";
-import { useTheme } from "@react-navigation/native";
+import { markers } from "../model/mapData.js";
 import * as Location from "expo-location";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import BottomSheet from "./BottomSheet.js";
 
 const { width, height } = Dimensions.get("window");
 const CARD_HEIGHT = 210;
@@ -36,6 +27,7 @@ const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 export function ShowMap() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const ref = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -60,6 +52,15 @@ export function ShowMap() {
   // console.log(location);
   // console.log(location.coords.latitude + "", location.coords.longitude + "");
   const mapRef = useRef(null);
+
+  const onPress = useCallback(() => {
+    const isActive = ref?.current?.isActive();
+    if (isActive) {
+      ref?.current?.scrollTo(0);
+    } else {
+      ref?.current?.scrollTo(-200);
+    }
+  }, []);
 
   const initialMapState = {
     markers,
@@ -97,8 +98,19 @@ export function ShowMap() {
 
   const _map = React.useRef(null);
   const _scrollView = React.useRef(null);
+  const a = true;
+
+  const { height } = useWindowDimensions();
+  const bottomSheetRef = useRef();
+
+  const pressHandler = useCallback(() => {
+    bottomSheetRef.current.expand();
+  }, []);
+
   return (
     <View style={{ flex: 1 }}>
+      {/* <GestureHandlerRootView> */}
+
       <MapView
         style={{ flex: 1 }}
         showsUserLocation={true}
@@ -128,24 +140,23 @@ export function ShowMap() {
             ],
           };
           return (
-            <View>
-              <Marker
-                key={index}
-                coordinate={marker.coordinate}
-                onPress={(e) => onMarkerPress(e)}
-              >
-                <Animated.View style={[styles.markerWrap]}>
-                  <Animated.Image
-                    source={require("../Image/parkpin.png")}
-                    style={[styles.marker, scaleStyle]}
-                    resizeMode="cover"
-                  />
-                </Animated.View>
-              </Marker>
-            </View>
+            <Marker
+              key={index}
+              coordinate={marker.coordinate}
+              onPress={(e) => onMarkerPress(e)}
+            >
+              <Animated.View style={[styles.markerWrap]}>
+                <Animated.Image
+                  source={require("../Image/parkpin.png")}
+                  style={[styles.marker, scaleStyle]}
+                  resizeMode="cover"
+                />
+              </Animated.View>
+            </Marker>
           );
         })}
       </MapView>
+
       <View style={styles.searchBox}>
         <TextInput
           placeholder="search here"
@@ -194,43 +205,126 @@ export function ShowMap() {
               style={styles.cardImage}
               resizeMode="cover"
             />
+
             <View style={styles.textContent}>
               <Text numberOfLines={1} style={styles.cardtitle}>
                 {marker.title}
               </Text>
+              {/* <TouchableOpacity style={styles.card} onPress={handleButtonPress}>
+                <Text>Click me to show bottom sheet</Text>
+              </TouchableOpacity> */}
+              {/* {bottomSheetVisible && <BottomSheet />}{" "} */}
+              {/* show BottomSheet if bottomSheetVisible is true */}
+              {/* <BottomSheet /> */}
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  {
+                    borderColor: "#FF6347",
+                    borderWidth: 1,
+                  },
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.textSign,
+                    {
+                      color: "#FF6347",
+                    },
+                  ]}
+                >
+                  View
+                </Text>
+              </TouchableOpacity>
+
+              <GestureHandlerRootView style={{ flex: 1 }} />
+
               <Text numberOfLines={1} style={styles.cardDescription}>
                 {marker.description}
               </Text>
               <Text numberOfLines={1} style={styles.cardSubDescription}>
                 {marker.sub_description}
               </Text>
-              {/* <View style={styles.button}>
-                <TouchableOpacity
-                  onPress={() => {}}
-                  style={[
-                    styles.signIn,
-                    {
-                      borderColor: "#FF6347",
-                      borderWidth: 1,
-                    },
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.textSign,
-                      {
-                        color: "#FF6347",
-                      },
-                    ]}
-                  >
-                    View
-                  </Text>
-                </TouchableOpacity>
-              </View> */}
             </View>
           </View>
         ))}
+
+        {/* <GestureHandlerRootView style={{ flex: 1 }}>
+          <BottomSheet />
+        </GestureHandlerRootView> */}
       </Animated.ScrollView>
+
+      {/* <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaView style={styles.container}>
+          <Button title="Blank" onPress={() => pressHandler()} />
+          <Button title="Example 1" onPress={() => pressHandler2()} />
+          <Button title="Example 2" onPress={() => pressHandler3()} />
+          <BottomSheet
+            ref={bottomSheetRef}
+            activeHeight={height * 0.5}
+            backgroundColor={"white"}
+            backDropColor={"black"}
+          />
+          <BottomSheet
+            ref={bottomSheetRef2}
+            activeHeight={height * 0.5}
+            backgroundColor={"#D           backDropColor={"black"}
+          >
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "space-between",
+              }}
+            >
+              <View style={styles.imageContaier}>
+                <Image
+                  source={require("../assets/icon.png")}
+                  style={styles.image}
+                />
+              </View>
+              <View style={styles.textContainer}>
+                <Text style={styles.text}>Royal Palm Sofa</Text>
+                <Text style={styles.text}>
+                  Vissle dark Blue/Kabusa dark Navy
+                </Text>
+                <Text style={styles.textPrice}>Price: $100</Text>
+              </View>
+              <View>
+                <View>
+                  <View style={styles.button}>
+                    <Text style={styles.buttonText}>ADD TO CHART</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </BottomSheet>
+          <BottomSheet
+            ref={bottomSheetRef3}
+            activeHeight={height * 0.5}
+            backgroundColor={"#FFFFFF"}
+            backDropColor={"black"}
+          >
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "space-between",
+              }}
+            >
+              <View style={styles.textContainer}>
+                <Text style={styles.textExample2}>Good Evening</Text>
+                <Text style={styles.textExample2}>Everyday is a good day</Text>
+              </View>
+              <View style={styles.imageContaierExample2}>
+                <Text style={styles.textExample2}>Recommend</Text>
+                <Image
+                  source={require("../assets/icon.png")}
+                  style={styles.imageExample2}
+                />
+              </View>
+            </View>
+          </BottomSheet>
+        </SafeAreaView>
+      </GestureHandlerRootView> */}
     </View>
   );
 }
@@ -320,8 +414,15 @@ const styles = StyleSheet.create({
     height: 40,
   },
   button: {
+    // alignItems: "center",
+    // // marginTop: 10,
+    // backgroundColor: "black",
+    // borderRadius: 30,
+    width: "40%",
+    padding: 5,
+    justifyContent: "center",
     alignItems: "center",
-    marginTop: 10,
+    borderRadius: 3,
   },
   signIn: {
     width: "40%",

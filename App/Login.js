@@ -8,6 +8,7 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import BottomSheet from "./BottomSheet.js";
 
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
@@ -77,7 +78,7 @@ export function LoginScreen(props) {
 export const styles = StyleSheet.create({
   input: {
     top: 200,
-    left: (ScreenWidth-340)/2,
+    left: (ScreenWidth - 340) / 2,
     //alignItems: "center",
     //justifyContent: "center",
     height: 40,
@@ -89,7 +90,7 @@ export const styles = StyleSheet.create({
 
   button: {
     top: 200,
-    left: (ScreenWidth-340)/2,
+    left: (ScreenWidth - 340) / 2,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 30,
@@ -110,7 +111,7 @@ export const styles = StyleSheet.create({
 
   fieldText: {
     top: 200,
-    left: (ScreenWidth-340)/2,
+    left: (ScreenWidth - 340) / 2,
     fontSize: 16,
     lineHeight: 21,
     fontWeight: "bold",
@@ -121,7 +122,7 @@ export const styles = StyleSheet.create({
   },
 
   headerText: {
-    left: (ScreenWidth-340)/2,
+    left: (ScreenWidth - 340) / 2,
     marginTop: 30,
     marginBottom: -150,
     fontSize: 19,
