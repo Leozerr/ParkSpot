@@ -11,6 +11,7 @@ module.exports = (app) => {
   app.patch("/favorite/add/:email", setting.userAddFavorite);
   app.patch("/favorite/remove/:email", setting.userRemoveFavorite);
   app.get("/password/:email", setting.comparePass);
+  app.post("/login", setting.login);
 
   //Pins
   app.get("/pins", setting.pins);

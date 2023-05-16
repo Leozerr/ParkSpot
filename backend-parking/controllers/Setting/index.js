@@ -8,6 +8,7 @@ const { userUpdateUName } = require("./users/userUpdateUName");
 const { userAddFavorite } = require("./users/userAddFavorite");
 const { userRemoveFavorite } = require("./users/userRemoveFavorite");
 const { comparePass } = require("./users/comparePass");
+const { login } = require("./users/login");
 
 //Pins
 const { pins } = require("./pins/pins");
@@ -36,6 +37,7 @@ module.exports = {
   userAddFavorite,
   userRemoveFavorite,
   comparePass,
+  login,
 
   //Pin Export
   pins,

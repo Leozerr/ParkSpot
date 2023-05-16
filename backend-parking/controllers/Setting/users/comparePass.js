@@ -8,26 +8,21 @@ module.exports = {
 
     try {
       sql.Connection.query(
-        "SELECT password AS hashedPasswordFromDatabase FROM users WHERE email = ?",
+        "SELECT password AS hashedPassword FROM users WHERE email = ?",
         [email],
         (err, results, fields) => {
           if (err) {
             console.log(err);
             return res.status(400).send();
           } else {
-            const hashedPasswordFromDatabase =
-              results[0].hashedPasswordFromDatabase;
-            bcrypt.compare(
-              password,
-              hashedPasswordFromDatabase,
-              function (err, result) {
-                if (result) {
-                  res.status(200).json({ message: "Correct password" });
-                } else {
-                  return res.status(400).json({ message: "Wrong password" });
-                }
+            const hashedPassword = results[0].hashedPassword;
+            bcrypt.compare(password, hashedPassword, function (err, result) {
+              if (result) {
+                return res.status(200).json({ message: "Correct password" });
+              } else {
+                return res.status(200).json({ message: "Wrong password" });
               }
-            );
+            });
           }
         }
       );
