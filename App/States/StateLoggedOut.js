@@ -129,6 +129,56 @@ export function HomePageLoggedOut() {
   );
 }
 
+export function SettingsLoggedOut() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="DrawerScreen"
+        component={LoginScreen}
+        options={{
+          headerTintColor: "black",
+          headerBackTitle: "",
+          headerTitle: () => (
+            <Image
+              source={require("../../Image/logo.png")}
+              style={{ width: 100, height: 25 }}
+            />
+          ),
+        }}
+      />
+
+      <Stack.Screen
+        name="DrawerRegister"
+        component={RegisterScreen}
+        options={{
+          headerTintColor: "black",
+          headerBackTitle: "",
+          headerTitle: () => (
+            <Image
+              source={require("../../Image/logo.png")}
+              style={{ width: 100, height: 25 }}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="DrawerForgotPassword"
+        component={ForgotPasswordScreen}
+        options={{
+          headerTintColor: "black",
+          headerBackTitle: "",
+          headerTitle: () => (
+            <Image
+              source={require("../../Image/logo.png")}
+              style={{ width: 100, height: 25 }}
+            />
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 export function LoggedOutState() {
   return (
     <Drawer.Navigator

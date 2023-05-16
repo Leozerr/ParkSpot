@@ -11,7 +11,7 @@ import { LoggedInState } from "./States/StateLoggedIn.js";
 
 
 function App({ navigation }) {
-  return (<NavigationContainer>{LoggedInState()}</NavigationContainer>);
+  return (<NavigationContainer>{LoggedOutState()}</NavigationContainer>);
 }
 
 export default App;
