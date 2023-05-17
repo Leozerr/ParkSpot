@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState, useRef, useEffect } from "react";
+import React, { FC, ReactElement, useState, useRef, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -20,6 +20,10 @@ import { CustomHeaderLoggedOut } from "../../Components/HeaderLoggedOut.js";
 
 export function HomeScreen() {
   const navigation = useNavigation();
+  const bottomSheetRef = iseRef(null);
+  const openHandler = useCallback(() => {
+    bottomSheetRef.current.expand();
+  }, []);
   // const sheetRef = useRef(null);
 
   // useEffect(() => {
@@ -32,6 +36,10 @@ export function HomeScreen() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
         <CustomHeaderLoggedOut />
+        <Button title="open" 
+        onPress={() => {
+          openHandler();
+        }}/>
         <ShowMap />
         <BottomSheet />
       </View>
