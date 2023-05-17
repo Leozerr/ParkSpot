@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState } from "react";
+import React, { FC, ReactElement, useState, useEffect } from "react";
 import { View, Text, Pressable } from "react-native";
 import { Button, StyleSheet, Image, TextInput, Dimensions } from "react-native";
 import { RegisterScreen } from "./Register.js";
@@ -7,7 +7,8 @@ import {
   useNavigationContainerRef,
   useNavigation,
 } from "@react-navigation/native";
-
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import axios from "axios";
 
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
@@ -17,6 +18,28 @@ export function LoginScreen(props) {
   const [password, setPassword] = useState("");
   const { onPress, title = "Sign in" } = props;
   const navigation = useNavigation();
+
+  const Login = async () => {
+    console.log("Login pressed");
+    console.log(username);
+    console.log(password);
+    try {
+      await axios
+        .post("http://10.66.8.190:5001/login", {
+          email: username,
+          password: password,
+        })
+        .then((response) => {
+          console.log("Login: ", response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <View
       style={{
@@ -49,7 +72,12 @@ export function LoginScreen(props) {
       >
         Forgot Password
       </Text>
-      <Pressable style={styles.button} onPress={() => {}}>
+      <Pressable
+        style={styles.button}
+        onPress={() => {
+          Login();
+        }}
+      >
         <Text style={styles.text}>{title}</Text>
       </Pressable>
 
@@ -71,7 +99,7 @@ export function LoginScreen(props) {
 export const styles = StyleSheet.create({
   input: {
     top: 200,
-    left: (ScreenWidth-340)/2,
+    left: (ScreenWidth - 340) / 2,
     //alignItems: "center",
     //justifyContent: "center",
     height: 45,
@@ -83,7 +111,7 @@ export const styles = StyleSheet.create({
 
   button: {
     top: 200,
-    left: (ScreenWidth-340)/2,
+    left: (ScreenWidth - 340) / 2,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 30,
@@ -103,7 +131,7 @@ export const styles = StyleSheet.create({
 
   fieldText: {
     top: 200,
-    left: (ScreenWidth-340)/2,
+    left: (ScreenWidth - 340) / 2,
     fontSize: 16,
     lineHeight: 21,
     fontWeight: "bold",
@@ -114,7 +142,7 @@ export const styles = StyleSheet.create({
   },
 
   headerText: {
-    left: (ScreenWidth-340)/2,
+    left: (ScreenWidth - 340) / 2,
     marginTop: 30,
     marginBottom: -150,
     fontSize: 19,
