@@ -9,6 +9,7 @@ import {
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import axios from "axios";
+import api from "../api/api.js";
 
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
@@ -25,7 +26,7 @@ export function LoginScreen(props) {
     console.log(password);
     try {
       await axios
-        .post("http://10.66.8.190:5001/login", {
+        .post(api.backend_URL + "/login", {
           email: username,
           password: password,
         })
