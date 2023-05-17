@@ -2,7 +2,7 @@ import React, { FC, ReactElement, useState } from "react";
 import { View, Text, TouchableOpacity, Pressable } from "react-native";
 import { Button, StyleSheet, Image, TextInput, Dimensions } from "react-native";
 import { styles } from "../LoggedOut/Register";
-import ImagePicker from "react-native-image-picker";
+import * as ImagePicker from "react-native-image-picker";
 
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
@@ -15,15 +15,18 @@ export function ProfileScreen(props) {
   );
 
   const handleImageChange = () => {
-    ImagePicker.showImagePicker({}, (response) => {
-      if (response.didCancel) {
-        console.log("User cancelled image picker");
-      } else if (response.error) {
-        console.log("Image picker error:", response.error);
-      } else {
-        setProfileImage({ uri: response.uri });
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: "photo",
+        includeBase64: false,
+        maxHeight: 200,
+        maxWidth: 200,
+      },
+      (response) => {
+        console.log(response);
+        this.setState({ resourcePath: response });
       }
-    });
+    );
   };
 
   return (
