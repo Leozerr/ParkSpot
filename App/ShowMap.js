@@ -15,16 +15,23 @@ import {
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Button, StyleSheet, Image, TextInput } from "react-native";
-import MapView, { Callout, Circle, Marker } from "react-native-maps";
+import MapView, {
+  Callout,
+  Circle,
+  Marker,
+  PROVIDER_GOOGLE,
+} from "react-native-maps";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { RegisterScreen } from "./Register.js";
 import { LoginScreen } from "./Login.js";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { markers, mapDarkStyle, mapStandardStyle } from "../model/mapData";
+// import { markers, mapDarkStyle, mapStandardStyle } from "../model/mapData";
 import { useTheme } from "@react-navigation/native";
 import * as Location from "expo-location";
+
+import { DataDisplay } from "../model/mapData";
 
 const { width, height } = Dimensions.get("window");
 const LATITUDE_DELTA = 0.015;
@@ -38,7 +45,7 @@ const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 export function ShowMap() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-
+  const markers = DataDisplay();
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -99,18 +106,21 @@ export function ShowMap() {
 
   const _map = React.useRef(null);
   const _scrollView = React.useRef(null);
+
   return (
     <View style={{ flex: 1 }}>
       <MapView
         style={{ flex: 1 }}
         showsUserLocation={true}
         showsMyLocationButton={true}
+        provider={PROVIDER_GOOGLE}
+        // mapPadding={{ top: 0, right: 50, bottom: 400, left: 50 }}
         ref={mapRef}
         initialRegion={{
           latitude: 13.726518,
           longitude: 100.775701,
           latitudeDelta: LATITUDE_DELTA,
-		      longitudeDelta: LONGITUDE_DELTA
+          longitudeDelta: LONGITUDE_DELTA,
         }}
       >
         {/* {location && (

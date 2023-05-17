@@ -1,4 +1,5 @@
 import axios from "axios";
+import React, { useState, useEffect } from "react";
 
 const Images = [
   { image: require("../Image/HM_Parking.png") },
@@ -7,15 +8,38 @@ const Images = [
   { image: require("../Image/Bank_Parking.png") },
 ];
 
-axios.get('https://localhost:5001/pins/')
-  .then(response => {
-    // handle success
-    console.log(response.data);
-  })
-  .catch(error => {
-    // handle error
-    console.log(error);
-  });
+export function DataDisplay() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://10.66.8.190:5001/pins")
+      .then((response) => {
+        setData(response.data);
+        // console.log("HELLO", response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [data]);
+
+  // console.log("DATA = ", data);
+
+  const markers = data.map((item) => ({
+    id: item.id,
+    coordinate: {
+      latitude: item.latitude,
+      longtitude: item.longtitude,
+    },
+    title: item.name,
+    description: "X Available",
+    image: item.image,
+  }));
+
+  // console.log("marker" + markers[0].image);
+
+  return markers;
+}
 
 export const markers = [
   {
