@@ -15,6 +15,9 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 
+const ScreenWidth = Dimensions.get("screen").width;
+const ScreenHeight = Dimensions.get("screen").height;
+
 export function SignInDrawer() {
   const navigation = useNavigation();
   return (
@@ -41,7 +44,7 @@ export function LogOutDrawer() {
   return (
     <Pressable
       style={{
-        marginTop: 200,
+        marginTop: ScreenHeight-480,
         alignSelf: "center",
         alignItems: "center",
         justifyContent: "center",
