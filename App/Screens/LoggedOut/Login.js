@@ -49,11 +49,11 @@ export function LoginScreen(props) {
       }}
     >
       <Text style={styles.headerText}>Sign In to KMITL Parking</Text>
-      <Text style={styles.fieldText}>Username</Text>
+      <Text style={styles.fieldText}>Email</Text>
       <TextInput
         style={styles.input}
         value={username}
-        placeholder={"Username"}
+        placeholder={"Email"}
         onChangeText={(text) => setUsername(text)}
         autoCapitalize={"none"}
       />

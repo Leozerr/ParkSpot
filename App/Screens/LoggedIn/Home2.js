@@ -45,12 +45,6 @@ export function HomeScreenLoggedIn() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
         <CustomHeaderLoggedIn />
-        {/* <Button title="open" onPress={() => {
-          openHandler();
-        }}/> */}
-        {/* <Button title="close" onPress={() => {
-          closeHandler();
-        }}/> */}
         <ShowMap />
         <BottomSheet activeHeight={height*0.5} ref={bottomSheetRef} />
       </View>
