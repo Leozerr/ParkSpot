@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState, useEffect, useRef } from "react";
+import React, { FC, ReactElement, useState, useEffect, useRef, useCallback } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   Animated,
   TouchableOpacity,
   Platform,
+  useWindowDimensions
 } from "react-native";
 import {
   NavigationContainer,
@@ -25,6 +26,9 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { markers, mapDarkStyle, mapStandardStyle } from "../../model/mapData";
 import { useTheme } from "@react-navigation/native";
 import * as Location from "expo-location";
+import { fetchtest } from "../../model/mapData";
+import BottomSheet from "./BottomSheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const { width, height } = Dimensions.get("window");
 const LATITUDE_DELTA = 0.015;
@@ -38,6 +42,8 @@ const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 export function ShowMap() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+
+  fetchtest;
 
   useEffect(() => {
     (async () => {
@@ -99,6 +105,21 @@ export function ShowMap() {
 
   const _map = React.useRef(null);
   const _scrollView = React.useRef(null);
+
+  const {height} = useWindowDimensions();
+  const bottomSheetRef = useRef(null);
+  const openHandler = useCallback(
+    () => {
+      bottomSheetRef.current.expand()
+    }, []);
+
+
+
+
+
+
+
+
   return (
     <View style={{ flex: 1 }}>
       <MapView
@@ -146,67 +167,102 @@ export function ShowMap() {
           );
         })}
       </MapView>
+
       <View style={styles.searchBox}>
         <TextInput
           placeholder="search here"
           placeholderTextColor="#ccc"
           autoCapitalize="none"
-          style={{ flex: 1, paddingLeft: 10 }}
+          style={{ flex: 1, paddingLeft: 10, fontWeight: "bold" }}
         />
         <Ionicons name="ios-search" size={29} />
       </View>
       <Animated.ScrollView
-        ref={_scrollView}
-        horizontal
-        pagingEnabled
-        scrollEventThrottle={1}
-        showsHorizontalScrollIndicator={false}
-        snapToInterval={CARD_WIDTH + 20}
-        snapToAlignment="center"
-        style={styles.scrollView}
-        contentInset={{
-          top: 0,
-          left: SPACING_FOR_CARD_INSET,
-          bottom: 0,
-          right: SPACING_FOR_CARD_INSET,
-        }}
-        contentContainerStyle={{
-          paddingHorizontal:
-            Platform.OS === "android" ? SPACING_FOR_CARD_INSET : 0,
-        }}
-        onScroll={Animated.event(
-          [
-            {
-              nativeEvent: {
-                contentOffset: {
-                  x: mapAnimation,
+            ref={_scrollView}
+            horizontal
+            pagingEnabled
+            scrollEventThrottle={1}
+            showsHorizontalScrollIndicator={false}
+            snapToInterval={CARD_WIDTH + 20}
+            snapToAlignment="center"
+            style={styles.scrollView}
+            contentInset={{
+              top: 0,
+              left: SPACING_FOR_CARD_INSET,
+              bottom: 0,
+              right: SPACING_FOR_CARD_INSET,
+            }}
+            contentContainerStyle={{
+              paddingHorizontal:
+                Platform.OS === "android" ? SPACING_FOR_CARD_INSET : 0,
+            }}
+            onScroll={Animated.event(
+              [
+                {
+                  nativeEvent: {
+                    contentOffset: {
+                      x: mapAnimation,
+                    },
+                  },
                 },
-              },
-            },
-          ],
-          { useNativeDriver: true }
-        )}
-      >
-        {state.markers.map((marker, index) => (
-          <View style={styles.card} key={index}>
-            <Image
-              source={marker.image}
-              style={styles.cardImage}
-              resizeMode="cover"
-            />
-            <View style={styles.textContent}>
-              <Text numberOfLines={1} style={styles.cardtitle}>
-                {marker.title}
-              </Text>
+              ],
+              { useNativeDriver: true }
+            )}
+          >
+            {state.markers.map((marker, index) => (
+              <View style={styles.card} key={index}>
+                <Image
+                  source={marker.image}
+                  style={styles.cardImage}
+                  resizeMode="cover"
+                />
+                  {/* //Name of place */}
+                <View style={styles.textContent}>
+                  <View style={styles.firstRowTitle}>
+                    <Text numberOfLines={1} style={styles.cardtitle}>
+                      {marker.title}
+                    </Text>
+                     {/* //Available amount*/}
+                    <Text numberOfLines={1} style={styles.cardDescription}>
+                      {marker.description}
+                    </Text>
+                    <Text numberOfLines={1} style={styles.cardSubDescription}>
+                      {marker.sub_description}
+                    </Text>
+                  </View>
+                    <TouchableOpacity
+                      onPress={() => {
+                        openHandler();
+                      }}
+                      style={[
+                        styles.button,
+                        {
+                          backgroundColor: "#fff",
+                          borderColor: "#E35205",
+                          borderWidth: 1,
+                        },
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.textSign,
+                          {
+                            color: "#E35205",
+                            fontSize: 18,
+                            fontWeight: "bold",
+                          },
+                        ]}
+                      >
+                        View
+                      </Text>
+                    </TouchableOpacity>
+                  {/* <GestureHandlerRootView style={{ flex: 1 }} /> */}
+                </View>
+              </View>
+            ))}
+          </Animated.ScrollView>
+          <BottomSheet activeHeight={height*0.5} ref={bottomSheetRef} />
 
-              <Text numberOfLines={1} style={styles.cardDescription}>
-                {marker.description}
-              </Text>
-              <View style={styles.button}></View>
-            </View>
-          </View>
-        ))}
-      </Animated.ScrollView>
     </View>
   );
 }
@@ -246,6 +302,7 @@ const styles = StyleSheet.create({
     paddingRight: width - CARD_WIDTH,
   },
   card: {
+    //backgroundColor: "#E35205",
     marginBottom: 20,
     elevation: 2,
     backgroundColor: "#FFF",
@@ -266,17 +323,26 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   textContent: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     flex: 2,
     padding: 10,
   },
+  firstRowTitle: {
+    flexDirection: "col",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+  },
   cardtitle: {
-    fontSize: 12,
-    // marginTop: 5,
+    fontSize: 22,
+    //color: "#fff",
     fontWeight: "bold",
   },
   cardDescription: {
-    fontSize: 12,
-    color: "#444",
+    fontSize: 20,
+    fontWeight: "bold",
+    //color: "#444",
+    color: "#41A317",
   },
   markerWrap: {
     alignItems: "center",
@@ -287,5 +353,14 @@ const styles = StyleSheet.create({
   marker: {
     width: 30,
     height: 30,
+  },
+  button: {
+    width: "40%",
+    height: "90%",
+    padding: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
+    
   },
 });

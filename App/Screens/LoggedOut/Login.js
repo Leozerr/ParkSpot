@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState } from "react";
+import React, { FC, ReactElement, useState, useEffect } from "react";
 import { View, Text, Pressable } from "react-native";
 import { Button, StyleSheet, Image, TextInput, Dimensions } from "react-native";
 import { RegisterScreen } from "./Register.js";
@@ -7,7 +7,8 @@ import {
   useNavigationContainerRef,
   useNavigation,
 } from "@react-navigation/native";
-
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import axios from "axios";
 
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
@@ -16,6 +17,28 @@ export function LoginScreen({onLogin}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
+
+  const Login = async () => {
+    console.log("Login pressed");
+    console.log(username);
+    console.log(password);
+    try {
+      await axios
+        .post("http://10.66.8.190:5001/login", {
+          email: username,
+          password: password,
+        })
+        .then((response) => {
+          console.log("Login: ", response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <View
       style={{
@@ -25,11 +48,11 @@ export function LoginScreen({onLogin}) {
       }}
     >
       <Text style={styles.headerText}>Sign In to KMITL Parking</Text>
-      <Text style={styles.fieldText}>Username</Text>
+      <Text style={styles.fieldText}>Email</Text>
       <TextInput
         style={styles.input}
         value={username}
-        placeholder={"Username"}
+        placeholder={"Email"}
         onChangeText={(text) => setUsername(text)}
         autoCapitalize={"none"}
       />
@@ -48,8 +71,13 @@ export function LoginScreen({onLogin}) {
       >
         Forgot Password
       </Text>
-      <Pressable style={styles.button} onPress={onLogin}>
-        <Text style={styles.text}>Sign in</Text>
+      <Pressable
+        style={styles.button}
+        onPress={() => {
+          Login();
+        }}
+      >
+        <Text style={styles.text}>{title}</Text>
       </Pressable>
 
       <Text style={styles.dontHaveText}>
@@ -70,7 +98,7 @@ export function LoginScreen({onLogin}) {
 export const styles = StyleSheet.create({
   input: {
     top: 200,
-    left: (ScreenWidth-340)/2,
+    left: (ScreenWidth - 340) / 2,
     //alignItems: "center",
     //justifyContent: "center",
     height: 45,
@@ -82,7 +110,7 @@ export const styles = StyleSheet.create({
 
   button: {
     top: 200,
-    left: (ScreenWidth-340)/2,
+    left: (ScreenWidth - 340) / 2,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 30,
@@ -102,7 +130,7 @@ export const styles = StyleSheet.create({
 
   fieldText: {
     top: 200,
-    left: (ScreenWidth-340)/2,
+    left: (ScreenWidth - 340) / 2,
     fontSize: 16,
     lineHeight: 21,
     fontWeight: "bold",
@@ -113,7 +141,7 @@ export const styles = StyleSheet.create({
   },
 
   headerText: {
-    left: (ScreenWidth-340)/2,
+    left: (ScreenWidth - 340) / 2,
     marginTop: 30,
     marginBottom: -150,
     fontSize: 19,

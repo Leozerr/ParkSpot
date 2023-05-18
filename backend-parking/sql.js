@@ -1,5 +1,6 @@
 const mysql = require("mysql");
 const config = require("./config");
+const fs = require("fs");
 
 const Connection = mysql.createConnection({
   host: config.SQLHOST,
@@ -7,6 +8,10 @@ const Connection = mysql.createConnection({
   password: config.SQLPASS,
   database: config.SQLDB,
   port: config.SQLPORT,
+  ssl: {
+    rejectUnauthorized: true,
+    ca: fs.readFileSync("DigiCertGlobalRootCA.crt.pem", "utf8"),
+  },
 });
 
 Connection.connect((err) => {

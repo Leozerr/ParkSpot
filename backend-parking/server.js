@@ -1,9 +1,9 @@
 const express = require("express");
+var cors = require("cors");
 
 const app = express();
 app.use(express.json());
 
-var cors = require("cors");
 app.use(cors());
 
 const config = require("./config");
