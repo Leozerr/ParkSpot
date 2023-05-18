@@ -16,7 +16,12 @@ import {
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Button, StyleSheet, Image, TextInput } from "react-native";
-import MapView, { Callout, Circle, Marker } from "react-native-maps";
+import MapView, {
+  Callout,
+  Circle,
+  Marker,
+  PROVIDER_GOOGLE,
+} from "react-native-maps";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { RegisterScreen } from "../Screens/LoggedOut/Register";
 import { LoginScreen } from "../Screens/LoggedOut/Login.js";
@@ -29,6 +34,8 @@ import * as Location from "expo-location";
 import { fetchtest } from "../../model/mapData";
 import BottomSheet from "./BottomSheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+import { DataDisplay } from "../model/mapData";
 
 const { width, height } = Dimensions.get("window");
 const LATITUDE_DELTA = 0.015;
@@ -126,6 +133,8 @@ export function ShowMap() {
         style={{ flex: 1 }}
         showsUserLocation={true}
         showsMyLocationButton={true}
+        provider={PROVIDER_GOOGLE}
+        // mapPadding={{ top: 0, right: 50, bottom: 400, left: 50 }}
         ref={mapRef}
         initialRegion={{
           latitude: 13.726518,
