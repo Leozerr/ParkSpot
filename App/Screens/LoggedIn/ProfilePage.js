@@ -2,7 +2,7 @@ import React, { FC, ReactElement, useState } from "react";
 import { View, Text, TouchableOpacity, Pressable } from "react-native";
 import { Button, StyleSheet, Image, TextInput, Dimensions } from "react-native";
 import { styles } from "../LoggedOut/Register";
-import * as ImagePicker from "react-native-image-picker";
+import * as ImagePicker from 'react-native-image-picker';
 
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;

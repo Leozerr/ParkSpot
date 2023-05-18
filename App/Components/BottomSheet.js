@@ -100,7 +100,7 @@ export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
           <View style={styles.groupHeader}>
             <View style={styles.headerContent}>
               <Text style={styles.headerText}>J Canteen</Text>
-              <Text style={styles.slotText}>Available 9 slots</Text>
+              <Text style={styles.slotText}>Available</Text>
             </View>
             <View style={styles.headerRightContent}>
               <Image
