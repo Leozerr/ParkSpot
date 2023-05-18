@@ -39,7 +39,8 @@ export function SignInDrawer() {
   );
 }
 
-export function LogOutDrawer() {
+
+export function LogOutDrawer({ onLogout }) {
   const navigation = useNavigation();
   return (
     <Pressable
@@ -54,7 +55,7 @@ export function LogOutDrawer() {
         backgroundColor: "#DB7038",
         
       }}
-      onPress={() => {}}
+      onPress={onLogout}
     >
       <Text style={{ fontWeight: "bold", color: "#fff" }}>Sign Out</Text>
     </Pressable>

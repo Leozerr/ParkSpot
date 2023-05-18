@@ -123,17 +123,17 @@ export function SavedNav() {
   );
 }
 
-export function LoggedInContents(props) {
+export function LoggedInContents({ onLogout, ...restProps }) {
   return (
-    <DrawerContentScrollView {...props}>
-      <ProfileDrawer {...props} />
-      <DrawerItemList {...props} />
-      <LogOutDrawer {...props} />
+    <DrawerContentScrollView {...restProps}>
+      <ProfileDrawer {...restProps} />
+      <DrawerItemList {...restProps} />
+      <LogOutDrawer onLogout={onLogout}/>
     </DrawerContentScrollView>
   );
 }
 
-export function LoggedInState() {
+export function LoggedInState({onLogout}) {
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -144,7 +144,9 @@ export function LoggedInState() {
           width: "60%",
         },
       }}
-      drawerContent={LoggedInContents}
+      drawerContent={(props) => (
+        <LoggedInContents onLogout={onLogout} {...props} />
+      )}
     >
       <Drawer.Screen
         name="Home"

@@ -2,7 +2,6 @@ import React, { FC, ReactElement, useState } from "react";
 import { View, Text, TouchableOpacity, Pressable } from "react-native";
 import { Button, StyleSheet, Image, TextInput, Dimensions } from "react-native";
 import { styles } from "../LoggedOut/Register";
-import * as ImagePicker from "react-native-image-picker";
 
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
@@ -14,21 +13,6 @@ export function ProfileScreen(props) {
     require("../../../Image/profilepic.png")
   );
 
-  const handleImageChange = () => {
-    ImagePicker.launchImageLibrary(
-      {
-        mediaType: "photo",
-        includeBase64: false,
-        maxHeight: 200,
-        maxWidth: 200,
-      },
-      (response) => {
-        console.log(response);
-        this.setState({ resourcePath: response });
-      }
-    );
-  };
-
   return (
     <View
       style={{
@@ -38,7 +22,7 @@ export function ProfileScreen(props) {
       }}
     >
       <Text style={styles.headerText}>My Profile</Text>
-      <TouchableOpacity onPress={handleImageChange}>
+      <TouchableOpacity onPress={() => {}}>
         <Image style={profileStyles.profileImage} source={profileImage} />
       </TouchableOpacity>
       <Text

@@ -12,10 +12,9 @@ import {
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
 
-export function LoginScreen(props) {
+export function LoginScreen({onLogin}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { onPress, title = "Sign in" } = props;
   const navigation = useNavigation();
   return (
     <View
@@ -49,8 +48,8 @@ export function LoginScreen(props) {
       >
         Forgot Password
       </Text>
-      <Pressable style={styles.button} onPress={() => {}}>
-        <Text style={styles.text}>{title}</Text>
+      <Pressable style={styles.button} onPress={onLogin}>
+        <Text style={styles.text}>Sign in</Text>
       </Pressable>
 
       <Text style={styles.dontHaveText}>
