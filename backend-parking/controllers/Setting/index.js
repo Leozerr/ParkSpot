@@ -9,6 +9,7 @@ const { userAddFavorite } = require("./users/userAddFavorite");
 const { userRemoveFavorite } = require("./users/userRemoveFavorite");
 const { comparePass } = require("./users/comparePass");
 const { login } = require("./users/login");
+const { userFavorite } = require("./users/userFavorite");
 
 //Pins
 const { pins } = require("./pins/pins");
@@ -18,7 +19,7 @@ const { pinDelete } = require("./pins/pinDelete");
 const { pinUpImg } = require("./pins/pinUpImg");
 const { pinUpName } = require("./pins/pinUpName");
 const { pinUpLati } = require("./pins/pinUpLati");
-const { pinUpLongti } = require("./pins/pinUpLongti");
+const { pinUpLongi } = require("./pins/pinUpLongi");
 
 //Camera
 const { camera } = require("./camera/camera");
@@ -38,6 +39,7 @@ module.exports = {
   userRemoveFavorite,
   comparePass,
   login,
+  userFavorite,
 
   //Pin Export
   pins,
@@ -47,7 +49,7 @@ module.exports = {
   pinUpImg,
   pinUpName,
   pinUpLati,
-  pinUpLongti,
+  pinUpLongi,
 
   //Camera Export
   camera,
