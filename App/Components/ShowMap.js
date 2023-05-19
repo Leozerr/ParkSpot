@@ -28,14 +28,14 @@ import { LoginScreen } from "../Screens/LoggedOut/Login.js";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { markers, mapDarkStyle, mapStandardStyle } from "../../model/mapData";
+// import { markers, mapDarkStyle, mapStandardStyle } from "../../model/mapData";
 import { useTheme } from "@react-navigation/native";
 import * as Location from "expo-location";
 import { fetchtest } from "../../model/mapData";
 import BottomSheet from "./BottomSheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import { DataDisplay } from "../model/mapData";
+import { DataDisplay } from "../../model/mapData";
 
 const { width, height } = Dimensions.get("window");
 const LATITUDE_DELTA = 0.015;
@@ -46,11 +46,17 @@ const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
 // api key = "AIzaSyCC2ONx9Tr4pzoiW4mDGBa8yJYXjTZ8Tx0"
 
+function UpdateMarker() {
+  return (
+    <View></View>
+  );
+}
+
+
 export function ShowMap() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-
-  fetchtest;
+  const markers = DataDisplay();
 
   useEffect(() => {
     (async () => {
@@ -123,10 +129,6 @@ export function ShowMap() {
 
 
 
-
-
-
-
   return (
     <View style={{ flex: 1 }}>
       <MapView
@@ -182,7 +184,7 @@ export function ShowMap() {
           placeholder="search here"
           placeholderTextColor="#ccc"
           autoCapitalize="none"
-          style={{ flex: 1, paddingLeft: 10, fontWeight: "bold" }}
+          style={{ flex: 1, paddingLeft: 10, fontSize: 16 }}
         />
         <Ionicons name="ios-search" size={29} />
       </View>

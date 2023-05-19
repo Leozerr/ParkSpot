@@ -2,7 +2,7 @@ import React, { FC, ReactElement, useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import { Button, StyleSheet, Image, TextInput, Dimensions } from "react-native";
 import axios from "axios";
-import api from "../api/api";
+import api from "../../../api/api";
 
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
