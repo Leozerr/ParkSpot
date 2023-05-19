@@ -35,7 +35,9 @@ import { fetchtest } from "../../model/mapData";
 import BottomSheet from "./BottomSheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import { DataDisplay } from "../../model/mapData";
+import axios from "axios";
+
+// import { DataDisplay } from "../../model/mapData";
 
 const { width, height } = Dimensions.get("window");
 const LATITUDE_DELTA = 0.015;
@@ -46,17 +48,12 @@ const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
 // api key = "AIzaSyCC2ONx9Tr4pzoiW4mDGBa8yJYXjTZ8Tx0"
 
-function UpdateMarker() {
-  return (
-    <View></View>
-  );
-}
 
 
 export function ShowMap() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const markers = DataDisplay();
+  // const markers = DataDisplay();
 
   useEffect(() => {
     (async () => {
@@ -71,6 +68,42 @@ export function ShowMap() {
     })();
   }, [location]);
 
+  const initialMapState = {
+    markers: [],
+  };
+
+  const [state, setState] = useState(initialMapState);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://10.66.8.190:5001/pins");
+        const data = response.data;
+        setState((prevState) => ({
+          ...prevState,
+          markers: transformDataToMarkers(data),
+        }));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const transformDataToMarkers = (data) => {
+    return data.map((item) => ({
+      id: item.id,
+      coordinate: {
+        latitude: item.latitude,
+        longitude: item.longitude,
+      },
+      title: item.name,
+      description: "Available",
+      image: item.image,
+    }));
+  };
+
   // console.log({ location });
   let text = "Waiting..";
   if (errorMsg) {
@@ -82,10 +115,10 @@ export function ShowMap() {
   // console.log(location.coords.latitude + "", location.coords.longitude + "");
   const mapRef = useRef(null);
 
-  const initialMapState = {
-    markers,
-  };
-  const [state, setState] = React.useState(initialMapState);
+  // const initialMapState = {
+  //   markers,
+  // };
+  // const [state, setState] = React.useState(initialMapState);
 
   let mapIndex = 0;
   let mapAnimation = new Animated.Value(0);
@@ -125,7 +158,7 @@ export function ShowMap() {
     () => {
       bottomSheetRef.current.expand()
     }, []);
-
+    
 
 
 
@@ -223,7 +256,7 @@ export function ShowMap() {
             {state.markers.map((marker, index) => (
               <View style={styles.card} key={index}>
                 <Image
-                  source={marker.image}
+                  source={{uri: marker.image}}
                   style={styles.cardImage}
                   resizeMode="cover"
                 />

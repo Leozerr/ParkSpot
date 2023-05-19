@@ -1,4 +1,4 @@
-import { Image, Dimensions, StyleSheet, Text, View } from "react-native";
+import { Image, Dimensions, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, {
   FC,
   ReactElement,
@@ -20,6 +20,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+
 
 const ScreenHeight = Dimensions.get("screen").height;
 
@@ -91,6 +92,11 @@ export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
     [expand, close]
   );
   
+  const [isSaved, setIsSaved] = useState(false);
+
+  const handleButtonPress = () => {
+    setIsSaved(!isSaved);
+  };
 
   return (
     <GestureDetector gesture={gesture}>
@@ -103,10 +109,12 @@ export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
               <Text style={styles.slotText}>Available</Text>
             </View>
             <View style={styles.headerRightContent}>
+            <TouchableOpacity style={styles.saveButton} onPress={handleButtonPress}>
               <Image
-                source={require("../../Image/unsaveIcon.png")}
+                source={isSaved ? require("../../Image/unsaveIcon.png") : require("../../Image/saveIcon.png")}
                 style={styles.bookmarkIcon}
               />
+            </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -174,8 +182,17 @@ const styles = StyleSheet.create({
   bookmarkIcon: {
     width: 35,
     height: 35,
-    marginLeft: 8,
+    top: 1,
+    //marginLeft: 8,
   },
+  saveButton: {
+    backgroundColor: "#D3D3D3",
+    borderRadius: 10,
+    alignItems: "center",
+    width: 37,
+    height: 37,
+    
+  }
 });
 
 export default BottomSheet;
