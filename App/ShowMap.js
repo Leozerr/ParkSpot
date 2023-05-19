@@ -1,37 +1,11 @@
-import React, { FC, ReactElement, useState, useEffect, useRef } from "react";
-import {
-  View,
-  Text,
-  Pressable,
-  Dimensions,
-  Animated,
-  TouchableOpacity,
-  Platform,
-} from "react-native";
-import {
-  NavigationContainer,
-  useNavigationContainerRef,
-  useNavigation,
-} from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Button, StyleSheet, Image, TextInput } from "react-native";
-import MapView, {
-  Callout,
-  Circle,
-  Marker,
-  PROVIDER_GOOGLE,
-} from "react-native-maps";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { RegisterScreen } from "./Register.js";
-import { LoginScreen } from "./Login.js";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Fontisto from "react-native-vector-icons/Fontisto";
+import React, { useState, useEffect, useRef } from "react";
+import { View, Text, Dimensions, Animated, Platform } from "react-native";
+import { StyleSheet, Image, TextInput } from "react-native";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import Ionicons from "react-native-vector-icons/Ionicons";
-// import { markers, mapDarkStyle, mapStandardStyle } from "../model/mapData";
-import { useTheme } from "@react-navigation/native";
 import * as Location from "expo-location";
 
-import { DataDisplay } from "../model/mapData";
+import axios from "axios";
 
 const { width, height } = Dimensions.get("window");
 const LATITUDE_DELTA = 0.015;
@@ -40,12 +14,9 @@ const CARD_HEIGHT = 210;
 const CARD_WIDTH = width * 0.8;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
-// api key = "AIzaSyCC2ONx9Tr4pzoiW4mDGBa8yJYXjTZ8Tx0"
-
 export function ShowMap() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const markers = DataDisplay();
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -59,23 +30,51 @@ export function ShowMap() {
     })();
   }, [location]);
 
-  // console.log({ location });
   let text = "Waiting..";
   if (errorMsg) {
     text = errorMsg;
   } else if (location) {
     text = JSON.stringify(location);
   }
-  // console.log(location);
-  // console.log(location.coords.latitude + "", location.coords.longitude + "");
+
   const mapRef = useRef(null);
 
   const initialMapState = {
-    markers,
+    markers: [],
   };
-  const [state, setState] = React.useState(initialMapState);
 
-  let mapIndex = 0;
+  const [state, setState] = useState(initialMapState);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://10.66.8.190:5001/pins");
+        const data = response.data;
+        setState((prevState) => ({
+          ...prevState,
+          markers: transformDataToMarkers(data),
+        }));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const transformDataToMarkers = (data) => {
+    return data.map((item) => ({
+      id: item.id,
+      coordinate: {
+        latitude: item.latitude,
+        longitude: item.longitude,
+      },
+      title: item.name,
+      description: "Available",
+      image: item.image,
+    }));
+  };
+
   let mapAnimation = new Animated.Value(0);
 
   const interpolations = state.markers.map((marker, index) => {
@@ -104,7 +103,6 @@ export function ShowMap() {
     _scrollView.current.scrollTo({ x: x, y: 0, animated: true });
   };
 
-  const _map = React.useRef(null);
   const _scrollView = React.useRef(null);
 
   return (
@@ -114,8 +112,10 @@ export function ShowMap() {
         showsUserLocation={true}
         showsMyLocationButton={true}
         provider={PROVIDER_GOOGLE}
-        // mapPadding={{ top: 0, right: 50, bottom: 400, left: 50 }}
         ref={mapRef}
+        loadingEnabled={true}
+        loadingIndicatorColor="#666666"
+        loadingBackgroundColor="#eeeeee"
         initialRegion={{
           latitude: 13.726518,
           longitude: 100.775701,
@@ -123,15 +123,8 @@ export function ShowMap() {
           longitudeDelta: LONGITUDE_DELTA,
         }}
       >
-        {/* {location && (
-          <Marker
-            coordinate={{
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
-            }}
-          ></Marker>
-        )} */}
         {state.markers.map((marker, index) => {
+          console.log(marker.coordinate);
           const scaleStyle = {
             transform: [
               {
@@ -140,21 +133,19 @@ export function ShowMap() {
             ],
           };
           return (
-            <View>
-              <Marker
-                key={index}
-                coordinate={marker.coordinate}
-                onPress={(e) => onMarkerPress(e)}
-              >
-                <Animated.View style={[styles.markerWrap]}>
-                  <Animated.Image
-                    source={require("../Image/parkpin.png")}
-                    style={[styles.marker, scaleStyle]}
-                    resizeMode="cover"
-                  />
-                </Animated.View>
-              </Marker>
-            </View>
+            <Marker
+              key={index}
+              coordinate={marker.coordinate}
+              onPress={(e) => onMarkerPress(e)}
+            >
+              <Animated.View style={[styles.markerWrap]}>
+                <Animated.Image
+                  source={require("../Image/parkpin.png")}
+                  style={[styles.marker, scaleStyle]}
+                  resizeMode="cover"
+                />
+              </Animated.View>
+            </Marker>
           );
         })}
       </MapView>
@@ -202,7 +193,7 @@ export function ShowMap() {
         {state.markers.map((marker, index) => (
           <View style={styles.card} key={index}>
             <Image
-              source={marker.image}
+              source={{ uri: marker.image }}
               style={styles.cardImage}
               resizeMode="cover"
             />
@@ -210,7 +201,6 @@ export function ShowMap() {
               <Text numberOfLines={1} style={styles.cardtitle}>
                 {marker.title}
               </Text>
-
               <Text numberOfLines={1} style={styles.cardDescription}>
                 {marker.description}
               </Text>
@@ -283,7 +273,6 @@ const styles = StyleSheet.create({
   },
   cardtitle: {
     fontSize: 12,
-    // marginTop: 5,
     fontWeight: "bold",
   },
   cardDescription: {
