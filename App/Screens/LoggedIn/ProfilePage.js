@@ -1,17 +1,32 @@
-import React, { FC, ReactElement, useState } from "react";
+import React, { FC, ReactElement, useState, useContext } from "react";
 import { View, Text, TouchableOpacity, Pressable } from "react-native";
 import { Button, StyleSheet, Image, TextInput, Dimensions } from "react-native";
 import { styles } from "../LoggedOut/Register";
-
+import * as ImagePicker from "expo-image-picker";
+import { ProfileImageContext } from "../../ProfileImageContext";
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
 
-export function ProfileScreen(props) {
+export function ProfileScreen() {
   const [name, setName] = useState("Somchai");
   const [password, setPassword] = useState("SomePasswordIDK");
-  const [profileImage, setProfileImage] = useState(
-    require("../../../Image/profilepic.png")
-  );
+  const { profileImage, setProfileImage } = useContext(ProfileImageContext);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setProfileImage(result.assets[0]);
+    }
+  };
 
   return (
     <View
@@ -22,8 +37,11 @@ export function ProfileScreen(props) {
       }}
     >
       <Text style={styles.headerText}>My Profile</Text>
-      <TouchableOpacity onPress={() => {}}>
-        <Image style={profileStyles.profileImage} source={profileImage} />
+      <TouchableOpacity onPress={pickImage}>
+        {profileImage && (
+          <Image source={profileImage} style={profileStyles.profileImage} />
+        )}
+        {/* <Image style={profileStyles.profileImage} source={profileImage} /> */}
       </TouchableOpacity>
       <Text
         style={{

@@ -7,7 +7,7 @@ import {
 } from "@react-navigation/native";
 import { LoggedOutState } from "./States/StateLoggedOut.js";
 import { LoggedInState } from "./States/StateLoggedIn.js";
-
+import { ProfileImageProvider } from './ProfileImageContext';
 function App({ navigation }) {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
@@ -20,6 +20,7 @@ function App({ navigation }) {
   };
 
   return (
+    <ProfileImageProvider>
     <NavigationContainer>
       {isLoggedIn ? (
         <LoggedInState onLogout={handleLogout} />
@@ -27,6 +28,7 @@ function App({ navigation }) {
         <LoggedOutState onLogin={handleLogin} />
       )}
     </NavigationContainer>
+    </ProfileImageProvider>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState, useRef, useEffect } from "react";
+import React, { FC, ReactElement, useState, useRef, useEffect, useContext} from "react";
 import {
   Dimensions,
   View,
@@ -14,22 +14,25 @@ import {
   useNavigationContainerRef,
   useNavigation,
 } from "@react-navigation/native";
-
+import { ProfileImageContext } from "../ProfileImageContext";
 
 export function ProfilePage() {
   const navigation = useNavigation();
-
+  const { profileImage, setProfileImage } = useContext(ProfileImageContext);
   return (
-    <Pressable onPress={() => navigation.navigate("ProfilePage")} 
-    style={{
-      width: 60,
-    }}>
-     <Image
+    <Pressable
+      onPress={() => navigation.navigate("ProfilePage")}
+      style={{
+        width: 60,
+      }}
+    >
+      <Image
         style={{
           width: 35,
           height: 35,
+          borderRadius: 75,
         }}
-        source={require("../../Image/profilepic.png")}
+        source={profileImage}
       />
     </Pressable>
   );
