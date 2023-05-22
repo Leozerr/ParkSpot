@@ -15,24 +15,24 @@ const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
 
 export function LoginScreen({ onLogin }) {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
   const Login = async () => {
     console.log("Login pressed");
-    console.log(username);
+    console.log(email);
     console.log(password);
     try {
       await axios
         .post(api.backend_URL + "/login", {
-          email: username,
+          email: email,
           password: password,
         })
         .then((response) => {
           console.log("Login: ", response.data);
           if (response.data.message == "Login Successful") {
-            onLogin();
+            onLogin(email);
           } else {
             Alert.alert("Sign In Failed", response.data.message);
           }
@@ -57,9 +57,9 @@ export function LoginScreen({ onLogin }) {
       <Text style={styles.fieldText}>Email</Text>
       <TextInput
         style={styles.input}
-        value={username}
+        value={email}
         placeholder={"Email"}
-        onChangeText={(text) => setUsername(text)}
+        onChangeText={(text) => setEmail(text)}
         autoCapitalize={"none"}
       />
       <Text style={styles.fieldText}>Password</Text>

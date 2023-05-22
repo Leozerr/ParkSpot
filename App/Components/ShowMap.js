@@ -36,6 +36,7 @@ import BottomSheet from "./BottomSheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import axios from "axios";
+import api from "../../api/api";
 
 // import { DataDisplay } from "../../model/mapData";
 
@@ -77,7 +78,7 @@ export function ShowMap() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://10.66.8.190:5001/pins");
+        const response = await axios.get(api.backend_URL+"/pins");
         const data = response.data;
         setState((prevState) => ({
           ...prevState,
@@ -254,7 +255,10 @@ export function ShowMap() {
             )}
           >
             {state.markers.map((marker, index) => (
-              <View style={styles.card} key={index}>
+              <TouchableOpacity style={styles.card} key={index} 
+              onPress={() => {
+                openHandler();
+              }}>
                 <Image
                   source={{uri: marker.image}}
                   style={styles.cardImage}
@@ -267,14 +271,14 @@ export function ShowMap() {
                       {marker.title}
                     </Text>
                      {/* //Available amount*/}
-                    <Text numberOfLines={1} style={styles.cardDescription}>
-                      {marker.description}
-                    </Text>
-                    <Text numberOfLines={1} style={styles.cardSubDescription}>
-                      {marker.sub_description}
-                    </Text>
+                     <Text numberOfLines={1} style={[
+                        styles.cardDescription,
+                        { color: marker.description === "Available" ? "#41A317" : "red" }
+                      ]}>
+                        {marker.description}
+                      </Text>
                   </View>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                       onPress={() => {
                         openHandler();
                       }}
@@ -298,11 +302,11 @@ export function ShowMap() {
                         ]}
                       >
                         View
-                      </Text>
-                    </TouchableOpacity>
+                      </Text> 
+                    </TouchableOpacity> */}
                   {/* <GestureHandlerRootView style={{ flex: 1 }} /> */}
                 </View>
-              </View>
+              </TouchableOpacity>
             ))}
           </Animated.ScrollView>
           <BottomSheet activeHeight={height*0.5} ref={bottomSheetRef} />
@@ -367,26 +371,26 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   textContent: {
-    flexDirection: "row",
+    //flexDirection: "row",
     justifyContent: "space-between",
     flex: 2,
     padding: 10,
   },
   firstRowTitle: {
-    flexDirection: "col",
+    flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
   },
   cardtitle: {
     fontSize: 22,
-    //color: "#fff",
     fontWeight: "bold",
   },
   cardDescription: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: "bold",
     //color: "#444",
-    color: "#41A317",
+    paddingBottom: 12,
+    paddingTop: 30,
   },
   markerWrap: {
     alignItems: "center",

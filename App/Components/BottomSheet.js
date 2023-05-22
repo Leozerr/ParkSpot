@@ -12,6 +12,7 @@ import React, {
 import {
   Gesture,
   GestureDetector,
+  GestureHandlerRootView,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
 import Animated, {
@@ -99,27 +100,29 @@ export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
   };
 
   return (
-    <GestureDetector gesture={gesture}>
-      <Animated.View style={[styles.bottomSheetContainer, animationStyle]}>
-        <View style={styles.header}>
-          <View style={styles.line} />
-          <View style={styles.groupHeader}>
-            <View style={styles.headerContent}>
-              <Text style={styles.headerText}>J Canteen</Text>
-              <Text style={styles.slotText}>Available</Text>
-            </View>
-            <View style={styles.headerRightContent}>
-            <TouchableOpacity style={styles.saveButton} onPress={handleButtonPress}>
-              <Image
-                source={isSaved ? require("../../Image/unsaveIcon.png") : require("../../Image/saveIcon.png")}
-                style={styles.bookmarkIcon}
-              />
-            </TouchableOpacity>
+   //<Animated.View>
+      <GestureDetector gesture={gesture}>
+        <Animated.View style={[styles.bottomSheetContainer, animationStyle]}>
+          <View style={styles.header}>
+            <View style={styles.line} />
+            <View style={styles.groupHeader}>
+              <View style={styles.headerContent}>
+                <Text style={styles.headerText}>J Canteen</Text>
+                <Text style={styles.slotText}>Available</Text>
+              </View>
+              <View style={styles.headerRightContent}>
+              <TouchableOpacity style={styles.saveButton} onPress={handleButtonPress}>
+                <Image
+                  source={isSaved ? require("../../Image/unsaveIcon.png") : require("../../Image/saveIcon.png")}
+                  style={styles.bookmarkIcon}
+                />
+              </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </Animated.View>
-    </GestureDetector>
+        </Animated.View>
+      </GestureDetector>
+    //</Animated.View>
   );
 });
 
