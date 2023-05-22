@@ -53,10 +53,10 @@ export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
     .onUpdate((event) => {
       translateY.value = event.translationY + context.value.y;
       translateY.value = Math.max(translateY.value, -ScreenHeight);
-      console.log(translateY.value)
+      //console.log(translateY.value)
     })
     .onEnd(() => {
-      if (translateY.value > ScreenHeight / 3) {
+      if (translateY.value > ScreenHeight / 2) {
         //translateY.value = withTiming(-ScreenHeight+(ScreenHeight/1.2));
         translateY.value = withTiming(ScreenHeight);
       }
@@ -67,7 +67,7 @@ export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
       //   translateY.value = withTiming(-ScreenHeight + ScreenHeight / 3);
       // } 
       else if (translateY.value < ScreenHeight / 2) {
-        translateY.value = withTiming(100);
+        translateY.value = withTiming(80);
       }
     });
 
@@ -90,6 +90,7 @@ export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
     }),
     [expand, close]
   );
+  
 
   return (
     <GestureDetector gesture={gesture}>
@@ -99,11 +100,11 @@ export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
           <View style={styles.groupHeader}>
             <View style={styles.headerContent}>
               <Text style={styles.headerText}>J Canteen</Text>
-              <Text style={styles.slotText}>Available 9 slots</Text>
+              <Text style={styles.slotText}>Available</Text>
             </View>
             <View style={styles.headerRightContent}>
               <Image
-                source={require("../Image/unsaveIcon.png")}
+                source={require("../../Image/unsaveIcon.png")}
                 style={styles.bookmarkIcon}
               />
             </View>
@@ -122,10 +123,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     // top: ScreenHeight,
     borderRadius: 25,
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
+    // top: 0,
+    // bottom: 0,
+    // left: 0,
+    // right: 0,
   },
   line: {
     width: 75,
@@ -158,9 +159,7 @@ const styles = StyleSheet.create({
     //paddingLeft: 20,
   },
   headerContent: {
-    flexDirection: "col",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
+    
   },
   groupHeader: {
     flexDirection: "row",

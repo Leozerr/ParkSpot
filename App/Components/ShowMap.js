@@ -1,23 +1,46 @@
-import React, { FC, useCallback, useState, useEffect, useRef } from "react";
+import React, {
+  FC,
+  ReactElement,
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import {
   View,
   Text,
+  Pressable,
   Dimensions,
   Animated,
   TouchableOpacity,
   Platform,
   useWindowDimensions,
-  SafeAreaView,
 } from "react-native";
+
 import { Button, StyleSheet, Image, TextInput } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, {
+  Callout,
+  Circle,
+  Marker,
+  PROVIDER_GOOGLE,
+} from "react-native-maps";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { RegisterScreen } from "../Screens/LoggedOut/Register";
+import { LoginScreen } from "../Screens/LoggedOut/Login.js";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Fontisto from "react-native-vector-icons/Fontisto";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { markers } from "../model/mapData.js";
+import { markers, mapDarkStyle, mapStandardStyle } from "../../model/mapData";
+import { useTheme } from "@react-navigation/native";
 import * as Location from "expo-location";
+import { fetchtest } from "../../model/mapData";
+import BottomSheet from "./BottomSheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import BottomSheet from "./BottomSheet.js";
+import { DataDisplay } from "../../model/mapData.js";
 
 const { width, height } = Dimensions.get("window");
+const LATITUDE_DELTA = 0.015;
+const LONGITUDE_DELTA = LATITUDE_DELTA * (width / height);
 const CARD_HEIGHT = 210;
 const CARD_WIDTH = width * 0.8;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
@@ -27,7 +50,8 @@ const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 export function ShowMap() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const ref = useRef(null);
+
+  fetchtest;
 
   useEffect(() => {
     (async () => {
@@ -52,15 +76,6 @@ export function ShowMap() {
   // console.log(location);
   // console.log(location.coords.latitude + "", location.coords.longitude + "");
   const mapRef = useRef(null);
-
-  const onPress = useCallback(() => {
-    const isActive = ref?.current?.isActive();
-    if (isActive) {
-      ref?.current?.scrollTo(0);
-    } else {
-      ref?.current?.scrollTo(-200);
-    }
-  }, []);
 
   const initialMapState = {
     markers,
@@ -98,29 +113,27 @@ export function ShowMap() {
 
   const _map = React.useRef(null);
   const _scrollView = React.useRef(null);
-  const a = true;
 
   const { height } = useWindowDimensions();
-  const bottomSheetRef = useRef();
-
-  const pressHandler = useCallback(() => {
+  const bottomSheetRef = useRef(null);
+  const openHandler = useCallback(() => {
     bottomSheetRef.current.expand();
   }, []);
 
   return (
     <View style={{ flex: 1 }}>
-      {/* <GestureHandlerRootView> */}
-
       <MapView
         style={{ flex: 1 }}
         showsUserLocation={true}
         showsMyLocationButton={true}
+        provider={PROVIDER_GOOGLE}
+        // mapPadding={{ top: 0, right: 50, bottom: 400, left: 50 }}
         ref={mapRef}
         initialRegion={{
-          latitude: 13.727156,
-          longitude: 100.77485,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          latitude: 13.726518,
+          longitude: 100.775701,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA,
         }}
       >
         {/* {location && (
@@ -147,7 +160,7 @@ export function ShowMap() {
             >
               <Animated.View style={[styles.markerWrap]}>
                 <Animated.Image
-                  source={require("../Image/parkpin.png")}
+                  source={require("../../Image/parkpin.png")}
                   style={[styles.marker, scaleStyle]}
                   resizeMode="cover"
                 />
@@ -162,7 +175,7 @@ export function ShowMap() {
           placeholder="search here"
           placeholderTextColor="#ccc"
           autoCapitalize="none"
-          style={{ flex: 1, paddingLeft: 10 }}
+          style={{ flex: 1, paddingLeft: 10, fontWeight: "bold" }}
         />
         <Ionicons name="ios-search" size={29} />
       </View>
@@ -205,22 +218,29 @@ export function ShowMap() {
               style={styles.cardImage}
               resizeMode="cover"
             />
-
+            {/* //Name of place */}
             <View style={styles.textContent}>
-              <Text numberOfLines={1} style={styles.cardtitle}>
-                {marker.title}
-              </Text>
-              {/* <TouchableOpacity style={styles.card} onPress={handleButtonPress}>
-                <Text>Click me to show bottom sheet</Text>
-              </TouchableOpacity> */}
-              {/* {bottomSheetVisible && <BottomSheet />}{" "} */}
-              {/* show BottomSheet if bottomSheetVisible is true */}
-              {/* <BottomSheet /> */}
+              <View style={styles.firstRowTitle}>
+                <Text numberOfLines={1} style={styles.cardtitle}>
+                  {marker.title}
+                </Text>
+                {/* //Available amount*/}
+                <Text numberOfLines={1} style={styles.cardDescription}>
+                  {marker.description}
+                </Text>
+                <Text numberOfLines={1} style={styles.cardSubDescription}>
+                  {marker.sub_description}
+                </Text>
+              </View>
               <TouchableOpacity
+                onPress={() => {
+                  openHandler();
+                }}
                 style={[
                   styles.button,
                   {
-                    borderColor: "#FF6347",
+                    backgroundColor: "#fff",
+                    borderColor: "#E35205",
                     borderWidth: 1,
                   },
                 ]}
@@ -229,102 +249,21 @@ export function ShowMap() {
                   style={[
                     styles.textSign,
                     {
-                      color: "#FF6347",
+                      color: "#E35205",
+                      fontSize: 18,
+                      fontWeight: "bold",
                     },
                   ]}
                 >
                   View
                 </Text>
               </TouchableOpacity>
-
-              <GestureHandlerRootView style={{ flex: 1 }} />
-
-              <Text numberOfLines={1} style={styles.cardDescription}>
-                {marker.description}
-              </Text>
-              <Text numberOfLines={1} style={styles.cardSubDescription}>
-                {marker.sub_description}
-              </Text>
+              {/* <GestureHandlerRootView style={{ flex: 1 }} /> */}
             </View>
           </View>
         ))}
-
-        {/* <GestureHandlerRootView style={{ flex: 1 }}>
-          <BottomSheet />
-        </GestureHandlerRootView> */}
       </Animated.ScrollView>
-
-      {/* <GestureHandlerRootView style={{ flex: 1 }}>
-        <SafeAreaView style={styles.container}>
-          <Button title="Blank" onPress={() => pressHandler()} />
-          <Button title="Example 1" onPress={() => pressHandler2()} />
-          <Button title="Example 2" onPress={() => pressHandler3()} />
-          <BottomSheet
-            ref={bottomSheetRef}
-            activeHeight={height * 0.5}
-            backgroundColor={"white"}
-            backDropColor={"black"}
-          />
-          <BottomSheet
-            ref={bottomSheetRef2}
-            activeHeight={height * 0.5}
-            backgroundColor={"#D           backDropColor={"black"}
-          >
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "space-between",
-              }}
-            >
-              <View style={styles.imageContaier}>
-                <Image
-                  source={require("../assets/icon.png")}
-                  style={styles.image}
-                />
-              </View>
-              <View style={styles.textContainer}>
-                <Text style={styles.text}>Royal Palm Sofa</Text>
-                <Text style={styles.text}>
-                  Vissle dark Blue/Kabusa dark Navy
-                </Text>
-                <Text style={styles.textPrice}>Price: $100</Text>
-              </View>
-              <View>
-                <View>
-                  <View style={styles.button}>
-                    <Text style={styles.buttonText}>ADD TO CHART</Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </BottomSheet>
-          <BottomSheet
-            ref={bottomSheetRef3}
-            activeHeight={height * 0.5}
-            backgroundColor={"#FFFFFF"}
-            backDropColor={"black"}
-          >
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "space-between",
-              }}
-            >
-              <View style={styles.textContainer}>
-                <Text style={styles.textExample2}>Good Evening</Text>
-                <Text style={styles.textExample2}>Everyday is a good day</Text>
-              </View>
-              <View style={styles.imageContaierExample2}>
-                <Text style={styles.textExample2}>Recommend</Text>
-                <Image
-                  source={require("../assets/icon.png")}
-                  style={styles.imageExample2}
-                />
-              </View>
-            </View>
-          </BottomSheet>
-        </SafeAreaView>
-      </GestureHandlerRootView> */}
+      <BottomSheet activeHeight={height * 0.5} ref={bottomSheetRef} />
     </View>
   );
 }
@@ -364,6 +303,7 @@ const styles = StyleSheet.create({
     paddingRight: width - CARD_WIDTH,
   },
   card: {
+    //backgroundColor: "#E35205",
     marginBottom: 20,
     elevation: 2,
     backgroundColor: "#FFF",
@@ -384,24 +324,26 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   textContent: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     flex: 2,
     padding: 10,
   },
+  firstRowTitle: {
+    flexDirection: "col",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+  },
   cardtitle: {
-    fontSize: 30,
-    // marginTop: 5,
+    fontSize: 22,
+    //color: "#fff",
     fontWeight: "bold",
-    color: "#E35205",
   },
   cardDescription: {
-    alignSelf: "flex-end",
-    fontSize: 30,
-    color: "#E35205",
-  },
-  cardSubDescription: {
-    alignSelf: "flex-end",
-    fontSize: 15,
-    color: "#676666",
+    fontSize: 20,
+    fontWeight: "bold",
+    //color: "#444",
+    color: "#41A317",
   },
   markerWrap: {
     alignItems: "center",
@@ -410,29 +352,15 @@ const styles = StyleSheet.create({
     height: 50,
   },
   marker: {
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
   },
   button: {
-    // alignItems: "center",
-    // // marginTop: 10,
-    // backgroundColor: "black",
-    // borderRadius: 30,
     width: "40%",
+    height: "90%",
     padding: 5,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 3,
-  },
-  signIn: {
-    width: "40%",
-    padding: 5,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 3,
-  },
-  textSign: {
-    fontSize: 14,
-    fontWeight: "bold",
+    borderRadius: 5,
   },
 });

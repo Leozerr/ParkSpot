@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState } from "react";
+import React, { FC, ReactElement, useState, useEffect } from "react";
 import { View, Text, Pressable } from "react-native";
 import { Button, StyleSheet, Image, TextInput, Dimensions } from "react-native";
 import { RegisterScreen } from "./Register.js";
@@ -8,7 +8,8 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import BottomSheet from "./BottomSheet.js";
+import axios from "axios";
+import api from "../../../api/api.js";
 
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
@@ -18,6 +19,28 @@ export function LoginScreen(props) {
   const [password, setPassword] = useState("");
   const { onPress, title = "Sign in" } = props;
   const navigation = useNavigation();
+
+  const Login = async () => {
+    console.log("Login pressed");
+    console.log(username);
+    console.log(password);
+    try {
+      await axios
+        .post(api.backend_URL + "/login", {
+          email: username,
+          password: password,
+        })
+        .then((response) => {
+          console.log("Login: ", response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <View
       style={{
@@ -27,11 +50,11 @@ export function LoginScreen(props) {
       }}
     >
       <Text style={styles.headerText}>Sign In to KMITL Parking</Text>
-      <Text style={styles.fieldText}>Username</Text>
+      <Text style={styles.fieldText}>Email</Text>
       <TextInput
         style={styles.input}
         value={username}
-        placeholder={"Username"}
+        placeholder={"Email"}
         onChangeText={(text) => setUsername(text)}
         autoCapitalize={"none"}
       />
@@ -44,19 +67,18 @@ export function LoginScreen(props) {
         onChangeText={(text) => setPassword(text)}
       />
       <Text
-        style={{
-          fontWeight: "bold",
-          color: "#343434",
-          textDecorationLine: "underline",
-          top: 210,
-          textAlign: "right",
-          right: 25,
-        }}
+        style={styles.forgotText}
+        onPress={() => navigation.navigate("ForgotPassword")}
         // NAGIVATE TO FORGOT PASSWORD onPress={() => {}}
       >
         Forgot Password
       </Text>
-      <Pressable style={styles.button} onPress={() => {}}>
+      <Pressable
+        style={styles.button}
+        onPress={() => {
+          Login();
+        }}
+      >
         <Text style={styles.text}>{title}</Text>
       </Pressable>
 
@@ -81,7 +103,7 @@ export const styles = StyleSheet.create({
     left: (ScreenWidth - 340) / 2,
     //alignItems: "center",
     //justifyContent: "center",
-    height: 40,
+    height: 45,
     width: 340,
     borderRadius: 14,
     paddingLeft: 10,
@@ -94,9 +116,8 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 30,
-    paddingVertical: 10,
-    paddingHorizontal: 32,
     borderRadius: 14,
+    height: 45,
     width: 340,
     elevation: 3,
     backgroundColor: "#E35205",
@@ -137,6 +158,15 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 230,
     textAlign: "center",
+  },
+
+  forgotText: {
+    fontWeight: "bold",
+    color: "#343434",
+    textDecorationLine: "underline",
+    top: 210,
+    textAlign: "right",
+    right: (ScreenWidth - 340) / 2,
   },
 });
 
