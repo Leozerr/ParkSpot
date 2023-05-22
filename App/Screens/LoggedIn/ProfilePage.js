@@ -1,18 +1,16 @@
-import React, { FC, ReactElement, useState } from "react";
+import React, { FC, ReactElement, useState, useContext } from "react";
 import { View, Text, TouchableOpacity, Pressable } from "react-native";
 import { Button, StyleSheet, Image, TextInput, Dimensions } from "react-native";
 import { styles } from "../LoggedOut/Register";
 import * as ImagePicker from "expo-image-picker";
-
+import { ProfileImageContext } from "../../ProfileImageContext";
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
 
-export function ProfileScreen(props) {
+export function ProfileScreen() {
   const [name, setName] = useState("Somchai");
   const [password, setPassword] = useState("SomePasswordIDK");
-  const [profileImage, setProfileImage] = useState(
-    require("../../../Image/profilepic.png")
-  );
+  const { profileImage, setProfileImage } = useContext(ProfileImageContext);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library

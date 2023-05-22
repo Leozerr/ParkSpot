@@ -74,7 +74,7 @@ export function LoggedOutContents(props) {
   );
 }
 
-export function HomePageLoggedOut() {
+export function HomePageLoggedOut({ onLogin }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -84,7 +84,6 @@ export function HomePageLoggedOut() {
       />
       <Stack.Screen
         name="Login"
-        component={LoginScreen}
         options={{
           headerTintColor: "black",
           headerBackTitle: "",
@@ -95,8 +94,9 @@ export function HomePageLoggedOut() {
             />
           ),
         }}
-      />
-
+      >
+      {(props) => <LoginScreen onLogin={onLogin} {...props} />}
+      </Stack.Screen>
       <Stack.Screen
         name="Register"
         component={RegisterScreen}
@@ -179,7 +179,7 @@ export function SettingsLoggedOut() {
   );
 }
 
-export function LoggedOutState() {
+export function LoggedOutState({onLogin}) {
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -194,9 +194,10 @@ export function LoggedOutState() {
     >
       <Drawer.Screen
         name="Home"
-        component={HomePageLoggedOut}
         options={{ headerShown: false }}
-      />
+      >
+      {(props) => <HomePageLoggedOut onLogin={onLogin} {...props} />}
+      </Drawer.Screen>
       <Drawer.Screen
         name="Contact Us"
         component={ContactUsNav}

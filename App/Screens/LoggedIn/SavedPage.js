@@ -12,19 +12,26 @@ export function SavedScreen(props) {
         height: ScreenHeight,
         width: ScreenWidth,
         backgroundColor: "#FFF",
+        position: "relative",
       }}
     >
-      <Text
+      <View
         style={{
-          left: (ScreenWidth - 340) / 2 - 20,
+          position: "absolute",
+          backgroundColor: "black",
+          left: 40,
+          right: 40,
+          height: 80,
           marginTop: 30,
           fontSize: 19,
           fontWeight: "bold",
           color: "#343434",
+          justifyContent: "center",
+          alignItems: '"center',
         }}
       >
-        This is Saved Page
-      </Text>
+        <Text style={{ fontSize: 24 }}> J Canteen </Text>
+      </View>
     </View>
   );
 }

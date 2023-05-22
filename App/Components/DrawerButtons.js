@@ -1,4 +1,11 @@
-import React, { FC, ReactElement, useState, useRef, useEffect } from "react";
+import React, {
+  FC,
+  ReactElement,
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+} from "react";
 import {
   Dimensions,
   View,
@@ -14,7 +21,7 @@ import {
   useNavigationContainerRef,
   useNavigation,
 } from "@react-navigation/native";
-
+import { ProfileImageContext } from "../ProfileImageContext";
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
 
@@ -39,12 +46,12 @@ export function SignInDrawer() {
   );
 }
 
-export function LogOutDrawer() {
+export function LogOutDrawer({ onLogout }) {
   const navigation = useNavigation();
   return (
     <Pressable
       style={{
-        marginTop: ScreenHeight-480,
+        marginTop: ScreenHeight - 480,
         alignSelf: "center",
         alignItems: "center",
         justifyContent: "center",
@@ -52,9 +59,8 @@ export function LogOutDrawer() {
         width: "60%",
         height: 45,
         backgroundColor: "#DB7038",
-        
       }}
-      onPress={() => {}}
+      onPress={onLogout}
     >
       <Text style={{ fontWeight: "bold", color: "#fff" }}>Sign Out</Text>
     </Pressable>
@@ -62,6 +68,7 @@ export function LogOutDrawer() {
 }
 
 export function ProfileDrawer() {
+  const { profileImage, setProfileImage } = useContext(ProfileImageContext);
   return (
     <View
       style={{
@@ -79,15 +86,16 @@ export function ProfileDrawer() {
           width: 50,
           height: 50,
           marginRight: 10,
+          borderRadius: 75,
         }}
-        source={require("../../Image/profilepic.png")}
+        source={profileImage}
       />
       <View>
         <Text style={{ fontSize: 16, fontWeight: "bold", color: "#fff" }}>
           Hello,&nbsp;
           <Text style={{ fontSize: 16, fontWeight: "bold", color: "#fff" }}>
-          JoshuaDaniel
-        </Text>
+            JoshuaDaniel
+          </Text>
         </Text>
         <Text
           style={{

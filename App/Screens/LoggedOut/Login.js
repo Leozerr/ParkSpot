@@ -1,6 +1,6 @@
 import React, { FC, ReactElement, useState, useEffect } from "react";
 import { View, Text, Pressable } from "react-native";
-import { Button, StyleSheet, Image, TextInput, Dimensions } from "react-native";
+import { Button, StyleSheet, Image, TextInput, Dimensions, Alert} from "react-native";
 import { RegisterScreen } from "./Register.js";
 import {
   NavigationContainer,
@@ -14,10 +14,9 @@ import api from "../../../api/api.js";
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
 
-export function LoginScreen(props) {
+export function LoginScreen({ onLogin }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { onPress, title = "Sign in" } = props;
   const navigation = useNavigation();
 
   const Login = async () => {
@@ -32,6 +31,11 @@ export function LoginScreen(props) {
         })
         .then((response) => {
           console.log("Login: ", response.data);
+          if (response.data.message == "Login Successful") {
+            onLogin();
+          } else {
+            Alert.alert("Sign In Failed", response.data.message);
+          }
         })
         .catch((error) => {
           console.error(error);
@@ -67,7 +71,7 @@ export function LoginScreen(props) {
         onChangeText={(text) => setPassword(text)}
       />
       <Text
-        style={styles.forgotText }
+        style={styles.forgotText}
         onPress={() => navigation.navigate("ForgotPassword")}
         // NAGIVATE TO FORGOT PASSWORD onPress={() => {}}
       >
@@ -79,7 +83,7 @@ export function LoginScreen(props) {
           Login();
         }}
       >
-        <Text style={styles.text}>{title}</Text>
+        <Text style={styles.text}>Sign In</Text>
       </Pressable>
 
       <Text style={styles.dontHaveText}>
@@ -165,9 +169,9 @@ export const styles = StyleSheet.create({
     color: "#343434",
     textDecorationLine: "underline",
     top: 210,
-    textAlign: 'right',
-    right: (ScreenWidth-340)/2
-  }
+    textAlign: "right",
+    right: (ScreenWidth - 340) / 2,
+  },
 });
 
 export default LoginScreen;
