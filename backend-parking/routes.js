@@ -13,6 +13,7 @@ module.exports = (app) => {
   app.get("/password/:email", setting.comparePass);
   app.post("/login", setting.login);
   app.get("/fav/:email", setting.userFavorite);
+  app.patch("/update/profile/:email", setting.userUpdateProfile);
 
   //Pins
   app.get("/pins", setting.pins);
