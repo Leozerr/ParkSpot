@@ -9,7 +9,7 @@ import LoginScreen from "./Screens/LoggedOut/Login.js";
 
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   useEffect(() => {
     // Check if a token exists in AsyncStorage during app startup
