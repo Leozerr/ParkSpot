@@ -7,7 +7,8 @@ import {
   Animated,
   TouchableOpacity,
   Platform,
-  useWindowDimensions
+  useWindowDimensions,
+  Easing
 } from "react-native";
 import {
   NavigationContainer,
@@ -31,7 +32,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 // import { markers, mapDarkStyle, mapStandardStyle } from "../../model/mapData";
 import { useTheme } from "@react-navigation/native";
 import * as Location from "expo-location";
-import { fetchtest } from "../../model/mapData";
+import { fetchtest, markers } from "../../model/mapData";
 import BottomSheet from "./BottomSheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
@@ -160,6 +161,29 @@ export function ShowMap() {
       bottomSheetRef.current.expand()
     }, []);
     
+  // Declare a state variable to hold the animated value
+  //const animatedValue = React.useState(new Animated.Value(0))[0];
+
+  // Calculate the width of the text container (e.g., based on parent's width)
+  //const containerWidth = CARD_WIDTH;
+
+  // const markerTitle = markers.title || ''; // Make sure marker.title is not null or undefined
+  // const isLongText = markerTitle.length > 12;
+  // const textWidth = isLongText ? 12 * characterWidth : markerTitle.length * characterWidth;
+
+
+  // Calculate the offset required for text sliding animation
+  //const offset = textWidth - containerWidth;
+
+  // Create the text sliding animation
+  // Animated.loop(
+  //   Animated.timing(animatedValue, {
+  //     toValue: -offset,
+  //     duration: 2000, // Adjust the duration as per your preference
+  //     easing: Easing.linear,
+  //     useNativeDriver: true,
+  //   })
+  // ).start();
 
 
 
@@ -260,20 +284,23 @@ export function ShowMap() {
                 openHandler();
               }}>
                 <Image
-                  source={{uri: marker.image}}
+                  //source={{uri: marker.image}}
+                  source={marker.image ? { uri: marker.image } : require('../../Image/ParkBG.jpg')}
                   style={styles.cardImage}
                   resizeMode="cover"
                 />
                   {/* //Name of place */}
                 <View style={styles.textContent}>
-                  <View style={styles.firstRowTitle}>
+                  {/* <View style={styles.firstRowTitle}> */}
                     <Text numberOfLines={1} style={styles.cardtitle}>
                       {marker.title}
                     </Text>
                      {/* //Available amount*/}
                      <Text numberOfLines={1} style={[
                         styles.cardDescription,
-                        { color: marker.description === "Available" ? "#41A317" : "red" }
+                        marker.description === "Available" && { color: '#41A317' },
+                        marker.description === "Full" && { color: 'red' },
+                        marker.description === "N/A" && { color: '#808080' },
                       ]}>
                         {marker.description}
                       </Text>
@@ -305,7 +332,7 @@ export function ShowMap() {
                       </Text> 
                     </TouchableOpacity> */}
                   {/* <GestureHandlerRootView style={{ flex: 1 }} /> */}
-                </View>
+                {/* </View> */}
               </TouchableOpacity>
             ))}
           </Animated.ScrollView>
@@ -376,11 +403,11 @@ const styles = StyleSheet.create({
     flex: 2,
     padding: 10,
   },
-  firstRowTitle: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-  },
+  // firstRowTitle: {
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   alignItems: "flex-start",
+  // },
   cardtitle: {
     fontSize: 22,
     fontWeight: "bold",
@@ -390,7 +417,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     //color: "#444",
     paddingBottom: 12,
-    paddingTop: 30,
+    paddingTop: 15,
   },
   markerWrap: {
     alignItems: "center",

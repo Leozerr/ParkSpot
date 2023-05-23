@@ -3,12 +3,12 @@ const sql = require("../../../sql");
 module.exports = {
   async pinUpLongi(req, res) {
     const symbol = req.params.symbol;
-    const newLongti = req.body.newLongti;
+    const newLongi = req.body.newLongi;
 
     try {
       sql.Connection.query(
         "UPDATE pins SET longitude = ? WHERE symbol = ?",
-        [newLongti, symbol],
+        [newLongi, symbol],
         (err, results, fields) => {
           if (err) {
             console.log(err);

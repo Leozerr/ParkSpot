@@ -73,7 +73,7 @@ export function LogOutDrawer({ onLogout }) {
 
 export function ProfileDrawer() {
   const { profileImage, setProfileImage } = useContext(ProfileImageContext);
-  const [user, setUser] = useState([])
+  const [user, setUser] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {

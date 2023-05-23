@@ -21,6 +21,9 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import LoginScreen from "../Screens/LoggedOut/Login";
+import { useNavigation } from '@react-navigation/native';
+import App, {isLoggedIn} from "../App";
 
 
 const ScreenHeight = Dimensions.get("screen").height;
@@ -93,10 +96,16 @@ export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
     [expand, close]
   );
   
+  const navigation = useNavigation();
   const [isSaved, setIsSaved] = useState(false);
+  const [a, setA] = useState(isLoggedIn);
 
   const handleButtonPress = () => {
-    setIsSaved(!isSaved);
+    if (!a) {
+      navigation.navigate("Login");
+    } else {
+      setIsSaved(!isSaved);
+    }
   };
 
   return (
