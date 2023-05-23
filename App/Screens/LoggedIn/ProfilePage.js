@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState, useContext } from "react";
+import React, { FC, ReactElement, useState, useContext, useEffect } from "react";
 import { View, Text, TouchableOpacity, Pressable } from "react-native";
 import { Button, StyleSheet, Image, TextInput, Dimensions } from "react-native";
 import { styles } from "../LoggedOut/Register";
@@ -6,10 +6,14 @@ import * as ImagePicker from "expo-image-picker";
 import { ProfileImageContext } from "../../ProfileImageContext";
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
+import axios from "axios";
+import api from "../../../api/api";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function ProfileScreen() {
-  const [name, setName] = useState("Somchai");
-  const [password, setPassword] = useState("SomePasswordIDK");
+  //const [name, setName] = useState("Somchai");
+  const [password, setPassword] = useState("");
+  const [user, setUser] = useState([]);
   const { profileImage, setProfileImage } = useContext(ProfileImageContext);
 
   const pickImage = async () => {
@@ -27,6 +31,21 @@ export function ProfileScreen() {
       setProfileImage(result.assets[0]);
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const email = await AsyncStorage.getItem("userToken")
+        const response = await axios.get(api.backend_URL+"/users/"+email );
+        const data = response.data;
+        setUser(data[0]);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <View
@@ -57,7 +76,7 @@ export function ProfileScreen() {
       <Text style={styles.fieldText}>Name</Text>
       <TextInput
         style={profileStyles.profile}
-        value={name}
+        value={user && user.username ? user.username : "Loading.."}
         onChangeText={(text) => setName(text)}
         autoCapitalize={"none"}
       />
@@ -69,7 +88,7 @@ export function ProfileScreen() {
         onChangeText={(text) => setPassword(text)}
       />
       <Pressable style={styles.button} onPress={() => {}}>
-        <Text style={styles.text}>Save</Text>
+        <Text style={styles.text}>Update</Text>
       </Pressable>
     </View>
   );
