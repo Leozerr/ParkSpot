@@ -1,4 +1,4 @@
-import { Image, Dimensions, StyleSheet, Text, View } from "react-native";
+import { Image, Dimensions, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, {
   FC,
   ReactElement,
@@ -12,6 +12,7 @@ import React, {
 import {
   Gesture,
   GestureDetector,
+  GestureHandlerRootView,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
 import Animated, {
@@ -20,6 +21,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+
 
 const ScreenHeight = Dimensions.get("screen").height;
 
@@ -91,27 +93,36 @@ export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
     [expand, close]
   );
   
+  const [isSaved, setIsSaved] = useState(false);
+
+  const handleButtonPress = () => {
+    setIsSaved(!isSaved);
+  };
 
   return (
-    <GestureDetector gesture={gesture}>
-      <Animated.View style={[styles.bottomSheetContainer, animationStyle]}>
-        <View style={styles.header}>
-          <View style={styles.line} />
-          <View style={styles.groupHeader}>
-            <View style={styles.headerContent}>
-              <Text style={styles.headerText}>J Canteen</Text>
-              <Text style={styles.slotText}>Available 9 slots</Text>
-            </View>
-            <View style={styles.headerRightContent}>
-              <Image
-                source={require("../../Image/unsaveIcon.png")}
-                style={styles.bookmarkIcon}
-              />
+   //<Animated.View>
+      <GestureDetector gesture={gesture}>
+        <Animated.View style={[styles.bottomSheetContainer, animationStyle]}>
+          <View style={styles.header}>
+            <View style={styles.line} />
+            <View style={styles.groupHeader}>
+              <View style={styles.headerContent}>
+                <Text style={styles.headerText}>J Canteen</Text>
+                <Text style={styles.slotText}>Available</Text>
+              </View>
+              <View style={styles.headerRightContent}>
+              <TouchableOpacity style={styles.saveButton} onPress={handleButtonPress}>
+                <Image
+                  source={isSaved ? require("../../Image/unsaveIcon.png") : require("../../Image/saveIcon.png")}
+                  style={styles.bookmarkIcon}
+                />
+              </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </Animated.View>
-    </GestureDetector>
+        </Animated.View>
+      </GestureDetector>
+    //</Animated.View>
   );
 });
 
@@ -174,8 +185,17 @@ const styles = StyleSheet.create({
   bookmarkIcon: {
     width: 35,
     height: 35,
-    marginLeft: 8,
+    top: 1,
+    //marginLeft: 8,
   },
+  saveButton: {
+    backgroundColor: "#D3D3D3",
+    borderRadius: 10,
+    alignItems: "center",
+    width: 37,
+    height: 37,
+    
+  }
 });
 
 export default BottomSheet;

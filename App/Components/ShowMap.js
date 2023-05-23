@@ -16,19 +16,29 @@ import {
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Button, StyleSheet, Image, TextInput } from "react-native";
-import MapView, { Callout, Circle, Marker } from "react-native-maps";
+import MapView, {
+  Callout,
+  Circle,
+  Marker,
+  PROVIDER_GOOGLE,
+} from "react-native-maps";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { RegisterScreen } from "../Screens/LoggedOut/Register";
 import { LoginScreen } from "../Screens/LoggedOut/Login.js";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { markers, mapDarkStyle, mapStandardStyle } from "../../model/mapData";
+// import { markers, mapDarkStyle, mapStandardStyle } from "../../model/mapData";
 import { useTheme } from "@react-navigation/native";
 import * as Location from "expo-location";
 import { fetchtest } from "../../model/mapData";
 import BottomSheet from "./BottomSheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+import axios from "axios";
+import api from "../../api/api";
+
+// import { DataDisplay } from "../../model/mapData";
 
 const { width, height } = Dimensions.get("window");
 const LATITUDE_DELTA = 0.015;
@@ -39,11 +49,12 @@ const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
 // api key = "AIzaSyCC2ONx9Tr4pzoiW4mDGBa8yJYXjTZ8Tx0"
 
+
+
 export function ShowMap() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-
-  fetchtest;
+  // const markers = DataDisplay();
 
   useEffect(() => {
     (async () => {
@@ -58,6 +69,42 @@ export function ShowMap() {
     })();
   }, [location]);
 
+  const initialMapState = {
+    markers: [],
+  };
+
+  const [state, setState] = useState(initialMapState);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(api.backend_URL+"/pins");
+        const data = response.data;
+        setState((prevState) => ({
+          ...prevState,
+          markers: transformDataToMarkers(data),
+        }));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const transformDataToMarkers = (data) => {
+    return data.map((item) => ({
+      id: item.id,
+      coordinate: {
+        latitude: item.latitude,
+        longitude: item.longitude,
+      },
+      title: item.name,
+      description: "Available",
+      image: item.image,
+    }));
+  };
+
   // console.log({ location });
   let text = "Waiting..";
   if (errorMsg) {
@@ -69,10 +116,10 @@ export function ShowMap() {
   // console.log(location.coords.latitude + "", location.coords.longitude + "");
   const mapRef = useRef(null);
 
-  const initialMapState = {
-    markers,
-  };
-  const [state, setState] = React.useState(initialMapState);
+  // const initialMapState = {
+  //   markers,
+  // };
+  // const [state, setState] = React.useState(initialMapState);
 
   let mapIndex = 0;
   let mapAnimation = new Animated.Value(0);
@@ -112,11 +159,7 @@ export function ShowMap() {
     () => {
       bottomSheetRef.current.expand()
     }, []);
-
-
-
-
-
+    
 
 
 
@@ -126,6 +169,8 @@ export function ShowMap() {
         style={{ flex: 1 }}
         showsUserLocation={true}
         showsMyLocationButton={true}
+        provider={PROVIDER_GOOGLE}
+        // mapPadding={{ top: 0, right: 50, bottom: 400, left: 50 }}
         ref={mapRef}
         initialRegion={{
           latitude: 13.726518,
@@ -173,7 +218,7 @@ export function ShowMap() {
           placeholder="search here"
           placeholderTextColor="#ccc"
           autoCapitalize="none"
-          style={{ flex: 1, paddingLeft: 10, fontWeight: "bold" }}
+          style={{ flex: 1, paddingLeft: 10, fontSize: 16 }}
         />
         <Ionicons name="ios-search" size={29} />
       </View>
@@ -210,9 +255,12 @@ export function ShowMap() {
             )}
           >
             {state.markers.map((marker, index) => (
-              <View style={styles.card} key={index}>
+              <TouchableOpacity style={styles.card} key={index} 
+              onPress={() => {
+                openHandler();
+              }}>
                 <Image
-                  source={marker.image}
+                  source={{uri: marker.image}}
                   style={styles.cardImage}
                   resizeMode="cover"
                 />
@@ -223,14 +271,14 @@ export function ShowMap() {
                       {marker.title}
                     </Text>
                      {/* //Available amount*/}
-                    <Text numberOfLines={1} style={styles.cardDescription}>
-                      {marker.description}
-                    </Text>
-                    <Text numberOfLines={1} style={styles.cardSubDescription}>
-                      {marker.sub_description}
-                    </Text>
+                     <Text numberOfLines={1} style={[
+                        styles.cardDescription,
+                        { color: marker.description === "Available" ? "#41A317" : "red" }
+                      ]}>
+                        {marker.description}
+                      </Text>
                   </View>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                       onPress={() => {
                         openHandler();
                       }}
@@ -254,11 +302,11 @@ export function ShowMap() {
                         ]}
                       >
                         View
-                      </Text>
-                    </TouchableOpacity>
+                      </Text> 
+                    </TouchableOpacity> */}
                   {/* <GestureHandlerRootView style={{ flex: 1 }} /> */}
                 </View>
-              </View>
+              </TouchableOpacity>
             ))}
           </Animated.ScrollView>
           <BottomSheet activeHeight={height*0.5} ref={bottomSheetRef} />
@@ -323,26 +371,26 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   textContent: {
-    flexDirection: "row",
+    //flexDirection: "row",
     justifyContent: "space-between",
     flex: 2,
     padding: 10,
   },
   firstRowTitle: {
-    flexDirection: "col",
+    flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
   },
   cardtitle: {
     fontSize: 22,
-    //color: "#fff",
     fontWeight: "bold",
   },
   cardDescription: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: "bold",
     //color: "#444",
-    color: "#41A317",
+    paddingBottom: 12,
+    paddingTop: 30,
   },
   markerWrap: {
     alignItems: "center",

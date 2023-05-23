@@ -22,6 +22,10 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 import { ProfileImageContext } from "../ProfileImageContext";
+import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from "../../api/api";
+
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
 
@@ -69,6 +73,23 @@ export function LogOutDrawer({ onLogout }) {
 
 export function ProfileDrawer() {
   const { profileImage, setProfileImage } = useContext(ProfileImageContext);
+  const [user, setUser] = useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const email = await AsyncStorage.getItem("userToken")
+        const response = await axios.get(api.backend_URL+"/users/"+email );
+        const data = response.data;
+        setUser(data[0]);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <View
       style={{
@@ -94,7 +115,8 @@ export function ProfileDrawer() {
         <Text style={{ fontSize: 16, fontWeight: "bold", color: "#fff" }}>
           Hello,&nbsp;
           <Text style={{ fontSize: 16, fontWeight: "bold", color: "#fff" }}>
-            JoshuaDaniel
+          {user && user.username ? user.username : "Loading.."}
+
           </Text>
         </Text>
         <Text
@@ -104,7 +126,7 @@ export function ProfileDrawer() {
             textDecorationLine: "underline",
           }}
         >
-          62011127@kmitl.ac.th
+          {user && user.email ? user.email : "Loading.."}
         </Text>
       </View>
     </View>

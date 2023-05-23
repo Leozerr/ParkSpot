@@ -2,6 +2,7 @@ import React, { FC, ReactElement, useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import { Button, StyleSheet, Image, TextInput, Dimensions } from "react-native";
 import axios from "axios";
+import api from "../../../api/api";
 
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
@@ -19,6 +20,8 @@ export const RegisterScreen = (props) => {
 
     if (username.trim().length === 0) {
       errors.username = "Username is required";
+    } else if (username.length > 12) {
+      errors.username = "Username must not exceed 12 characters";
     }
 
     if (password.length < 8) {
@@ -61,14 +64,11 @@ export const RegisterScreen = (props) => {
     }
 
     try {
-      const response = await axios.post(
-        "http://10.66.8.190:5001/create/users",
-        {
-          uname: username,
-          email: email,
-          password: password,
-        }
-      );
+      const response = await axios.post(api.backend_URL + "/create/users", {
+        uname: username,
+        email: email,
+        password: password,
+      });
     } catch (error) {
       // Handle registration error
       console.error("Registration error:", error);
