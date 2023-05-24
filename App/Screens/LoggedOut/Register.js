@@ -1,6 +1,7 @@
 import React, { FC, ReactElement, useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import { Button, StyleSheet, Image, TextInput, Dimensions } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import api from "../../../api/api";
 
@@ -14,6 +15,7 @@ export const RegisterScreen = (props) => {
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const navigation = useNavigation();
 
   const validateForm = () => {
     const errors = {};
@@ -69,6 +71,7 @@ export const RegisterScreen = (props) => {
         email: email,
         password: password,
       });
+      navigation.navigate("Login");
     } catch (error) {
       // Handle registration error
       console.error("Registration error:", error);

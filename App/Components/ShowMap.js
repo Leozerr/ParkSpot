@@ -15,7 +15,6 @@ import {
   TouchableOpacity,
   Platform,
   useWindowDimensions,
-  Easing,
 } from "react-native";
 import {
   NavigationContainer,
@@ -193,13 +192,15 @@ export function ShowMap() {
       <MapView
         style={{ flex: 1 }}
         showsUserLocation={true}
-        showsMyLocationButton={true}
+        //showsMyLocationButton={true}
         provider={PROVIDER_GOOGLE}
         // mapPadding={{ top: 0, right: 50, bottom: 400, left: 50 }}
         ref={mapRef}
         initialRegion={{
-          latitude: 13.726518,
-          longitude: 100.775701,
+          //latitude: 13.726518,
+          //longitude: 100.775701,
+          latitude: location ? location.coords.latitude : 13.726518,
+          longitude: location ? location.coords.longitude : 100.775701,
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
         }}

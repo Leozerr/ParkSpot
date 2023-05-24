@@ -6,29 +6,26 @@ import {
   StyleSheet,
   Dimensions,
   Pressable,
-  Alert,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
 
-export function ForgotPasswordScreen(props) {
+export function ResetPasswordScreen(props) {
   const { onPress, title = "Submit" } = props;
-  const [email, setEmail] = useState("");
-  const navigation = useNavigation();
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleResetPassword = async () => {
-    try {
-      const response = await axios.get('/api/check-email-exists?email=${email}');
-      const { exists } = response.data;
+    // Validate password and confirm password match here
 
-      if (exists) {
-        navigation.navigate("ResetPassword");
-      } else {
-        Alert.alert("Email not found", "The email you entered does not exist.");
-      }
+    try {
+      const response = await axios.post("/api/reset-password", {
+        password,
+        confirmPassword,
+      });
+      console.log(response.data); // Handle the response as needed
     } catch (error) {
       console.error(error); // Handle any errors that occurred during the request
     }
@@ -36,21 +33,28 @@ export function ForgotPasswordScreen(props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Forgot Password</Text>
-      <Text style={styles.fieldText}>Email</Text>
+      <Text style={styles.headerText}>Reset Password</Text>
+      <Text style={styles.fieldText}>New Password</Text>
       <TextInput
         style={styles.input}
-        placeholder={"Email"}
-        autoCapitalize={"none"}
-        value={email}
-        onChangeText={setEmail}
+        placeholder="New Password"
+        autoCapitalize="none"
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
+      <Text style={styles.fieldText}>Confirm Password</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Confirm Password"
+        autoCapitalize="none"
+        secureTextEntry
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
       />
       <Pressable style={styles.button} onPress={handleResetPassword}>
         <Text style={styles.text}>{title}</Text>
       </Pressable>
-      <Text style={styles.noteText}>
-        Please enter the email associated with your account, and we will send you a link to reset your password.
-      </Text>
     </View>
   );
 }
@@ -61,7 +65,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
   },
   input: {
-    top: 240,
+    top: 200,
     left: (ScreenWidth - 340) / 2,
     height: 45,
     width: 340,
@@ -70,7 +74,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#EFF3F8",
   },
   fieldText: {
-    top: 240,
+    top: 200,
     left: (ScreenWidth - 340) / 2,
     fontSize: 16,
     lineHeight: 21,
@@ -90,16 +94,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: "#343434",
   },
-  noteText: {
-    fontWeight: "bold",
-    color: "#999",
-    marginTop: 20,
-    marginLeft: 30,
-    marginRight: 30,
-    textAlign: "center",
-  },
   button: {
-    top: 240,
+    top: 200,
     left: (ScreenWidth - 340) / 2,
     alignItems: "center",
     justifyContent: "center",

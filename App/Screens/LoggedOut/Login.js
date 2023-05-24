@@ -24,8 +24,7 @@ export function LoginScreen({ onLogin }) {
     console.log(email);
     console.log(password);
     try {
-      await axios
-        .post(api.backend_URL + "/login", {
+      await axios.post(api.backend_URL + "/login", {
           email: email,
           password: password,
         })

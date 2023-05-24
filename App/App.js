@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -59,6 +60,7 @@ function App() {
     <SavePlaceProvider>
     <ProfileImageProvider>
       <NavigationContainer>
+        <StatusBar barStyle="dark-content" />
         {isLoggedIn ? (
           <LoggedInState onLogout={handleLogout} />
         ) : (

@@ -123,21 +123,18 @@ export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
   };
 
   return (
-    //<Animated.View>
-    <GestureDetector gesture={gesture}>
-      <Animated.View style={[styles.bottomSheetContainer, animationStyle]}>
-        <View style={styles.header}>
-          <View style={styles.line} />
-          <View style={styles.groupHeader}>
-            <View style={styles.headerContent}>
-              <Text style={styles.headerText}>J Canteen</Text>
-              <Text style={styles.slotText}>Available</Text>
-            </View>
-            <View style={styles.headerRightContent}>
-              <TouchableOpacity
-                style={styles.saveButton}
-                onPress={handleButtonPress}
-              >
+   //<Animated.View>
+      <GestureDetector gesture={gesture}>
+        <Animated.View style={[styles.bottomSheetContainer, animationStyle]}>
+          <View style={styles.header}>
+            <View style={styles.line} />
+            <View style={styles.groupHeader}>
+              <View style={styles.headerContent}>
+                <Text style={styles.headerText}>Convention Hall Parking</Text>
+                <Text style={styles.slotText}>Available</Text>
+              </View>
+              <View style={styles.headerRightContent}>
+              <TouchableOpacity style={styles.saveButton} onPress={handleButtonPress}>
                 <Image
                   source={
                     isSaved
@@ -215,6 +212,13 @@ const styles = StyleSheet.create({
     height: 35,
     top: 1,
     //marginLeft: 8,
+  },
+  saveButton: {
+    backgroundColor: "#D3D3D3",
+    borderRadius: 10,
+    alignItems: "center",
+    width: 37,
+    height: 37,
   },
   saveButton: {
     backgroundColor: "#D3D3D3",
