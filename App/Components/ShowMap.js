@@ -15,10 +15,6 @@ import {
   TouchableOpacity,
   Platform,
   useWindowDimensions,
-<<<<<<< Updated upstream
-  Easing,
-=======
->>>>>>> Stashed changes
 } from "react-native";
 import {
   NavigationContainer,

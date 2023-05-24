@@ -123,23 +123,6 @@ export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
   };
 
   return (
-<<<<<<< Updated upstream
-    //<Animated.View>
-    <GestureDetector gesture={gesture}>
-      <Animated.View style={[styles.bottomSheetContainer, animationStyle]}>
-        <View style={styles.header}>
-          <View style={styles.line} />
-          <View style={styles.groupHeader}>
-            <View style={styles.headerContent}>
-              <Text style={styles.headerText}>J Canteen</Text>
-              <Text style={styles.slotText}>Available</Text>
-            </View>
-            <View style={styles.headerRightContent}>
-              <TouchableOpacity
-                style={styles.saveButton}
-                onPress={handleButtonPress}
-              >
-=======
    //<Animated.View>
       <GestureDetector gesture={gesture}>
         <Animated.View style={[styles.bottomSheetContainer, animationStyle]}>
@@ -152,7 +135,6 @@ export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
               </View>
               <View style={styles.headerRightContent}>
               <TouchableOpacity style={styles.saveButton} onPress={handleButtonPress}>
->>>>>>> Stashed changes
                 <Image
                   source={
                     isSaved

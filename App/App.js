@@ -1,9 +1,5 @@
-<<<<<<< Updated upstream
 import React, { useState, useEffect, useContext } from "react";
-=======
-import React, { useState, useEffect } from "react";
 import { StatusBar } from "react-native";
->>>>>>> Stashed changes
 import { NavigationContainer } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
