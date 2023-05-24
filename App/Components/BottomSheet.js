@@ -220,6 +220,14 @@ const styles = StyleSheet.create({
     width: 37,
     height: 37,
   },
+  saveButton: {
+    backgroundColor: "#D3D3D3",
+    borderRadius: 10,
+    alignItems: "center",
+    width: 37,
+    height: 37,
+    
+  }
 });
 
 export default BottomSheet;

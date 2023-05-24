@@ -56,6 +56,8 @@ const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
 // api key = "AIzaSyCC2ONx9Tr4pzoiW4mDGBa8yJYXjTZ8Tx0"
 
+
+
 export function ShowMap() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
