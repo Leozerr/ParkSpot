@@ -1,16 +1,13 @@
-import React, { FC, ReactElement, useState } from "react";
+import React, { FC, ReactElement, useState, useContext } from "react";
 import { View, Text, Pressable } from "react-native";
 import { Button, StyleSheet, Image, TextInput, Dimensions } from "react-native";
 import Places from "./Places";
+import { SavePlaceContext } from "../../SavePlaceContext";
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
 
 export function SavedScreen() {
-  const [placeItems, setPlaceItems] = useState([]);
-  const handleAddPlace = () => {
-    setPlaceItems([...placeItems, "J Canteen"]);
-  };
-
+  const { placeItems } = useContext(SavePlaceContext);
   return (
     <View style={styles.container}>
       <View style={styles.tasksWrapper}>
@@ -20,14 +17,8 @@ export function SavedScreen() {
           {placeItems.map((item, index) => {
             return <Places key={index} text={item} />;
           })}
-          <Places text={"J Canteen"} />
         </View>
       </View>
-      <Button
-        onPress={() => handleAddPlace()}
-        title="Add Place"
-        color="#f194ff"
-      />
     </View>
   );
 }

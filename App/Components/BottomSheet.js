@@ -1,8 +1,16 @@
-import { Image, Dimensions, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  Image,
+  Dimensions,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import React, {
   FC,
   ReactElement,
   useState,
+  useContext,
   useRef,
   useEffect,
   useImperativeHandle,
@@ -22,9 +30,10 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import LoginScreen from "../Screens/LoggedOut/Login";
-import { useNavigation } from '@react-navigation/native';
-import App, {isLoggedIn} from "../App";
-
+import { useNavigation } from "@react-navigation/native";
+import App, { isLoggedIn } from "../App";
+import { AppStateContext } from "../AppStateContext";
+import { SavePlaceContext } from "../SavePlaceContext";
 
 const ScreenHeight = Dimensions.get("screen").height;
 
@@ -70,7 +79,7 @@ export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
       // }
       // else if (translateY.value < -ScreenHeight / 3) {
       //   translateY.value = withTiming(-ScreenHeight + ScreenHeight / 3);
-      // } 
+      // }
       else if (translateY.value < ScreenHeight / 2) {
         translateY.value = withTiming(80);
       }
@@ -95,42 +104,54 @@ export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
     }),
     [expand, close]
   );
-  
+  const { isLoggedIn, setIsLoggedIn } = useContext(AppStateContext);
+  const { placeItems, setPlaceItems } = useContext(SavePlaceContext);
   const navigation = useNavigation();
   const [isSaved, setIsSaved] = useState(false);
   const [a, setA] = useState(isLoggedIn);
+
+  const handleAddPlace = () => {
+    setPlaceItems([...placeItems, "Parking Lot Name"]);
+  };
 
   const handleButtonPress = () => {
     if (!a) {
       navigation.navigate("Login");
     } else {
-      setIsSaved(!isSaved);
+      handleAddPlace();
     }
   };
 
   return (
-   //<Animated.View>
-      <GestureDetector gesture={gesture}>
-        <Animated.View style={[styles.bottomSheetContainer, animationStyle]}>
-          <View style={styles.header}>
-            <View style={styles.line} />
-            <View style={styles.groupHeader}>
-              <View style={styles.headerContent}>
-                <Text style={styles.headerText}>J Canteen</Text>
-                <Text style={styles.slotText}>Available</Text>
-              </View>
-              <View style={styles.headerRightContent}>
-              <TouchableOpacity style={styles.saveButton} onPress={handleButtonPress}>
+    //<Animated.View>
+    <GestureDetector gesture={gesture}>
+      <Animated.View style={[styles.bottomSheetContainer, animationStyle]}>
+        <View style={styles.header}>
+          <View style={styles.line} />
+          <View style={styles.groupHeader}>
+            <View style={styles.headerContent}>
+              <Text style={styles.headerText}>J Canteen</Text>
+              <Text style={styles.slotText}>Available</Text>
+            </View>
+            <View style={styles.headerRightContent}>
+              <TouchableOpacity
+                style={styles.saveButton}
+                onPress={handleButtonPress}
+              >
                 <Image
-                  source={isSaved ? require("../../Image/unsaveIcon.png") : require("../../Image/saveIcon.png")}
+                  source={
+                    isSaved
+                      ? require("../../Image/unsaveIcon.png")
+                      : require("../../Image/saveIcon.png")
+                  }
                   style={styles.bookmarkIcon}
                 />
               </TouchableOpacity>
-              </View>
             </View>
           </View>
-        </Animated.View>
-      </GestureDetector>
+        </View>
+      </Animated.View>
+    </GestureDetector>
     //</Animated.View>
   );
 });
@@ -178,9 +199,7 @@ const styles = StyleSheet.create({
     color: "#DADADA",
     //paddingLeft: 20,
   },
-  headerContent: {
-    
-  },
+  headerContent: {},
   groupHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -203,8 +222,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 37,
     height: 37,
-    
-  }
+  },
 });
 
 export default BottomSheet;

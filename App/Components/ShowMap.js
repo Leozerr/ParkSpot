@@ -1,4 +1,11 @@
-import React, { FC, ReactElement, useState, useEffect, useRef, useCallback } from "react";
+import React, {
+  FC,
+  ReactElement,
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import {
   View,
   Text,
@@ -8,7 +15,7 @@ import {
   TouchableOpacity,
   Platform,
   useWindowDimensions,
-  Easing
+  Easing,
 } from "react-native";
 import {
   NavigationContainer,
@@ -50,8 +57,6 @@ const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
 // api key = "AIzaSyCC2ONx9Tr4pzoiW4mDGBa8yJYXjTZ8Tx0"
 
-
-
 export function ShowMap() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -79,7 +84,7 @@ export function ShowMap() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(api.backend_URL+"/pins");
+        const response = await axios.get(api.backend_URL + "/pins");
         const data = response.data;
         setState((prevState) => ({
           ...prevState,
@@ -154,13 +159,12 @@ export function ShowMap() {
   const _map = React.useRef(null);
   const _scrollView = React.useRef(null);
 
-  const {height} = useWindowDimensions();
+  const { height } = useWindowDimensions();
   const bottomSheetRef = useRef(null);
-  const openHandler = useCallback(
-    () => {
-      bottomSheetRef.current.expand()
-    }, []);
-    
+  const openHandler = useCallback(() => {
+    bottomSheetRef.current.expand();
+  }, []);
+
   // Declare a state variable to hold the animated value
   //const animatedValue = React.useState(new Animated.Value(0))[0];
 
@@ -170,7 +174,6 @@ export function ShowMap() {
   // const markerTitle = markers.title || ''; // Make sure marker.title is not null or undefined
   // const isLongText = markerTitle.length > 12;
   // const textWidth = isLongText ? 12 * characterWidth : markerTitle.length * characterWidth;
-
 
   // Calculate the offset required for text sliding animation
   //const offset = textWidth - containerWidth;
@@ -184,8 +187,6 @@ export function ShowMap() {
   //     useNativeDriver: true,
   //   })
   // ).start();
-
-
 
   return (
     <View style={{ flex: 1 }}>
@@ -247,65 +248,75 @@ export function ShowMap() {
         <Ionicons name="ios-search" size={29} />
       </View>
       <Animated.ScrollView
-            ref={_scrollView}
-            horizontal
-            pagingEnabled
-            scrollEventThrottle={1}
-            showsHorizontalScrollIndicator={false}
-            snapToInterval={CARD_WIDTH + 20}
-            snapToAlignment="center"
-            style={styles.scrollView}
-            contentInset={{
-              top: 0,
-              left: SPACING_FOR_CARD_INSET,
-              bottom: 0,
-              right: SPACING_FOR_CARD_INSET,
-            }}
-            contentContainerStyle={{
-              paddingHorizontal:
-                Platform.OS === "android" ? SPACING_FOR_CARD_INSET : 0,
-            }}
-            onScroll={Animated.event(
-              [
-                {
-                  nativeEvent: {
-                    contentOffset: {
-                      x: mapAnimation,
-                    },
-                  },
+        ref={_scrollView}
+        horizontal
+        pagingEnabled
+        scrollEventThrottle={1}
+        showsHorizontalScrollIndicator={false}
+        snapToInterval={CARD_WIDTH + 20}
+        snapToAlignment="center"
+        style={styles.scrollView}
+        contentInset={{
+          top: 0,
+          left: SPACING_FOR_CARD_INSET,
+          bottom: 0,
+          right: SPACING_FOR_CARD_INSET,
+        }}
+        contentContainerStyle={{
+          paddingHorizontal:
+            Platform.OS === "android" ? SPACING_FOR_CARD_INSET : 0,
+        }}
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: {
+                  x: mapAnimation,
                 },
-              ],
-              { useNativeDriver: true }
-            )}
+              },
+            },
+          ],
+          { useNativeDriver: true }
+        )}
+      >
+        {state.markers.map((marker, index) => (
+          <TouchableOpacity
+            style={styles.card}
+            key={index}
+            onPress={() => {
+              openHandler();
+            }}
           >
-            {state.markers.map((marker, index) => (
-              <TouchableOpacity style={styles.card} key={index} 
-              onPress={() => {
-                openHandler();
-              }}>
-                <Image
-                  //source={{uri: marker.image}}
-                  source={marker.image ? { uri: marker.image } : require('../../Image/ParkBG.jpg')}
-                  style={styles.cardImage}
-                  resizeMode="cover"
-                />
-                  {/* //Name of place */}
-                <View style={styles.textContent}>
-                  {/* <View style={styles.firstRowTitle}> */}
-                    <Text numberOfLines={1} style={styles.cardtitle}>
-                      {marker.title}
-                    </Text>
-                     {/* //Available amount*/}
-                     <Text numberOfLines={1} style={[
-                        styles.cardDescription,
-                        marker.description === "Available" && { color: '#41A317' },
-                        marker.description === "Full" && { color: 'red' },
-                        marker.description === "N/A" && { color: '#808080' },
-                      ]}>
-                        {marker.description}
-                      </Text>
-                  </View>
-                    {/* <TouchableOpacity
+            <Image
+              //source={{uri: marker.image}}
+              source={
+                marker.image
+                  ? { uri: marker.image }
+                  : require("../../Image/ParkBG.jpg")
+              }
+              style={styles.cardImage}
+              resizeMode="cover"
+            />
+            {/* //Name of place */}
+            <View style={styles.textContent}>
+              {/* <View style={styles.firstRowTitle}> */}
+              <Text numberOfLines={1} style={styles.cardtitle}>
+                {marker.title}
+              </Text>
+              {/* //Available amount*/}
+              <Text
+                numberOfLines={1}
+                style={[
+                  styles.cardDescription,
+                  marker.description === "Available" && { color: "#41A317" },
+                  marker.description === "Full" && { color: "red" },
+                  marker.description === "N/A" && { color: "#808080" },
+                ]}
+              >
+                {marker.description}
+              </Text>
+            </View>
+            {/* <TouchableOpacity
                       onPress={() => {
                         openHandler();
                       }}
@@ -331,13 +342,12 @@ export function ShowMap() {
                         View
                       </Text> 
                     </TouchableOpacity> */}
-                  {/* <GestureHandlerRootView style={{ flex: 1 }} /> */}
-                {/* </View> */}
-              </TouchableOpacity>
-            ))}
-          </Animated.ScrollView>
-          <BottomSheet activeHeight={height*0.5} ref={bottomSheetRef} />
-
+            {/* <GestureHandlerRootView style={{ flex: 1 }} /> */}
+            {/* </View> */}
+          </TouchableOpacity>
+        ))}
+      </Animated.ScrollView>
+      <BottomSheet activeHeight={height * 0.5} ref={bottomSheetRef} />
     </View>
   );
 }
@@ -436,6 +446,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
-    
   },
 });
