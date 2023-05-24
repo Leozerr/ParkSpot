@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import api from "../api/api";
 
 const Images = [
   { image: require("../Image/HM_Parking.png") },
@@ -8,32 +9,37 @@ const Images = [
   { image: require("../Image/Bank_Parking.png") },
 ];
 
-// axios.get('https://localhost:5001/pins/')
-//   .then(response => {
-//     // handle success
-//     console.log(response.data);
-//   })
-//   .catch(error => {
-//     // handle error
-//     console.log(error);
-//   });
-
-export function fetchtest() {
+export function DataDisplay() {
   const [data, setData] = useState([]);
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data: response } = await axios.get(
-          "http://localhost:5001/pins"
-        );
-        setData(response);
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-    fetchData();
-    console.log(data);
+    axios
+      .get(api.backend_URL + "/pins")
+      .then((response) => {
+        setData(response.data);
+        // console.log("HELLO", response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
+
+  //console.log("DATA = ", data);
+
+  const markers = data.map((item) => ({
+    id: item.id,
+    coordinate: {
+      latitude: item.latitude,
+      longtitude: item.longtitude,
+    },
+    title: item.name,
+    description: "Available",
+    image: item.image,
+  }));
+
+  // console.log("marker" + markers[0].image);
+
+  return markers;
 }
 
 

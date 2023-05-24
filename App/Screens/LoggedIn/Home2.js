@@ -1,4 +1,11 @@
-import React, { FC, ReactElement, useState, useRef, useEffect, useCallback } from "react";
+import React, {
+  FC,
+  ReactElement,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+} from "react";
 import {
   View,
   Text,
@@ -16,24 +23,23 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 import { ShowMap } from "../../Components/ShowMap.js";
-import { BottomSheet, rBottomSheetStyle } from "../../Components/BottomSheet.js";
+import {
+  BottomSheet,
+  rBottomSheetStyle,
+} from "../../Components/BottomSheet.js";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { CustomHeaderLoggedIn } from "../../Components/HeaderLoggedIn.js";
 
-
 export function HomeScreenLoggedIn() {
   const navigation = useNavigation();
-  const {height} = useWindowDimensions();
+  const { height } = useWindowDimensions();
   const bottomSheetRef = useRef(null);
-  const openHandler = useCallback(
-    () => {
-      bottomSheetRef.current.expand()
-    }, []);
-  const closeHandler = useCallback(
-    () => {
-      bottomSheetRef.current.close()
-    }, []);
-
+  const openHandler = useCallback(() => {
+    bottomSheetRef.current.expand();
+  }, []);
+  const closeHandler = useCallback(() => {
+    bottomSheetRef.current.close();
+  }, []);
 
   // useEffect(() => {
   // if (sheetRef.current) {
@@ -46,7 +52,7 @@ export function HomeScreenLoggedIn() {
       <View style={{ flex: 1 }}>
         <CustomHeaderLoggedIn />
         <ShowMap />
-        <BottomSheet activeHeight={height*0.5} ref={bottomSheetRef} />
+        <BottomSheet activeHeight={height * 0.5} ref={bottomSheetRef} />
       </View>
     </GestureHandlerRootView>
     // <View style={{ flex: 1 }}>

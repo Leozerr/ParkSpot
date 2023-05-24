@@ -27,6 +27,7 @@ import { RegisterScreen } from "../Screens/LoggedOut/Register.js";
 import { LoginScreen } from "../Screens/LoggedOut/Login.js";
 import { HomeScreen, LoginButton } from "../Screens/LoggedOut/Home.js";
 import { ForgotPasswordScreen } from "../Screens/LoggedOut/ForgotPassword.js";
+import { ResetPasswordScreen } from "../Screens/LoggedOut/ResetPassword.js";
 import { ContactUsScreen } from "../Screens/contactUs.js";
 import { SignInDrawer } from "../Components/HeaderLoggedOut.js";
 
@@ -114,6 +115,20 @@ export function HomePageLoggedOut({ onLogin }) {
       <Stack.Screen
         name="ForgotPassword"
         component={ForgotPasswordScreen}
+        options={{
+          headerTintColor: "black",
+          headerBackTitle: "",
+          headerTitle: () => (
+            <Image
+              source={require("../../Image/logo.png")}
+              style={{ width: 100, height: 25 }}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="ResetPassword"
+        component={ResetPasswordScreen}
         options={{
           headerTintColor: "black",
           headerBackTitle: "",

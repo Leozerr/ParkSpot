@@ -1,20 +1,20 @@
 const sql = require("../../../sql");
 
 module.exports = {
-  async pinUpLongti(req, res) {
+  async pinUpLongi(req, res) {
     const symbol = req.params.symbol;
-    const newLongti = req.body.newLongti;
+    const newLongi = req.body.newLongi;
 
     try {
       sql.Connection.query(
-        "UPDATE pins SET longtitude = ? WHERE symbol = ?",
-        [newLongti, symbol],
+        "UPDATE pins SET longitude = ? WHERE symbol = ?",
+        [newLongi, symbol],
         (err, results, fields) => {
           if (err) {
             console.log(err);
             return res.status(400).send();
           }
-          res.status(200).json({ message: "Longtitude updated successfully!" });
+          res.status(200).json({ message: "Longitude updated successfully!" });
         }
       );
     } catch (err) {

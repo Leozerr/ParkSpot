@@ -1,4 +1,11 @@
-import React, { FC, ReactElement, useState, useEffect, useRef, useCallback } from "react";
+import React, {
+  FC,
+  ReactElement,
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import {
   View,
   Text,
@@ -7,7 +14,11 @@ import {
   Animated,
   TouchableOpacity,
   Platform,
-  useWindowDimensions
+  useWindowDimensions,
+<<<<<<< Updated upstream
+  Easing,
+=======
+>>>>>>> Stashed changes
 } from "react-native";
 import {
   NavigationContainer,
@@ -16,19 +27,29 @@ import {
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Button, StyleSheet, Image, TextInput } from "react-native";
-import MapView, { Callout, Circle, Marker } from "react-native-maps";
+import MapView, {
+  Callout,
+  Circle,
+  Marker,
+  PROVIDER_GOOGLE,
+} from "react-native-maps";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { RegisterScreen } from "../Screens/LoggedOut/Register";
 import { LoginScreen } from "../Screens/LoggedOut/Login.js";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { markers, mapDarkStyle, mapStandardStyle } from "../../model/mapData";
+// import { markers, mapDarkStyle, mapStandardStyle } from "../../model/mapData";
 import { useTheme } from "@react-navigation/native";
 import * as Location from "expo-location";
-import { fetchtest } from "../../model/mapData";
+import { fetchtest, markers } from "../../model/mapData";
 import BottomSheet from "./BottomSheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+import axios from "axios";
+import api from "../../api/api";
+
+// import { DataDisplay } from "../../model/mapData";
 
 const { width, height } = Dimensions.get("window");
 const LATITUDE_DELTA = 0.015;
@@ -42,8 +63,7 @@ const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 export function ShowMap() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-
-  fetchtest;
+  // const markers = DataDisplay();
 
   useEffect(() => {
     (async () => {
@@ -58,6 +78,42 @@ export function ShowMap() {
     })();
   }, [location]);
 
+  const initialMapState = {
+    markers: [],
+  };
+
+  const [state, setState] = useState(initialMapState);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(api.backend_URL + "/pins");
+        const data = response.data;
+        setState((prevState) => ({
+          ...prevState,
+          markers: transformDataToMarkers(data),
+        }));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const transformDataToMarkers = (data) => {
+    return data.map((item) => ({
+      id: item.id,
+      coordinate: {
+        latitude: item.latitude,
+        longitude: item.longitude,
+      },
+      title: item.name,
+      description: "Available",
+      image: item.image,
+    }));
+  };
+
   // console.log({ location });
   let text = "Waiting..";
   if (errorMsg) {
@@ -69,10 +125,10 @@ export function ShowMap() {
   // console.log(location.coords.latitude + "", location.coords.longitude + "");
   const mapRef = useRef(null);
 
-  const initialMapState = {
-    markers,
-  };
-  const [state, setState] = React.useState(initialMapState);
+  // const initialMapState = {
+  //   markers,
+  // };
+  // const [state, setState] = React.useState(initialMapState);
 
   let mapIndex = 0;
   let mapAnimation = new Animated.Value(0);
@@ -106,30 +162,49 @@ export function ShowMap() {
   const _map = React.useRef(null);
   const _scrollView = React.useRef(null);
 
-  const {height} = useWindowDimensions();
+  const { height } = useWindowDimensions();
   const bottomSheetRef = useRef(null);
-  const openHandler = useCallback(
-    () => {
-      bottomSheetRef.current.expand()
-    }, []);
+  const openHandler = useCallback(() => {
+    bottomSheetRef.current.expand();
+  }, []);
 
+  // Declare a state variable to hold the animated value
+  //const animatedValue = React.useState(new Animated.Value(0))[0];
 
+  // Calculate the width of the text container (e.g., based on parent's width)
+  //const containerWidth = CARD_WIDTH;
 
+  // const markerTitle = markers.title || ''; // Make sure marker.title is not null or undefined
+  // const isLongText = markerTitle.length > 12;
+  // const textWidth = isLongText ? 12 * characterWidth : markerTitle.length * characterWidth;
 
+  // Calculate the offset required for text sliding animation
+  //const offset = textWidth - containerWidth;
 
-
-
+  // Create the text sliding animation
+  // Animated.loop(
+  //   Animated.timing(animatedValue, {
+  //     toValue: -offset,
+  //     duration: 2000, // Adjust the duration as per your preference
+  //     easing: Easing.linear,
+  //     useNativeDriver: true,
+  //   })
+  // ).start();
 
   return (
     <View style={{ flex: 1 }}>
       <MapView
         style={{ flex: 1 }}
         showsUserLocation={true}
-        showsMyLocationButton={true}
+        //showsMyLocationButton={true}
+        provider={PROVIDER_GOOGLE}
+        // mapPadding={{ top: 0, right: 50, bottom: 400, left: 50 }}
         ref={mapRef}
         initialRegion={{
-          latitude: 13.726518,
-          longitude: 100.775701,
+          //latitude: 13.726518,
+          //longitude: 100.775701,
+          latitude: location ? location.coords.latitude : 13.726518,
+          longitude: location ? location.coords.longitude : 100.775701,
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
         }}
@@ -173,64 +248,80 @@ export function ShowMap() {
           placeholder="search here"
           placeholderTextColor="#ccc"
           autoCapitalize="none"
-          style={{ flex: 1, paddingLeft: 10, fontWeight: "bold" }}
+          style={{ flex: 1, paddingLeft: 10, fontSize: 16 }}
         />
         <Ionicons name="ios-search" size={29} />
       </View>
       <Animated.ScrollView
-            ref={_scrollView}
-            horizontal
-            pagingEnabled
-            scrollEventThrottle={1}
-            showsHorizontalScrollIndicator={false}
-            snapToInterval={CARD_WIDTH + 20}
-            snapToAlignment="center"
-            style={styles.scrollView}
-            contentInset={{
-              top: 0,
-              left: SPACING_FOR_CARD_INSET,
-              bottom: 0,
-              right: SPACING_FOR_CARD_INSET,
-            }}
-            contentContainerStyle={{
-              paddingHorizontal:
-                Platform.OS === "android" ? SPACING_FOR_CARD_INSET : 0,
-            }}
-            onScroll={Animated.event(
-              [
-                {
-                  nativeEvent: {
-                    contentOffset: {
-                      x: mapAnimation,
-                    },
-                  },
+        ref={_scrollView}
+        horizontal
+        pagingEnabled
+        scrollEventThrottle={1}
+        showsHorizontalScrollIndicator={false}
+        snapToInterval={CARD_WIDTH + 20}
+        snapToAlignment="center"
+        style={styles.scrollView}
+        contentInset={{
+          top: 0,
+          left: SPACING_FOR_CARD_INSET,
+          bottom: 0,
+          right: SPACING_FOR_CARD_INSET,
+        }}
+        contentContainerStyle={{
+          paddingHorizontal:
+            Platform.OS === "android" ? SPACING_FOR_CARD_INSET : 0,
+        }}
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: {
+                  x: mapAnimation,
                 },
-              ],
-              { useNativeDriver: true }
-            )}
+              },
+            },
+          ],
+          { useNativeDriver: true }
+        )}
+      >
+        {state.markers.map((marker, index) => (
+          <TouchableOpacity
+            style={styles.card}
+            key={index}
+            onPress={() => {
+              openHandler();
+            }}
           >
-            {state.markers.map((marker, index) => (
-              <View style={styles.card} key={index}>
-                <Image
-                  source={marker.image}
-                  style={styles.cardImage}
-                  resizeMode="cover"
-                />
-                  {/* //Name of place */}
-                <View style={styles.textContent}>
-                  <View style={styles.firstRowTitle}>
-                    <Text numberOfLines={1} style={styles.cardtitle}>
-                      {marker.title}
-                    </Text>
-                     {/* //Available amount*/}
-                    <Text numberOfLines={1} style={styles.cardDescription}>
-                      {marker.description}
-                    </Text>
-                    <Text numberOfLines={1} style={styles.cardSubDescription}>
-                      {marker.sub_description}
-                    </Text>
-                  </View>
-                    <TouchableOpacity
+            <Image
+              //source={{uri: marker.image}}
+              source={
+                marker.image
+                  ? { uri: marker.image }
+                  : require("../../Image/ParkBG.jpg")
+              }
+              style={styles.cardImage}
+              resizeMode="cover"
+            />
+            {/* //Name of place */}
+            <View style={styles.textContent}>
+              {/* <View style={styles.firstRowTitle}> */}
+              <Text numberOfLines={1} style={styles.cardtitle}>
+                {marker.title}
+              </Text>
+              {/* //Available amount*/}
+              <Text
+                numberOfLines={1}
+                style={[
+                  styles.cardDescription,
+                  marker.description === "Available" && { color: "#41A317" },
+                  marker.description === "Full" && { color: "red" },
+                  marker.description === "N/A" && { color: "#808080" },
+                ]}
+              >
+                {marker.description}
+              </Text>
+            </View>
+            {/* <TouchableOpacity
                       onPress={() => {
                         openHandler();
                       }}
@@ -254,15 +345,14 @@ export function ShowMap() {
                         ]}
                       >
                         View
-                      </Text>
-                    </TouchableOpacity>
-                  {/* <GestureHandlerRootView style={{ flex: 1 }} /> */}
-                </View>
-              </View>
-            ))}
-          </Animated.ScrollView>
-          <BottomSheet activeHeight={height*0.5} ref={bottomSheetRef} />
-
+                      </Text> 
+                    </TouchableOpacity> */}
+            {/* <GestureHandlerRootView style={{ flex: 1 }} /> */}
+            {/* </View> */}
+          </TouchableOpacity>
+        ))}
+      </Animated.ScrollView>
+      <BottomSheet activeHeight={height * 0.5} ref={bottomSheetRef} />
     </View>
   );
 }
@@ -323,26 +413,26 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   textContent: {
-    flexDirection: "row",
+    //flexDirection: "row",
     justifyContent: "space-between",
     flex: 2,
     padding: 10,
   },
-  firstRowTitle: {
-    flexDirection: "col",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-  },
+  // firstRowTitle: {
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   alignItems: "flex-start",
+  // },
   cardtitle: {
     fontSize: 22,
-    //color: "#fff",
     fontWeight: "bold",
   },
   cardDescription: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: "bold",
     //color: "#444",
-    color: "#41A317",
+    paddingBottom: 12,
+    paddingTop: 15,
   },
   markerWrap: {
     alignItems: "center",
@@ -361,6 +451,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
-    
   },
 });
