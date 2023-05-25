@@ -38,7 +38,7 @@ import { SavePlaceContext } from "../SavePlaceContext";
 
 const ScreenHeight = Dimensions.get("screen").height;
 
-export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
+export const BottomSheet = forwardRef(({ activeHeight, marker }, ref) => {
   const newActiveHeight = ScreenHeight - activeHeight;
   const translateY = useSharedValue(ScreenHeight);
   const animationStyle = useAnimatedStyle(() => {
@@ -132,7 +132,9 @@ export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
           <View style={styles.line} />
           <View style={styles.groupHeader}>
             <View style={styles.headerContent}>
-              <Text style={styles.headerText}>Convention Hall Parking</Text>
+              <Text style={styles.headerText}>
+                {marker && marker.title ? marker.title : "Loading"}
+              </Text>
               <Text style={styles.slotText}>Available</Text>
             </View>
             <View style={styles.headerRightContent}>
