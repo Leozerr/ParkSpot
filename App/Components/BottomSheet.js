@@ -5,6 +5,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import React, {
   FC,
@@ -116,6 +117,7 @@ export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
 
   const handleButtonPress = () => {
     if (!a) {
+      Alert.alert("Save Place Failed", "Must Login to continue");
       navigation.navigate("Login");
     } else {
       handleAddPlace();
@@ -123,18 +125,21 @@ export const BottomSheet = forwardRef(({ activeHeight }, ref) => {
   };
 
   return (
-   //<Animated.View>
-      <GestureDetector gesture={gesture}>
-        <Animated.View style={[styles.bottomSheetContainer, animationStyle]}>
-          <View style={styles.header}>
-            <View style={styles.line} />
-            <View style={styles.groupHeader}>
-              <View style={styles.headerContent}>
-                <Text style={styles.headerText}>Convention Hall Parking</Text>
-                <Text style={styles.slotText}>Available</Text>
-              </View>
-              <View style={styles.headerRightContent}>
-              <TouchableOpacity style={styles.saveButton} onPress={handleButtonPress}>
+    //<Animated.View>
+    <GestureDetector gesture={gesture}>
+      <Animated.View style={[styles.bottomSheetContainer, animationStyle]}>
+        <View style={styles.header}>
+          <View style={styles.line} />
+          <View style={styles.groupHeader}>
+            <View style={styles.headerContent}>
+              <Text style={styles.headerText}>Convention Hall Parking</Text>
+              <Text style={styles.slotText}>Available</Text>
+            </View>
+            <View style={styles.headerRightContent}>
+              <TouchableOpacity
+                style={styles.saveButton}
+                onPress={handleButtonPress}
+              >
                 <Image
                   source={
                     isSaved
