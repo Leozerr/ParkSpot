@@ -52,7 +52,6 @@ export function HomeScreenLoggedIn() {
       <View style={{ flex: 1 }}>
         <CustomHeaderLoggedIn />
         <ShowMap />
-        <BottomSheet activeHeight={height * 0.5} ref={bottomSheetRef} />
       </View>
     </GestureHandlerRootView>
     // <View style={{ flex: 1 }}>

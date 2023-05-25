@@ -44,7 +44,6 @@ export function HomeScreen() {
       <View style={{ flex: 1 }}>
         <CustomHeaderLoggedOut />
         <ShowMap />
-        <BottomSheet />
       </View>
     </GestureHandlerRootView>
     // <View style={{ flex: 1 }}>
