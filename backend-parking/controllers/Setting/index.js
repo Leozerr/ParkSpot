@@ -11,6 +11,7 @@ const { comparePass } = require("./users/comparePass");
 const { login } = require("./users/login");
 const { userFavorite } = require("./users/userFavorite");
 const { userUpdateProfile } = require("./users/userUpdateProfile");
+const { emailExist } = require("./users/emailExist");
 
 //Pins
 const { pins } = require("./pins/pins");
@@ -42,6 +43,7 @@ module.exports = {
   login,
   userFavorite,
   userUpdateProfile,
+  emailExist,
 
   //Pin Export
   pins,
