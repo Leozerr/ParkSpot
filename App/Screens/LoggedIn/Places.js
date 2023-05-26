@@ -22,7 +22,7 @@ const Places = (props) => {
       borderBottomWidth: 3,
       borderBottomColor: "#EBEBEB",
       padding: 10,
-      paddingVertical: 20,
+      paddingVertical: 40,
       flex:1
     },
     logo: {

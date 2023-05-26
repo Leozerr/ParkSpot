@@ -56,8 +56,6 @@
 
 // // api key = "AIzaSyCC2ONx9Tr4pzoiW4mDGBa8yJYXjTZ8Tx0"
 
-
-
 // export function ShowMap() {
 //   const [location, setLocation] = useState(null);
 //   const [errorMsg, setErrorMsg] = useState(null);
@@ -343,7 +341,7 @@
 //                         ]}
 //                       >
 //                         View
-//                       </Text> 
+//                       </Text>
 //                     </TouchableOpacity> */}
 //             {/* <GestureHandlerRootView style={{ flex: 1 }} /> */}
 //             {/* </View> */}
@@ -356,7 +354,6 @@
 // }
 
 // export default ShowMap;
-
 
 //ShowMap.js
 import React, { useState, useEffect, useRef, useCallback } from "react";
@@ -445,6 +442,7 @@ export function ShowMap() {
       title: item.name,
       description: "Available",
       image: item.image,
+      symbol: item.symbol,
     }));
   };
 
@@ -787,5 +785,3 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 });
-
-
