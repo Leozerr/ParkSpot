@@ -104,17 +104,19 @@ export const BottomSheet = forwardRef(({ activeHeight, marker }, ref) => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const email = await AsyncStorage.getItem("userToken");
-        const response = await axios.get(api.backend_URL + "/fav/" + email);
-        const data = response.data;
-        setSaved(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
+    if (isLoggedIn == true) {
+      const fetchData = async () => {
+        try {
+          const email = await AsyncStorage.getItem("userToken");
+          const response = await axios.get(api.backend_URL + "/fav/" + email);
+          const data = response.data;
+          setSaved(data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchData();
+    }
   }, [saved]);
 
   const removeFav = async () => {

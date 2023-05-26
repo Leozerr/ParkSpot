@@ -39,7 +39,10 @@ const List = ({ searchPhrase, setClicked, data, onMarkerPress, mapEventData }) =
   const renderItem = ({ item }) => {
     // when no input, show all
     if (searchPhrase === "") {
-      return <Item name={item.name} symbol={item.symbol} onPress={() => onMarkerPress(item, mapEventData)} />;
+      return <Item name={item.name} symbol={item.symbol} onPress={() => {
+        onMarkerPress(item, mapEventData);
+        setClicked(false);
+      }} />;
     }
     // filter of the name
     if (
@@ -47,7 +50,10 @@ const List = ({ searchPhrase, setClicked, data, onMarkerPress, mapEventData }) =
         .toUpperCase()
         .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))
     ) {
-      return <Item name={item.name} symbol={item.symbol} onPress={() => onMarkerPress(item, mapEventData)} />;
+      return <Item name={item.name} symbol={item.symbol} onPress={() => {
+        onMarkerPress(item, mapEventData);
+        setClicked(false);
+      }} />;
     }
     // filter of the description
     if (
@@ -55,12 +61,15 @@ const List = ({ searchPhrase, setClicked, data, onMarkerPress, mapEventData }) =
         .toUpperCase()
         .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))
     ) {
-      return <Item name={item.name} symbol={item.symbol} onPress={() => onMarkerPress(item, mapEventData)} />;
+      return <Item name={item.name} symbol={item.symbol} onPress={() => {
+        onMarkerPress(item, mapEventData);
+        setClicked(false);
+      }} />;
     }
   };
 
   return (
-    <SafeAreaView style={styles.list__container}>
+    <SafeAreaView style={styles.list_container}>
       <View style={styles.listOfItem}
         onStartShouldSetResponder={() => {
           setClicked(false);
@@ -79,10 +88,12 @@ const List = ({ searchPhrase, setClicked, data, onMarkerPress, mapEventData }) =
 export default List;
 
 const styles = StyleSheet.create({
-  list__container: {
-    //margin: 10,
-    height: "99.9%",
+  list_container: {
+    position: "absolute",
+    height: "100%",
     width: "100%",
+    zIndex: 3,
+    backgroundColor: "#fff",
   },
   listOfItem: {
     paddingTop: 70,

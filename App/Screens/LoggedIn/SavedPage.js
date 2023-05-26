@@ -16,6 +16,7 @@ import axios from "axios";
 import api from "../../../api/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
+import { onMarkerPress } from "../../Components/ShowMap.js"
 
 export function SavedScreen() {
   const { placeItems, setPlaceItems } = useContext(SavePlaceContext);
@@ -37,6 +38,11 @@ export function SavedScreen() {
     }
   }, [isFocused]);
 
+  const handlePlacePress = (item) => {
+    // Handle the place press event here
+    onMarkerPress(item, mapEventData);
+    // setClicked(false);
+  };
   
 
   return (
@@ -46,7 +52,7 @@ export function SavedScreen() {
         <View style={styles.items}>
           {/* This is where the Saved Places wil go */}
           {placeItems.map((item, index) => {
-            return <Places key={index} text={item.name} />;
+            return <Places key={index} text={item.name} onPress={() => handlePlacePress(item)} />;
           })}
         </View>
       </View>

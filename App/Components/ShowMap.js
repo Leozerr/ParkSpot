@@ -12,6 +12,7 @@ import { StyleSheet, Image, TextInput } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 import BottomSheet from "./BottomSheet";
+import { Feather } from "@expo/vector-icons";
 
 import axios from "axios";
 import api from "../../api/api";
@@ -36,7 +37,6 @@ export function ShowMap() {
   const [clicked, setClicked] = useState(false);
   const [data, setData] = useState([]);
   const [sheet, setSheet] = useState([]);
-  
 
   useEffect(() => {
     (async () => {
@@ -49,7 +49,7 @@ export function ShowMap() {
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
     })();
-  }, [location]);
+  }, []);
 
   const initialMapState = {
     markers: [],
@@ -71,22 +71,68 @@ export function ShowMap() {
         console.error(error);
       }
     };
-    //console.log(data);
     fetchData();
   }, []);
 
+  const [currentLocation, setCurrentLocation] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      setCurrentLocation(location.coords);
+    })();
+  }, []);
+
+
+  const moveToCurrentLocation = () => {
+    if (currentLocation) {
+      const { latitude, longitude } = currentLocation;
+      mapRef.current.animateToRegion(
+        {
+          latitude,
+          longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA,
+        },
+        1000
+      );
+    }
+  };
+
   const transformDataToMarkers = (data) => {
-    return data.map((item) => ({
-      id: item.id,
-      coordinate: {
-        latitude: item.latitude,
-        longitude: item.longitude,
-      },
-      title: item.name,
-      description: "Available",
-      image: item.image,
-      symbol: item.symbol,
-    }));
+    return data.map((item) => {
+      let description = "";
+      if (item.fullSlots == 0 || item.fullSlots === null) {
+        description = "N/A";
+      } else {
+        if (item.cars > item.fullSlots / 3) {
+          description = "Almost Full";
+        } else if (item.cars >= item.fullSlots) {
+          description = "Full";
+        } else {
+          description = "Available";
+        }
+      }
+
+      return {
+        id: item.id,
+        coordinate: {
+          latitude: item.latitude,
+          longitude: item.longitude,
+        },
+        title: item.name,
+        description: description,
+        image: item.image,
+        symbol: item.symbol,
+      };
+    });
   };
 
   let text = "Waiting..";
@@ -99,8 +145,7 @@ export function ShowMap() {
 
   const mapRef = useRef(null);
 
-  let mapIndex = 0;
-  let mapAnimation = new Animated.Value(0);
+  const mapAnimation = useRef(new Animated.Value(0)).current;
 
   const interpolations = state.markers.map((marker, index) => {
     const inputRange = [
@@ -117,19 +162,38 @@ export function ShowMap() {
 
     return { scale };
   });
-  const onMarkerPress = (mapEventData) => {
-    const markerID = mapEventData._targetInst.return.key;
+
+  const [clickedMarkerId, setClickedMarkerId] = useState(null);
+  
+  const onMarkerPress = useCallback((marker) => {
+    const { latitude, longitude } = marker.coordinate || {};
+    const markerID = marker.id - 1;
+
+    if (markerID !== clickedMarkerId) {
+      setClickedMarkerId(markerID);
+    } else {
+      setClickedMarkerId(null);
+    }
 
     let x = markerID * CARD_WIDTH + markerID * 20;
     if (Platform.OS === "ios") {
       x = x - SPACING_FOR_CARD_INSET;
     }
+    _scrollView.current.scrollTo({ x: x, y: 0, animated: false });
 
-    _scrollView.current.scrollTo({ x: x, y: 0, animated: true });
-  };
+    if (latitude && longitude) {
+      const region = {
+        latitude,
+        longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      };
+      mapRef.current.animateToRegion(region);
+    }
+  }, []);
 
-  const _map = React.useRef(null);
-  const _scrollView = React.useRef(null);
+  const _map = useRef(null);
+  const _scrollView = useRef(null);
 
   const { height } = useWindowDimensions();
   const bottomSheetRef = useRef(null);
@@ -138,55 +202,20 @@ export function ShowMap() {
     setSheet(marker);
   }, []);
 
-  // Declare a state variable to hold the animated value
-  //const animatedValue = React.useState(new Animated.Value(0))[0];
-
-  // Calculate the width of the text container (e.g., based on parent's width)
-  //const containerWidth = CARD_WIDTH;
-
-  // const markerTitle = markers.title || ''; // Make sure marker.title is not null or undefined
-  // const isLongText = markerTitle.length > 12;
-  // const textWidth = isLongText ? 12 * characterWidth : markerTitle.length * characterWidth;
-
-  // Calculate the offset required for text sliding animation
-  //const offset = textWidth - containerWidth;
-
-  // Create the text sliding animation
-  // Animated.loop(
-  //   Animated.timing(animatedValue, {
-  //     toValue: -offset,
-  //     duration: 2000, // Adjust the duration as per your preference
-  //     easing: Easing.linear,
-  //     useNativeDriver: true,
-  //   })
-  // ).start();
-
   return (
     <View style={{ flex: 1 }}>
       <MapView
         style={{ flex: 1 }}
         showsUserLocation={true}
-        //showsMyLocationButton={true}
         provider={PROVIDER_GOOGLE}
-        // mapPadding={{ top: 0, right: 50, bottom: 400, left: 50 }}
         ref={mapRef}
         initialRegion={{
-          //latitude: 13.726518,
-          //longitude: 100.775701,
           latitude: location ? location.coords.latitude : 13.726518,
           longitude: location ? location.coords.longitude : 100.775701,
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
         }}
       >
-        {/* {location && (
-          <Marker
-            coordinate={{
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
-            }}
-          ></Marker>
-        )} */}
         {state.markers.map((marker, index) => {
           const scaleStyle = {
             transform: [
@@ -199,7 +228,7 @@ export function ShowMap() {
             <Marker
               key={index}
               coordinate={marker.coordinate}
-              onPress={(e) => onMarkerPress(e)}
+              onPress={() => onMarkerPress(marker)}
             >
               <Animated.View style={[styles.markerWrap]}>
                 <Animated.Image
@@ -219,9 +248,22 @@ export function ShowMap() {
         setClicked={setClicked}
       />
       {clicked && (
-        <List searchPhrase={searchPhrase} data={data} setClicked={setClicked} 
-        handleItemPress={(item) => handleItemPress(item, CARD_WIDTH, _scrollView)} onMarkerPress={onMarkerPress} />
+        <List
+          searchPhrase={searchPhrase}
+          data={data}
+          setClicked={setClicked}
+          handleItemPress={(item) =>
+            handleItemPress(item, CARD_WIDTH, _scrollView)
+          }
+          onMarkerPress={onMarkerPress}
+          style={{ zIndex: 3 }}
+        />
       )}
+      <View style={styles.myLocationButton}>
+        <TouchableOpacity onPress={moveToCurrentLocation}>
+          <Feather name="navigation" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
       <Animated.ScrollView
         ref={_scrollView}
         horizontal
@@ -285,6 +327,7 @@ export function ShowMap() {
                   styles.cardDescription,
                   marker.description === "Available" && { color: "#41A317" },
                   marker.description === "Full" && { color: "red" },
+                  marker.description === "Almost Full" && { color: "#ffcc00" },
                   marker.description === "N/A" && { color: "#808080" },
                 ]}
               >
@@ -296,6 +339,7 @@ export function ShowMap() {
           </TouchableOpacity>
         ))}
       </Animated.ScrollView>
+
       <BottomSheet
         activeHeight={height * 0.5}
         ref={bottomSheetRef}
@@ -385,5 +429,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
+  },
+  myLocationButton: {
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    height: 40,
+    width: 40,
+    top: "20%", // Adjust the top value as needed
+    right: 10,    
+    shadowColor: "#000",
+    shadowRadius: 2,
+    shadowOpacity: 0.3,
+    shadowOffset: { x: 2, y: -2 },
   },
 });

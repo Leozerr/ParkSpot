@@ -29,7 +29,7 @@ export function SearchBox({
             name="cross"
             size={20}
             color="black"
-            style={{ padding: 1 }}
+            style={{ padding: 1, flex: "flexEnd" }}
             onPress={() => {
               setSearchPhrase("");
             }}
@@ -37,9 +37,22 @@ export function SearchBox({
         )} */}
       </View>
       {clicked && (
-        <View>
+        
+        <View style={{ flexDirection: "row" }}>
+          {clicked && (
+          <Entypo
+            name="cross"
+            size={25}
+            color="grey"
+            style={{ padding: 6.5, alignSelf: "center",  }}
+            onPress={() => {
+              setSearchPhrase("");
+            }}
+          />
+        )}
           <Button
             title="Cancel"
+            style={{ alignSelf: "center",  }}
             onPress={() => {
               Keyboard.dismiss();
               setClicked(false);
@@ -68,6 +81,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 5,
     elevation: 10,
+    zIndex: 4,
   },
   input: {
     fontSize: 16,

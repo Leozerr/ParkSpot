@@ -1,14 +1,22 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import logo from "../../../Image/parkpin.png"
-const Places = (props) => {
+const Places = (props, onPress) => {
+  const navigation = useNavigation();
+
+  const navigateWithPin = () => {
+    navigation.navigate("Home");
+  };
   return (
-    <View style={styles.mainBox}>
-    <TouchableOpacity><Image source={logo} style={styles.logo}/></TouchableOpacity>
-    <View style={styles.item}>
-        <Text style={styles.itemText}>{props.text}</Text>
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.mainBox}>
+        <Image source={logo} style={styles.logo} />
+        <View style={styles.item}>
+          <Text style={styles.itemText}>{props.text}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
