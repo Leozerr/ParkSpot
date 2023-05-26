@@ -22,6 +22,8 @@ const { pinUpImg } = require("./pins/pinUpImg");
 const { pinUpName } = require("./pins/pinUpName");
 const { pinUpLati } = require("./pins/pinUpLati");
 const { pinUpLongi } = require("./pins/pinUpLongi");
+const { pinUpFL } = require("./pins/pinUpFL");
+const { pinCars } = require("./pins/pinCars");
 
 //Camera
 const { camera } = require("./camera/camera");
@@ -54,6 +56,8 @@ module.exports = {
   pinUpName,
   pinUpLati,
   pinUpLongi,
+  pinUpFL,
+  pinCars,
 
   //Camera Export
   camera,

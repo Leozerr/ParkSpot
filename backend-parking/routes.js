@@ -25,6 +25,8 @@ module.exports = (app) => {
   app.patch("/update/pins/name/:symbol", setting.pinUpName);
   app.patch("/update/pins/latitude/:symbol", setting.pinUpLati);
   app.patch("/update/pins/longitude/:symbol", setting.pinUpLongi);
+  app.patch("/update/pins/fullslots/:symbol", setting.pinUpFL);
+  app.patch("/update/pins/cars/:symbol", setting.pinCars);
 
   //Camera
   app.get("/camera", setting.camera);
