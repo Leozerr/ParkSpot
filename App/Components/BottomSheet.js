@@ -161,9 +161,7 @@ export const BottomSheet = forwardRef(({ activeHeight, marker }, ref) => {
       Alert.alert("Save Place Failed", "Must Login to continue");
       navigation.navigate("Login");
     } else {
-      inSavedPlace
-        ? (removeFav(), setIsSaved(false))
-        : (addFav(), setIsSaved(true));
+      inSavedPlace ? removeFav() : addFav();
     }
   };
   return (
