@@ -85,6 +85,7 @@ export function ShowMap() {
       title: item.name,
       description: "Available",
       image: item.image,
+      symbol: item.symbol,
     }));
   };
 
@@ -386,5 +387,3 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 });
-
-
