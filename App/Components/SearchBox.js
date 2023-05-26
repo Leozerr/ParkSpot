@@ -39,7 +39,6 @@ export function SearchBox({
       {clicked && (
         <View>
           <Button
-            //style={styles.cancelButton}
             title="Cancel"
             onPress={() => {
               Keyboard.dismiss();
@@ -75,8 +74,5 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     width: "90%",
     paddingTop: 10,
-  },
-  cancelButton: {
-    color: "grey",
   },
 });

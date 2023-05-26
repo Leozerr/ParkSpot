@@ -1,23 +1,45 @@
 import React from "react";
-import { StyleSheet, Text, View, FlatList, SafeAreaView } from "react-native";
-
+import { StyleSheet, Text, View, Keyboard, FlatList, SafeAreaView, TouchableOpacity, ScrollView } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 //const { width, height } = Dimensions.get("window");
 
 // definition of the Item, which will be rendered in the FlatList
-const Item = ({ name, symbol }) => (
-  <View style={styles.item}>
+const Item = ({ name, symbol, onPress }) => (
+  <TouchableOpacity style={styles.item} onPress={onPress}>
     <Text style={styles.title}>{name}</Text>
     <Text style={styles.details}>{symbol}</Text>
-  </View>
+  </TouchableOpacity>
 );
 
 // the filter
-const List = ({ searchPhrase, setClicked, data }) => {
+const List = ({ searchPhrase, setClicked, data, onMarkerPress, mapEventData }) => {
+  const navigation = useNavigation();
+
+  // const handleItemPress = (item, CARD_WIDTH, mapEventData) => {
+  //   // Find the index of the item in the data array
+  //   const index = data.findIndex((dataItem) => dataItem.id === item.id);
+
+  //   // Calculate the scroll position based on the index and card width
+  //   const scrollPosition = index * (CARD_WIDTH + 20);
+
+  //   // Scroll the ScrollView to the desired position
+  //   _scrollView.current.scrollTo({ x: scrollPosition, y: 0, animated: true });
+
+  //   // Open the bottom sheet for the selected item
+  //   openHandler(item);
+  //   onMarkerPress(item)
+  //   // Navigate to the pin in the database using item.id or any other relevant identifier
+  //   Keyboard.dismiss();
+  //   setClicked(false);
+  //   console.log("go to pin");
+  //   //navigation.navigate("Home", { pinId: item.id });
+  // };
+
   const renderItem = ({ item }) => {
     // when no input, show all
     if (searchPhrase === "") {
-      return <Item name={item.name} symbol={item.symbol} />;
+      return <Item name={item.name} symbol={item.symbol} onPress={() => onMarkerPress(item, mapEventData)} />;
     }
     // filter of the name
     if (
@@ -25,7 +47,7 @@ const List = ({ searchPhrase, setClicked, data }) => {
         .toUpperCase()
         .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))
     ) {
-      return <Item name={item.name} symbol={item.symbol} />;
+      return <Item name={item.name} symbol={item.symbol} onPress={() => onMarkerPress(item, mapEventData)} />;
     }
     // filter of the description
     if (
@@ -33,7 +55,7 @@ const List = ({ searchPhrase, setClicked, data }) => {
         .toUpperCase()
         .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))
     ) {
-      return <Item name={item.name} symbol={item.symbol} />;
+      return <Item name={item.name} symbol={item.symbol} onPress={() => onMarkerPress(item, mapEventData)} />;
     }
   };
 
@@ -59,9 +81,8 @@ export default List;
 const styles = StyleSheet.create({
   list__container: {
     //margin: 10,
-    height: "99%",
+    height: "99.9%",
     width: "100%",
-    //backgroundColor: "#fff",
   },
   listOfItem: {
     paddingTop: 70,

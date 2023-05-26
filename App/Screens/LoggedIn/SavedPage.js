@@ -29,13 +29,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
   },
   tasksWrapper: {
-    paddingTop: 40,
-    paddingHorizontal: 50,
+    //paddingTop: 30,
+    paddingHorizontal: 20,
   },
   sectionTitle: {
-    fontSize: 24,
+    left: (ScreenWidth - 340) / 2 - 20,
+    marginTop: 30,
+    fontSize: 19,
     fontWeight: "bold",
-    marginBottom: 40,
+    color: "#343434",
   },
   items: {},
 });
