@@ -11,6 +11,7 @@ const { comparePass } = require("./users/comparePass");
 const { login } = require("./users/login");
 const { userFavorite } = require("./users/userFavorite");
 const { userUpdateProfile } = require("./users/userUpdateProfile");
+const { emailExist } = require("./users/emailExist");
 
 //Pins
 const { pins } = require("./pins/pins");
@@ -21,6 +22,8 @@ const { pinUpImg } = require("./pins/pinUpImg");
 const { pinUpName } = require("./pins/pinUpName");
 const { pinUpLati } = require("./pins/pinUpLati");
 const { pinUpLongi } = require("./pins/pinUpLongi");
+const { pinUpFL } = require("./pins/pinUpFL");
+const { pinCars } = require("./pins/pinCars");
 
 //Camera
 const { camera } = require("./camera/camera");
@@ -42,6 +45,7 @@ module.exports = {
   login,
   userFavorite,
   userUpdateProfile,
+  emailExist,
 
   //Pin Export
   pins,
@@ -52,6 +56,8 @@ module.exports = {
   pinUpName,
   pinUpLati,
   pinUpLongi,
+  pinUpFL,
+  pinCars,
 
   //Camera Export
   camera,
