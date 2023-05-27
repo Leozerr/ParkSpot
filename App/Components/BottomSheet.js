@@ -152,7 +152,6 @@ export const BottomSheet = forwardRef(({ activeHeight, marker }, ref) => {
   );
   const { isLoggedIn, setIsLoggedIn } = useContext(AppStateContext);
   const navigation = useNavigation();
-  const [isSaved, setIsSaved] = useState(inSavedPlace);
   const [a, setA] = useState(isLoggedIn);
   const inSavedPlace = saved.some((obj) => obj.symbol === marker.symbol);
 
