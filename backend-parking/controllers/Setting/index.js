@@ -13,6 +13,8 @@ const { userFavorite } = require("./users/userFavorite");
 const { userUpdateProfile } = require("./users/userUpdateProfile");
 const { emailExist } = require("./users/emailExist");
 const { profileImage } = require("./users/profileImage");
+const { getImage } = require("./users/getImage");
+const { userUpImg } = require("./users/userUpImg");
 
 //Pins
 const { pins } = require("./pins/pins");
@@ -25,6 +27,7 @@ const { pinUpLati } = require("./pins/pinUpLati");
 const { pinUpLongi } = require("./pins/pinUpLongi");
 const { pinUpFL } = require("./pins/pinUpFL");
 const { pinCars } = require("./pins/pinCars");
+const { camFeed } = require("./pins/camFeed");
 
 //Camera
 const { camera } = require("./camera/camera");
@@ -48,6 +51,8 @@ module.exports = {
   userUpdateProfile,
   emailExist,
   profileImage,
+  getImage,
+  userUpImg,
 
   //Pin Export
   pins,
@@ -60,6 +65,7 @@ module.exports = {
   pinUpLongi,
   pinUpFL,
   pinCars,
+  camFeed,
 
   //Camera Export
   camera,

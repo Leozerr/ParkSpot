@@ -15,7 +15,9 @@ module.exports = (app) => {
   app.get("/fav/:email", setting.userFavorite);
   app.patch("/update/profile/:email", setting.userUpdateProfile);
   app.post("/exist/email", setting.emailExist);
-  app.post("/upload/profile", setting.profileImage);
+  app.put("/upload/profile", setting.profileImage);
+  app.get("/image/:blobname", setting.getImage);
+  app.patch("/update/image/:email", setting.userUpImg);
 
   //Pins
   app.get("/pins", setting.pins);
@@ -28,6 +30,7 @@ module.exports = (app) => {
   app.patch("/update/pins/longitude/:symbol", setting.pinUpLongi);
   app.patch("/update/pins/fullslots/:symbol", setting.pinUpFL);
   app.patch("/update/pins/cars/:symbol", setting.pinCars);
+  app.post("/upload/camfeed", setting.camFeed);
 
   //Camera
   app.get("/camera", setting.camera);
