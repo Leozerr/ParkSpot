@@ -74,17 +74,17 @@ export const BottomSheet = forwardRef(({ activeHeight, marker }, ref) => {
       //console.log(translateY.value)
     })
     .onEnd(() => {
-      if (translateY.value > ScreenHeight / 2) {
+      if (translateY.value > ScreenHeight / 1.5) {
         //translateY.value = withTiming(-ScreenHeight+(ScreenHeight/1.2));
         translateY.value = withTiming(ScreenHeight);
       }
-      // else if (translateY.value < -ScreenHeight / 3 && translateY.value > -ScreenHeight / 1.5) {
-      //   translateY.value = withTiming(ScreenHeight-1500);
-      // }
+      else if (translateY.value > ScreenHeight / 3 && translateY.value < ScreenHeight / 1.5) {
+        translateY.value = withTiming(ScreenHeight / 2.2);
+      }
       // else if (translateY.value < -ScreenHeight / 3) {
       //   translateY.value = withTiming(-ScreenHeight + ScreenHeight / 3);
       // }
-      else if (translateY.value < ScreenHeight / 2) {
+      else if (translateY.value < ScreenHeight / 3) {
         translateY.value = withTiming(80);
       }
     });
@@ -177,7 +177,7 @@ export const BottomSheet = forwardRef(({ activeHeight, marker }, ref) => {
               <Text style={styles.headerText}>
                 {marker && marker.title ? marker.title : "Loading"}
               </Text>
-              <Text style={styles.slotText}>Available</Text>
+              <Text style={styles.slotText}>Available {marker.description} slot</Text>
             </View>
             <View style={styles.headerRightContent}>
               <TouchableOpacity
@@ -196,6 +196,16 @@ export const BottomSheet = forwardRef(({ activeHeight, marker }, ref) => {
             </View>
           </View>
         </View>
+        <View style={styles.imageContainer}>
+          <Image
+            source={require("../../Image/output.jpg")}
+            style={styles.image}
+          />
+        </View>
+        {/* <Image 
+        // source={"https://parkspotkmitl.blob.core.windows.net/footage/output.jpg"}
+        source={require("../../Image/Bank_Parking.png")}
+        /> */}
       </Animated.View>
     </GestureDetector>
     //</Animated.View>
@@ -263,11 +273,23 @@ const styles = StyleSheet.create({
     //marginLeft: 8,
   },
   saveButton: {
-    backgroundColor: "#D3D3D3",
+    //backgroundColor: "#D3D3D3",
     borderRadius: 10,
     alignItems: "center",
     width: 37,
     height: 37,
+  },
+  imageContainer: {
+    //flex: 1,
+    alignItems: "center",
+    top: 20,
+    //justifyContent: "center",
+  },
+  image: {
+    width: "90%",
+    height: "50%",
+    resizeMode: "cover",
+    borderRadius: 25,
   },
 });
 

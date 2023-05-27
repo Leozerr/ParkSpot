@@ -24,17 +24,6 @@ export function SearchBox({
             setClicked(true);
           }}
         />
-        {/* {clicked && (
-          <Entypo
-            name="cross"
-            size={20}
-            color="black"
-            style={{ padding: 1, flex: "flexEnd" }}
-            onPress={() => {
-              setSearchPhrase("");
-            }}
-          />
-        )} */}
       </View>
       {clicked && (
         
@@ -72,7 +61,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#fff",
     width: "90%",
-    height: 46,
+    height: 50,
     alignSelf: "center",
     borderRadius: 25,
     padding: 5,

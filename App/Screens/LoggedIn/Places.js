@@ -2,14 +2,16 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import logo from "../../../Image/parkpin.png"
-const Places = (props, onPress) => {
+
+const Places = (props, {onMarkerPress, item, mapEventData}) => {
   const navigation = useNavigation();
 
   const navigateWithPin = () => {
     navigation.navigate("Home");
+    //onMarkerPress(item, mapEventData);
   };
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={navigateWithPin}>
       <View style={styles.mainBox}>
         <Image source={logo} style={styles.logo} />
         <View style={styles.item}>
@@ -26,11 +28,11 @@ const Places = (props, onPress) => {
       alignItems: "center",
     },
     item: {
-      backgroundColor: '#FFF',
-      borderBottomWidth: 3,
+      backgroundColor: '#fff',
+      borderBottomWidth: 1.5,
       borderBottomColor: "#EBEBEB",
       padding: 10,
-      paddingVertical: 40,
+      paddingVertical: 30,
       flex:1
     },
     logo: {
@@ -39,7 +41,9 @@ const Places = (props, onPress) => {
       
     },
     itemText:{
-      fontSize: 23,
+      fontSize: 20,
+      color: "#343434",
+
     }
     }
   );

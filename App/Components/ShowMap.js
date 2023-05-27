@@ -112,13 +112,11 @@ export function ShowMap() {
       if (item.fullSlots == 0 || item.fullSlots === null) {
         description = "N/A";
       } else {
-        if (item.cars > item.fullSlots / 3) {
-          description = "Almost Full";
-        } else if (item.cars >= item.fullSlots) {
-          description = "Full";
-        } else {
-          description = "Available";
+        var free  = item.fullSlots - item.cars
+        if (item.cars > item.fullSlots){
+          free = 0
         }
+        description = free
       }
 
       return {
@@ -261,7 +259,7 @@ export function ShowMap() {
       )}
       <View style={styles.myLocationButton}>
         <TouchableOpacity onPress={moveToCurrentLocation}>
-          <Feather name="navigation" size={24} color="black" />
+          <Feather name="navigation" size={24} color="#808080" />
         </TouchableOpacity>
       </View>
       <Animated.ScrollView
@@ -316,26 +314,29 @@ export function ShowMap() {
             />
             {/* //Name of place */}
             <View style={styles.textContent}>
-              {/* <View style={styles.firstRowTitle}> */}
-              <Text numberOfLines={1} style={styles.cardtitle}>
-                {marker.title}
-              </Text>
-              {/* //Available amount*/}
-              <Text
-                numberOfLines={1}
-                style={[
-                  styles.cardDescription,
-                  marker.description === "Available" && { color: "#41A317" },
-                  marker.description === "Full" && { color: "red" },
-                  marker.description === "Almost Full" && { color: "#ffcc00" },
-                  marker.description === "N/A" && { color: "#808080" },
-                ]}
-              >
-                {marker.description}
-              </Text>
-            </View>
+              <View style={styles.firstRowTitle}>
+                <Text numberOfLines={1} style={styles.cardtitle}>
+                  {marker.title}
+                </Text>
+                {/* //Available amount*/}
+                {/* <View style={styles.SecondRowTitle}> */}
+                <Text
+                  numberOfLines={1}
+                  style={[
+                    styles.cardDescription,
+                    // marker.description === "Available" && { color: "#41A317" },
+                    // marker.description === "Full" && { color: "red" },
+                    // marker.description === "Almost Full" && { color: "#ffcc00" },
+                    marker.description && marker.description === "N/A" ? { color: "#808080" } : { color: "#E35205" },
+                  ]}
+                >
+                  {marker.description}
+                </Text>
+                {/* </View> */}
+              </View>
+              <Text style={styles.subDescription}>free</Text>
             {/* <GestureHandlerRootView style={{ flex: 1 }} /> */}
-            {/* </View> */}
+            </View>
           </TouchableOpacity>
         ))}
       </Animated.ScrollView>
@@ -370,7 +371,6 @@ const styles = StyleSheet.create({
     paddingRight: width - CARD_WIDTH,
   },
   card: {
-    //backgroundColor: "#E35205",
     marginBottom: 20,
     elevation: 2,
     backgroundColor: "#FFF",
@@ -391,36 +391,46 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   textContent: {
+    //backgroundColor: "#111",
     //flexDirection: "row",
     justifyContent: "space-between",
     flex: 2,
     padding: 10,
   },
-  // firstRowTitle: {
-  //   flexDirection: "row",
-  //   justifyContent: "space-between",
-  //   alignItems: "flex-start",
-  // },
+  firstRowTitle: {
+    //backgroundColor: "#111",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+  },
   cardtitle: {
     fontSize: 22,
     fontWeight: "bold",
+    color: "#E35205",
   },
   cardDescription: {
-    fontSize: 30,
+    fontSize: 40,
     fontWeight: "bold",
-    //color: "#444",
-    paddingBottom: 12,
-    paddingTop: 15,
+    //backgroundColor: "#111",
+    //paddingBottom: 12,
+    //paddingTop: 15,
+  },
+  subDescription: {
+    fontSize: 18,
+    fontWeight: "bold",
+    right: 5,
+    alignSelf: "flex-end",
+    color: "#808080",
   },
   markerWrap: {
     alignItems: "center",
     justifyContent: "center",
-    width: 50,
-    height: 50,
+    width: 55,
+    height: 55,
   },
   marker: {
-    width: 30,
-    height: 30,
+    width: 35,
+    height: 35,
   },
   button: {
     width: "40%",

@@ -4,9 +4,10 @@ const bcrypt = require("bcrypt");
 module.exports = {
   async userUpdatePass(req, res) {
     const email = req.params.email;
-    const newPassword = req.body.newPassword;
+    const plaintextPassword = req.body.newPassword;
+    const saltRounds = 10;
 
-    bcrypt.hash(newPassword, saltRounds, function (err, hashedPassword) {
+    bcrypt.hash(plaintextPassword, saltRounds, function (err, hashedPassword) {
       if (err) {
         console.error("Error hashing password: " + err);
         return;

@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import api from "../../../api/api.js";
 
 const ScreenWidth = Dimensions.get("screen").width;
 const ScreenHeight = Dimensions.get("screen").height;
@@ -21,11 +22,10 @@ export function ForgotPasswordScreen(props) {
 
   const handleResetPassword = async () => {
     try {
-      const response = await axios.get('/api/check-email-exists?email=${email}');
-      const { exists } = response.data;
-
-      if (exists) {
-        navigation.navigate("ResetPassword");
+      const response = await axios.post(api.backend_URL + '/exist/email', {email: email});
+      console.log(response.data)
+      if (response.data.message == "Email already exist") {
+        navigation.navigate("ResetPassword", { email: email });
       } else {
         Alert.alert("Email not found", "The email you entered does not exist.");
       }
@@ -49,7 +49,7 @@ export function ForgotPasswordScreen(props) {
         <Text style={styles.text}>{title}</Text>
       </Pressable>
       <Text style={styles.noteText}>
-        Please enter the email associated with your account, and we will send you a link to reset your password.
+        Please enter the email associated with your account.
       </Text>
     </View>
   );

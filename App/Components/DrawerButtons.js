@@ -60,7 +60,7 @@ export function LogOutDrawer({ onLogout }) {
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 16,
-        width: "60%",
+        width: "80%",
         height: 45,
         backgroundColor: "#DB7038",
       }}
