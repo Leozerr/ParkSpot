@@ -3,8 +3,6 @@ const {
   StorageSharedKeyCredential,
 } = require("@azure/storage-blob");
 
-const fs = require("fs");
-
 // Retrieve the Azure Storage account name and account key from environment variables or other configuration
 const accountName = process.env.AZURE_STORAGE_ACCOUNT_NAME;
 const accountKey = process.env.AZURE_STORAGE_ACCOUNT_KEY;
@@ -22,27 +20,23 @@ const blobServiceClient = new BlobServiceClient(
 );
 
 module.exports = {
-  async profileImage(req, res) {
+  async camFeed(req, res) {
     try {
-      const containerName = "profileimg"; // Specify the container where you want to store the image
-      const blobName = "profile.jpg"; // Extract the filename from request headers
-      // const data = req.body; // Assuming the image is sent in the request body as binary data
+      const containerName = "footage"; // Specify the container where you want to store the image
+      const blobName = req.headers["x-filename"]; // Extract the filename from request headers
+      const data = req.body; // Assuming the image is sent in the request body as binary data
 
       // Get a reference to the container
       const containerClient =
         blobServiceClient.getContainerClient(containerName);
-      console.log(data.uri);
+
       // Create a block blob client with the desired blob name
-      const blockBlobClient =
-        containerClient.getBlockBlobClient("profileImage.js");
+      const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
       // Upload the image data to the blob
-      // const uploadResponse = await blockBlobClient.upload(data, data.length);
-      const uploadBlobResponse = blockBlobClient.uploadData(
-        fs.readFileSync("profileImage.js")
-      );
+      const uploadResponse = await blockBlobClient.upload(data, data.length);
 
-      res.status(200).send("Profile Image uploaded successfully.");
+      res.status(200).send("Footage uploaded successfully.");
     } catch (error) {
       console.error("An error occurred:", error);
       res.status(500).send("An error occurred during image upload.");

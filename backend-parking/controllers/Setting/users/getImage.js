@@ -3,8 +3,6 @@ const {
   StorageSharedKeyCredential,
 } = require("@azure/storage-blob");
 
-const fs = require("fs");
-
 // Retrieve the Azure Storage account name and account key from environment variables or other configuration
 const accountName = process.env.AZURE_STORAGE_ACCOUNT_NAME;
 const accountKey = process.env.AZURE_STORAGE_ACCOUNT_KEY;
@@ -22,30 +20,34 @@ const blobServiceClient = new BlobServiceClient(
 );
 
 module.exports = {
-  async profileImage(req, res) {
+  async getImage(req, res) {
     try {
-      const containerName = "profileimg"; // Specify the container where you want to store the image
-      const blobName = "profile.jpg"; // Extract the filename from request headers
-      // const data = req.body; // Assuming the image is sent in the request body as binary data
+      const containerName = "image"; // Specify the container where the images are stored
+      const blobName = req.params.blobName; // Extract the blob name from the route parameter
 
       // Get a reference to the container
       const containerClient =
         blobServiceClient.getContainerClient(containerName);
-      console.log(data.uri);
-      // Create a block blob client with the desired blob name
-      const blockBlobClient =
-        containerClient.getBlockBlobClient("profileImage.js");
 
-      // Upload the image data to the blob
-      // const uploadResponse = await blockBlobClient.upload(data, data.length);
-      const uploadBlobResponse = blockBlobClient.uploadData(
-        fs.readFileSync("profileImage.js")
-      );
+      // Get a reference to the blob
+      const blobClient = containerClient.getBlobClient(blobName);
 
-      res.status(200).send("Profile Image uploaded successfully.");
+      // Generate a shared access signature (SAS) URL with read permissions for the blob
+      const sasUrl =
+        blobClient.url +
+        "?" +
+        blobClient.generateSasUrl({
+          permissions: {
+            read: true,
+          },
+          startsOn: new Date(),
+          expiresOn: new Date(new Date().valueOf() + 86400), // URL expiration time (1 day from now)
+        });
+
+      res.status(200).send(sasUrl);
     } catch (error) {
       console.error("An error occurred:", error);
-      res.status(500).send("An error occurred during image upload.");
+      res.status(500).send("An error occurred while retrieving the image URL.");
     }
   },
 };
