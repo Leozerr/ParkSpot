@@ -15,6 +15,7 @@ module.exports = (app) => {
   app.get("/fav/:email", setting.userFavorite);
   app.patch("/update/profile/:email", setting.userUpdateProfile);
   app.post("/exist/email", setting.emailExist);
+  app.post("/upload/profile", setting.profileImage);
 
   //Pins
   app.get("/pins", setting.pins);
