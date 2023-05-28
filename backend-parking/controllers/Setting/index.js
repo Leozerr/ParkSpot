@@ -28,12 +28,18 @@ const { pinUpLongi } = require("./pins/pinUpLongi");
 const { pinUpFL } = require("./pins/pinUpFL");
 const { pinCars } = require("./pins/pinCars");
 const { camFeed } = require("./pins/camFeed");
+const { profileImg } = require("./users/profileImg");
 
 //Camera
 const { camera } = require("./camera/camera");
 const { camCreate } = require("./camera/camCreate");
 const { camSingle } = require("./camera/camSingle");
 const { camByLocation } = require("./camera/camByLocation");
+
+//Admin
+const { admin } = require("./admin/admin");
+const { adminLogin } = require("./admin/adminLogin");
+const { adminCreate } = require("./admin/adminCreate");
 
 module.exports = {
   //User Export
@@ -53,6 +59,7 @@ module.exports = {
   profileImage,
   getImage,
   userUpImg,
+  profileImg,
 
   //Pin Export
   pins,
@@ -72,4 +79,9 @@ module.exports = {
   camCreate,
   camSingle,
   camByLocation,
+
+  //Admin Export
+  admin,
+  adminLogin,
+  adminCreate,
 };
