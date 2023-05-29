@@ -18,6 +18,7 @@ module.exports = (app) => {
   app.put("/upload/profile", setting.profileImage);
   app.get("/image/:blobname", setting.getImage);
   app.patch("/update/image/:email", setting.userUpImg);
+  app.post("/uploadimg", setting.profileImg);
 
   //Pins
   app.get("/pins", setting.pins);
@@ -30,11 +31,16 @@ module.exports = (app) => {
   app.patch("/update/pins/longitude/:symbol", setting.pinUpLongi);
   app.patch("/update/pins/fullslots/:symbol", setting.pinUpFL);
   app.patch("/update/pins/cars/:symbol", setting.pinCars);
-  app.post("/upload/camfeed", setting.camFeed);
+  app.patch("/update/pins/camfeed/:symbol", setting.camFeed);
 
   //Camera
   app.get("/camera", setting.camera);
   app.get("/camera/:name", setting.camSingle);
   app.get("/location/:location", setting.camSingle);
   app.post("/create/camera", setting.camCreate);
+
+  //Admin
+  app.get("/admin", setting.admin);
+  app.post("/admin/login", setting.adminLogin);
+  app.post("/create/admin", setting.adminCreate);
 };
