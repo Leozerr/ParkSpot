@@ -42,6 +42,7 @@ const ScreenHeight = Dimensions.get("screen").height;
 
 export const BottomSheet = forwardRef(({ activeHeight, marker }, ref) => {
   const [saved, setSaved] = useState([]);
+  const [camfeedData, setCamfeedData] = useState("");
   const newActiveHeight = ScreenHeight - activeHeight;
   const translateY = useSharedValue(ScreenHeight);
   const animationStyle = useAnimatedStyle(() => {
@@ -57,12 +58,13 @@ export const BottomSheet = forwardRef(({ activeHeight, marker }, ref) => {
     });
   }, []);
 
-  const close = useCallback(() => {
-    translateY.value = withSpring(ScreenHeight, {
-      damping: 100,
-      stiffness: 400,
-    });
-  }, []);
+  // const close = useCallback(() => {
+  //   translateY.value = withSpring(ScreenHeight, {
+  //     damping: 100,
+  //     stiffness: 400,
+  //   });
+  //   setIsVisible(false); 
+  // }, []);
   const context = useSharedValue({ y: 0 });
   const gesture = Gesture.Pan()
     .onStart(() => {
@@ -148,10 +150,11 @@ export const BottomSheet = forwardRef(({ activeHeight, marker }, ref) => {
     ref,
     () => ({
       expand,
-      close,
+      //close,
     }),
-    [expand, close]
+    [expand]
   );
+
   const { isLoggedIn, setIsLoggedIn } = useContext(AppStateContext);
   const navigation = useNavigation();
   const [isSaved, setIsSaved] = useState(inSavedPlace);
@@ -166,6 +169,29 @@ export const BottomSheet = forwardRef(({ activeHeight, marker }, ref) => {
       inSavedPlace ? removeFav() : addFav();
     }
   };
+  const fetchCamfeedData = async () => {
+    try {
+      const response = await axios.get(api.backend_URL+"/pins/"+marker.symbol); // Assuming marker.camfeed is the URL for the camfeed data
+      if (response.data[0]) {
+        setCamfeedData(response.data[0].camfeed);
+        console.log(response.data[0].camfeed);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCamfeedData();
+    // const interval = setInterval(() => {
+    //   fetchCamfeedData();
+    // }, 10000); // Fetch camfeed data every 10 seconds
+
+    // return () => {
+    //   clearInterval(interval); // Cleanup interval on unmount
+    // };
+  }, [marker]);
+
   return (
     //<Animated.View>
     <GestureDetector gesture={gesture}>
@@ -197,15 +223,14 @@ export const BottomSheet = forwardRef(({ activeHeight, marker }, ref) => {
           </View>
         </View>
         <View style={styles.imageContainer}>
+        {marker && (
           <Image
-            source={require("../../Image/output.jpg")}
+            source={camfeedData != "\"\"" ? { uri: camfeedData } : require("../../Image/offlineBG.png")}
             style={styles.image}
+            resizeMode="cover"
           />
+        )}
         </View>
-        {/* <Image 
-        // source={"https://parkspotkmitl.blob.core.windows.net/footage/output.jpg"}
-        source={require("../../Image/Bank_Parking.png")}
-        /> */}
       </Animated.View>
     </GestureDetector>
     //</Animated.View>

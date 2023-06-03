@@ -13,6 +13,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 import BottomSheet from "./BottomSheet";
 import { Feather } from "@expo/vector-icons";
+import { useRoute } from '@react-navigation/native';
 
 import axios from "axios";
 import api from "../../api/api";
@@ -66,13 +67,15 @@ export function ShowMap() {
           ...prevState,
           markers: transformDataToMarkers(data),
         }));
-        setData(data);
+        setData(data);  
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
-  }, []);
+    // this.forceUpdate();
+    
+  }, [data]);
 
   const [currentLocation, setCurrentLocation] = useState(null);
 
@@ -90,6 +93,15 @@ export function ShowMap() {
     })();
   }, []);
 
+
+  const route = useRoute();
+
+  useEffect(() => {
+    const { selectedMarkerId } = route.params || {};
+    if (selectedMarkerId) {
+      setSelectedMarkerId(selectedMarkerId);
+    }
+  }, []);
 
   const moveToCurrentLocation = () => {
     if (currentLocation) {
@@ -129,6 +141,7 @@ export function ShowMap() {
         description: description,
         image: item.image,
         symbol: item.symbol,
+        camfeed: item.camfeed,
       };
     });
   };
@@ -177,7 +190,7 @@ export function ShowMap() {
     if (Platform.OS === "ios") {
       x = x - SPACING_FOR_CARD_INSET;
     }
-    _scrollView.current.scrollTo({ x: x, y: 0, animated: false });
+    _scrollView.current.scrollTo({ x: x, y: 0, animated: true });
 
     if (latitude && longitude) {
       const region = {
@@ -196,9 +209,11 @@ export function ShowMap() {
   const { height } = useWindowDimensions();
   const bottomSheetRef = useRef(null);
   const openHandler = useCallback((marker) => {
-    bottomSheetRef.current?.expand();
     setSheet(marker);
-  }, []);
+    bottomSheetRef.current?.expand();
+    
+    //console.log(sheet);
+  }, [sheet]);
 
   return (
     <View style={{ flex: 1 }}>

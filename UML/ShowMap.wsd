@@ -1,0 +1,45 @@
+@startuml
+
+User -> Frontend: Open ShowMap screen
+Frontend -> Location: Request foreground permissions
+Location -> Backend: Request foreground permissions
+Backend -> Location: Respond with permission status
+Location --> Frontend: Permission status
+Frontend -> Location: Request current position
+Location -> Backend: Request current position
+Backend -> Location: Retrieve current position
+Location --> Frontend: Current position
+Frontend --> Backend: Fetch pins data
+Backend -> Database: Retrieve pins data
+Database --> Backend: Pins data
+Backend --> Frontend: Pins data
+Frontend -> MapView: Initialize with user's location
+Frontend -> MapView: Render markers on the map
+Frontend --> User: Display map with markers
+
+User -> Frontend: Enter search phrase
+Frontend -> Frontend: Update search phrase state
+Frontend -> List: Pass search phrase and data
+List --> Frontend: Filtered data
+Frontend -> Frontend: Update data state
+Frontend -> Frontend: Show filtered list
+
+User -> Frontend: Click on a marker
+Frontend -> Frontend: Update clicked marker state
+Frontend -> List: Pass clicked marker ID
+List --> Frontend: Scroll to selected marker
+Frontend -> MapView: Animate to selected marker
+Frontend -> BottomSheet: Open with marker details
+BottomSheet -> Backend: Request marker details
+Backend -> Database: Retrieve marker details
+Database --> Backend: Marker details
+Backend --> BottomSheet: Marker details
+
+User -> Frontend: Click on my location button
+Frontend -> MapView: Move to current location
+
+User -> BottomSheet: Interact with marker details
+BottomSheet --> Backend: Perform corresponding actions (if any)
+Backend --> BottomSheet: Update marker details (if necessary)
+
+@enduml

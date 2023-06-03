@@ -233,7 +233,8 @@ export function ProfileScreen() {
       <TouchableOpacity onPress={pickImage}>
         {profileImage && (
           <Image
-          source={{ uri: user.image }}
+          // source={{ uri: user.image }}
+          source={user.image ? { uri: user.image } : require("../../../Image/profilepic.png")}
           style={profileStyles.profileImage}
         />
         )}
