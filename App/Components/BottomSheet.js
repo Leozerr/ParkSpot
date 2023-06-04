@@ -94,7 +94,7 @@ export const BottomSheet = forwardRef(({ activeHeight, marker }, ref) => {
   const addFav = async () => {
     const email = await AsyncStorage.getItem("userToken");
     await axios
-      .patch(api.backend_URL + "/favorite/add/" + email, {
+      .patch(api.backend_URL + "/favorite/add/" + email, {  
         newFavorite: marker.symbol,
       })
       .then((response) => {

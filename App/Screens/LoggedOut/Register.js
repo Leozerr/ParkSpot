@@ -51,9 +51,9 @@ export const RegisterScreen = (props) => {
 
   const handleRegistration = async (event) => {
     console.log("Register Clicked");
-    console.log(username);
-    console.log(email);
-    console.log(password);
+    // console.log(username);
+    // console.log(email);
+    // console.log(password);
     if (event) {
       event.preventDefault();
     }
@@ -71,7 +71,13 @@ export const RegisterScreen = (props) => {
         email: email,
         password: password,
       });
-      navigation.navigate("Login");
+      const responseExist = await axios.post(api.backend_URL + '/exist/email', {email: email});
+      if (responseExist.data.message == "Email already exist") {
+        Alert.alert("Registration Error", "Email already exist.");
+      }
+      else {
+        navigation.navigate("Login");
+      }
     } catch (error) {
       // Handle registration error
       console.error("Registration error:", error);

@@ -224,10 +224,10 @@ export function SavedScreen() {
               freetemp = "N/A";
             } else {
               if (item.cars > item.fullSlots) {
-                freetemp = 0 + " free";
+                freetemp = 0;
               } else {
                 freetemp = item.fullSlots - item.cars;
-                freetemp = freetemp + " free";
+                freetemp = freetemp;
               }
             }
             return <Places key={index} text={item.name} free={freetemp} />;
