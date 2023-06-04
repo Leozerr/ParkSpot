@@ -29,8 +29,6 @@ jobs:
           run: npm install
         - name: Install newman
           run: npm install -g newman
-        - name: Seed mongo
-          run: mongo 127.0.0.1/infinite-digital-postman-tests  test/postman/setup.js
         - name: Run the API and Postman's tests
           run: | 
             npm run start:dev &
